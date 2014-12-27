@@ -42,12 +42,26 @@
 	#ifndef IS_MAMBA
 		#define PS3MAPI_FW_VERSION			 		"4.55 CEX COBRA"
 	#endif
+#elif defined(FIRMWARE_4_50)
+	#ifdef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		"4.50 CEX MAMBA"
+	#endif
+	#ifndef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		"4.50 CEX COBRA"
+	#endif
 #elif defined(FIRMWARE_4_50DEX)
 	#ifdef IS_MAMBA
 		#define PS3MAPI_FW_VERSION			 		"4.50 DEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
 		#define PS3MAPI_FW_VERSION			 		"4.50 DEX COBRA"
+	#endif
+#elif defined(FIRMWARE_4_60)
+	#ifdef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		"4.60 CEX MAMBA"
+	#endif
+	#ifndef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		"4.60 CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_65)
 	#ifdef IS_MAMBA
