@@ -9,14 +9,33 @@ namespace PS3ManagerAPI
     public class PS3MAPI
     {
 
-        #region PS3MAPI_CLient
+        public int PS3M_API_PC_LIB_VERSION = 0x101; 
+
         public CORE_CMD Core = new CORE_CMD();
+        public SERVER_CMD Server = new SERVER_CMD();
         public PS3_CMD PS3 = new PS3_CMD();
         public PROCESS_CMD Process = new PROCESS_CMD();
-        public MEMORY_CMD Memory = new MEMORY_CMD();
-        public MODULES_CMD Modules = new MODULES_CMD();
-        public uint[] processes_pid = new uint[16];
-        public int[] modules_prx_id = new int[64];
+
+        public PS3MAPI()
+        {
+            Core = new CORE_CMD();
+            Server = new SERVER_CMD();
+            PS3 = new PS3_CMD();
+            Process = new PROCESS_CMD();
+        }
+
+        #region PS3MAPI_CLient
+
+        /// <summary>Get PS3 Manager PC Lib Version.</summary>
+        public string GetLibVersion_Str()
+        {
+            string ver = PS3M_API_PC_LIB_VERSION.ToString("X4");
+            string char1 = ver.Substring(1, 1) + ".";
+            string char2 = ver.Substring(2, 1) + ".";
+            string char3 = ver.Substring(3, 1);
+            return char1 + char2 + char3;
+        }
+
         /// <summary>
         /// Indicates if PS3MAPI is connected
         /// </summary>
@@ -31,9 +50,10 @@ namespace PS3ManagerAPI
         {
             get { return PS3MAPI_Client_Core.IsAttached; }
         }         
-        /// <summary>Connect the target by ip and port.</summary>
+
+        /// <summary>Connect the target with "ConnectDialog".</summary>
         /// <param name="ip">Ip</param>
-        /// <param name="port">Port (Default: 7887)</param>
+        /// <param name="port">Port</param>
         public bool ConnectTarget(string ip, int port = 7887)
         {
             try
@@ -46,6 +66,7 @@ namespace PS3ManagerAPI
                 throw new Exception(ex.Message, ex);
             }
         }
+
         /// <summary>Connect the target with "ConnectDialog".</summary>
         public bool ConnectTarget()
         {
@@ -80,7 +101,7 @@ namespace PS3ManagerAPI
         {
             try
             {
-                PS3MAPI_Client_Core.Process_Attach(pid);
+                Process.Process_Pid = pid;
                 return true;
             }
             catch (Exception ex)
@@ -141,9 +162,43 @@ namespace PS3ManagerAPI
             }
         }
 
-        public class CORE_CMD : System.Collections.CollectionBase
+        public class SERVER_CMD
         {
-            /// <summary>Get PS3 Manager API Core/Server Version.</summary>
+            /// <summary>
+            /// Specified Timeout: Defaults to 5000 (5 seconds)
+            /// </summary>
+            public int Timeout
+            {
+                get { return PS3MAPI_Client_Core.Timeout; }
+                set { PS3MAPI_Client_Core.Timeout = value; }
+            }
+
+            /// <summary>Get PS3 Manager API Server Version.</summary>
+            public uint GetVersion()
+            {
+                try
+                {
+                    return PS3MAPI_Client_Core.Server_Get_Version();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+            /// <summary>Get PS3 Manager API Server Version.</summary>
+            public string GetVersion_Str()
+            {
+                string ver = PS3MAPI_Client_Core.Server_Get_Version().ToString("X4");
+                string char1 = ver.Substring(1, 1) + ".";
+                string char2 = ver.Substring(2, 1) + ".";
+                string char3 = ver.Substring(3, 1);
+                return char1 + char2 + char3;
+            }
+        }
+
+        public class CORE_CMD
+        {
+            /// <summary>Get PS3 Manager API Core Version.</summary>
             public uint GetVersion()
             {
                 try
@@ -155,34 +210,54 @@ namespace PS3ManagerAPI
                     throw new Exception(ex.Message, ex);
                 }
             }
-            /// <summary>Get PS3 Manager API Core/Server Minimum Version.</summary>
-            public uint GetMinVersion()
+            /// <summary>Get PS3 Manager API Core Version.</summary>
+            public string GetVersion_Str()
             {
-                try
-                {
-                    return PS3MAPI_Client_Core.Core_GetMinVersion();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
+                string ver = PS3MAPI_Client_Core.Core_Get_Version().ToString("X4");
+                string char1 = ver.Substring(1, 1) + ".";
+                string char2 = ver.Substring(2, 1) + ".";
+                string char3 = ver.Substring(3, 1);
+                return char1 + char2 + char3;
             }
-            /// <summary>Get PS3 Firmware.</summary>
-            public string GetFirmware()
-            {
-                try
-                {
-                    return PS3MAPI_Client_Core.Core_GetFirmware();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
-            }
-        }
+          }
 
-        public class PS3_CMD : System.Collections.CollectionBase
+        public class PS3_CMD
         {
+            /// <summary>Get PS3 Firmware Version.</summary>
+            public uint GetFirmwareVersion()
+            {
+                try
+                {
+                    return PS3MAPI_Client_Core.PS3_GetFwVersion();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+            /// <summary>Get PS3 Firmware Version.</summary>
+            public string GetFirmwareVersion_Str()
+            {
+                string ver = PS3MAPI_Client_Core.PS3_GetFwVersion().ToString("X4");
+                string char1 = ver.Substring(1, 1) + ".";
+                string char2 = ver.Substring(2, 1);
+                string char3 = ver.Substring(3, 1);
+                return char1 + char2 + char3;
+            }
+
+            /// <summary>Get PS3 Firmware Type.</summary>
+            public string GetFirmwareType()
+            {
+                try
+                {
+                    return PS3MAPI_Client_Core.PS3_GetFirmwareType();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+
             /// <summary>Shutdown PS3.</summary>
             public void Shutdown()
             {
@@ -316,12 +391,38 @@ namespace PS3ManagerAPI
                 }
             }
 
-
         }
 
-        public class PROCESS_CMD: System.Collections.CollectionBase
+        public class PROCESS_CMD
         {
-              /// <summary>Get a pid list of all runing processes.</summary>
+
+            public MEMORY_CMD Memory = new MEMORY_CMD();
+            public MODULES_CMD Modules = new MODULES_CMD();
+
+            public PROCESS_CMD()
+            {
+                Memory = new MEMORY_CMD();
+                Modules = new MODULES_CMD();
+            }
+
+            /// <summary>
+            /// Return all process_pid
+            /// </summary>
+            public uint[] Processes_Pid
+            {
+                get { return PS3MAPI_Client_Core.Processes_Pid; }
+            }
+
+            /// <summary>
+            /// Return current attached process_pid
+            /// </summary>)
+            public uint Process_Pid
+            {
+                get { return PS3MAPI_Client_Core.Process_Pid; }
+                set { PS3MAPI_Client_Core.Process_Pid = value; }
+            }
+
+           /// <summary>Get a pid list of all runing processes.</summary>
             public uint[] GetPidProcesses()
             {
                 try
@@ -333,6 +434,7 @@ namespace PS3ManagerAPI
                     throw new Exception(ex.Message, ex);
                 }
             }
+
             /// <summary>Get name of this process.</summary>
             /// <param name="pid">Process Pid</param>
             public string GetName(uint pid)
@@ -346,18 +448,17 @@ namespace PS3ManagerAPI
                         throw new Exception(ex.Message, ex);
                     }
                 }
-           }
 
-        public class MEMORY_CMD : System.Collections.CollectionBase
-        {
+            public class MEMORY_CMD
+            {
             /// <summary>Set memory to the attached process.</summary>
             /// <param name="Address">Address</param>
             /// <param name="Bytes">Bytes</param>
-            public void Set(uint Address, byte[] Bytes)
+            public void Set(uint Pid, uint Address, byte[] Bytes)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Memory_Set(Address, Bytes);
+                    PS3MAPI_Client_Core.Memory_Set(Pid, Address, Bytes);
                 }
                 catch (Exception ex)
                 {
@@ -367,11 +468,11 @@ namespace PS3ManagerAPI
             /// <summary>Get memory from the attached process.</summary>
             /// <param name="Address">Address</param>
             /// <param name="Bytes">Bytes</param>
-            public void Get(uint Address, byte[] Bytes)
+            public void Get(uint Pid, uint Address, byte[] Bytes)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Memory_Get(Address, Bytes);
+                    PS3MAPI_Client_Core.Memory_Get(Pid, Address, Bytes);
                 }
                 catch (Exception ex)
                 {
@@ -381,12 +482,12 @@ namespace PS3ManagerAPI
             /// <summary>Get memory from the attached process.</summary>
             /// <param name="Address">Address</param>
             /// <param name="Length">Length</param>
-            public byte[] Get(uint Address, uint Length)
+            public byte[] Get(uint Pid, uint Address, uint Length)
             {
                 try
                 {
                     byte[] buffer = new byte[Length];
-                    PS3MAPI_Client_Core.Memory_Get(Address, buffer);
+                    PS3MAPI_Client_Core.Memory_Get(Pid, Address, buffer);
                     return buffer;
                 }
                 catch (Exception ex)
@@ -396,8 +497,17 @@ namespace PS3ManagerAPI
             }
         }
 
-        public class MODULES_CMD : System.Collections.CollectionBase
-        {
+            public class MODULES_CMD
+            {
+                /// <summary>
+                /// Return all modules_prx_id
+                /// </summary>
+            public int[] Modules_Prx_Id
+             {
+                    get { return PS3MAPI_Client_Core.Modules_Prx_Id; }
+             }
+
+
             /// <summary>Get a prx_id list of all modules for this process.</summary>
             /// <param name="pid">Process Pid</param>
             public int[] GetPrxIdModules(uint pid)
@@ -446,7 +556,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                     PS3MAPI_Client_Core.Module_Unload(pid, prxid);
+                    PS3MAPI_Client_Core.Module_Unload(pid, prxid);
                 }
                 catch (Exception ex)
                 {
@@ -454,8 +564,10 @@ namespace PS3ManagerAPI
                 }
             }
         }
+   
+       }
 
-        #endregion PS3MAPI_CLient
+         #endregion PS3MAPI_CLient
 
         #region PS3MAPI_Client_Core
 
@@ -463,8 +575,7 @@ namespace PS3ManagerAPI
         {
             #region Private Members
 
-            static private int ps3m_api_pc_lib_version = 0x0001;
-            static private int ps3m_api_server_minversion = 0x0001;
+            static private int ps3m_api_server_minversion = 0x0101;
             static private PS3MAPI_ResponseCode eResponseCode;
             static private string sResponse;
             static private string sMessages = "";
@@ -473,10 +584,13 @@ namespace PS3ManagerAPI
             static private string sBucket = "";
             static private int iTimeout = 5000;	// 5 Second
             static private uint iPid = 0;
+            static private uint[] iprocesses_pid = new uint[16];
+            static private int[] imodules_prx_id = new int[64];
 
             #endregion Private Members
 
             #region Internal Members
+
             static internal Socket main_sock;
             static internal Socket listening_sock;
             static internal Socket data_sock;
@@ -485,11 +599,7 @@ namespace PS3ManagerAPI
 
             #endregion Internal Members
 
-            #region Public Properties
-            /// <summary>
-            /// Enumerated PS3MAPI Response Codes
-            /// </summary>
-            public enum PS3MAPI_ResponseCode
+             internal enum PS3MAPI_ResponseCode
             {
                 DataConnectionAlreadyOpen = 125,
                 MemoryStatusOK = 150,
@@ -501,42 +611,34 @@ namespace PS3ManagerAPI
                 MemoryActionCompleted = 250,
                 MemoryActionPended = 350
             }
+
+            #region Public Properties
+
             /// <summary>
-            /// Current PS3MAPI Response Code
+            /// Return all process_pid
             /// </summary>
-            static public PS3MAPI_ResponseCode ResponseCode
+            static public uint[] Processes_Pid
             {
-                get { return eResponseCode; }
-                set { eResponseCode = value; }
+                get { return iprocesses_pid; }
             }
+
             /// <summary>
-            /// Server IP Address for Connection
+            /// Attached process_pid
             /// </summary>
-            static public string ServerIP
+            static public uint Process_Pid
             {
-                get { return sServerIP; }
-                set { sServerIP = value; }
+                get { return iPid; }
+                set { iPid = value; }
             }
+
             /// <summary>
-            /// Response String, Contains Details of the PS3MAPI Response
+            /// Return all modules_prx_id
             /// </summary>
-            static public string ResponseString
+            static public int[] Modules_Prx_Id
             {
-                get { return sResponse; }
-                set { sResponse = value; }
+                get { return imodules_prx_id; }
             }
-            /// <summary>
-            /// Messages from the Server
-            /// </summary>
-            static public string Messages
-            {
-                get
-                {
-                    string tmp = sMessages;
-                    sMessages = "";
-                    return tmp;
-                }
-            }
+
             /// <summary>
             /// User Specified Timeout: Defaults to 5000 (5 seconds)
             /// </summary>
@@ -545,14 +647,7 @@ namespace PS3ManagerAPI
                 get { return iTimeout; }
                 set { iTimeout = value; }
             }
-            /// <summary>
-            /// User Specified Port: Defaults to 7887
-            /// </summary>
-            static public int Port
-            {
-                get { return iPort; }
-                set { iPort = value; }
-            }
+
             /// <summary>
             /// Indicates if PS3MAPI is connected
             /// </summary>
@@ -560,6 +655,7 @@ namespace PS3ManagerAPI
             {
                 get { return ((main_sock != null) ? main_sock.Connected : false); }
             }
+
             /// <summary>
             /// Indicates if PS3MAPI is attached
             /// </summary>
@@ -567,22 +663,23 @@ namespace PS3ManagerAPI
             {
                 get { return ((iPid != 0) ? true : false); }
             }
+           
             #endregion Public Properties
 
             //SERVER---------------------------------------------------------------------------------
             internal static void Connect()
             {
-                Connect(ServerIP, Port);
+                Connect(sServerIP, iPort);
             }
-            internal static void Connect(string sServer, int iPort)
+            internal static void Connect(string sServer, int Port)
             {
-                ServerIP = sServer;
-                Port = iPort;
+                sServerIP = sServer;
+                iPort = Port;
                 if (Port.ToString().Length == 0)
                 {
                     throw new Exception("Unable to Connect - No Port Specified.");
                 }
-                if (ServerIP.Length == 0)
+                if (sServerIP.Length == 0)
                 {
                     throw new Exception("Unable to Connect - No Server Specified.");
                 }
@@ -594,7 +691,7 @@ namespace PS3ManagerAPI
                     }
                 }
                 main_sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                main_ipEndPoint = new IPEndPoint(Dns.GetHostByName(ServerIP).AddressList[0], Port);
+                main_ipEndPoint = new IPEndPoint(Dns.GetHostByName(sServerIP).AddressList[0], Port);
                 try
                 {
                     main_sock.Connect(main_ipEndPoint);
@@ -604,16 +701,16 @@ namespace PS3ManagerAPI
                     throw new Exception(ex.Message, ex);
                 }
                 ReadResponse();
-                if (ResponseCode != PS3MAPI_ResponseCode.PS3MAPIConnected)
+                if (eResponseCode != PS3MAPI_ResponseCode.PS3MAPIConnected)
                 {
                     Fail();
                 }
                 ReadResponse();
-                if (ResponseCode != PS3MAPI_ResponseCode.PS3MAPIConnectedOK)
+                if (eResponseCode != PS3MAPI_ResponseCode.PS3MAPIConnectedOK)
                 {
                     Fail();
                 }
-                if (Server_GetMinVersion() > ps3m_api_server_minversion)
+                if (Server_GetMinVersion() != ps3m_api_server_minversion)
                 {
                     Disconnect();
                     throw new Exception("PS3M_API_PC_LIB OUTDATED! PLEASE UPDATE.");
@@ -640,7 +737,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("SERVER GETVERSION");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -649,7 +746,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return Convert.ToUInt32(ResponseString);
+                    return Convert.ToUInt32(sResponse);
                 }
                 else
                 {
@@ -661,7 +758,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("SERVER GETMINVERSION");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -670,7 +767,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return Convert.ToUInt32(ResponseString);
+                    return Convert.ToUInt32(sResponse);
                 }
                 else
                 {
@@ -683,7 +780,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("CORE GETVERSION");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -692,7 +789,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return Convert.ToUInt32(ResponseString);
+                    return Convert.ToUInt32(sResponse);
                 }
                 else
                 {
@@ -704,7 +801,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("CORE GETMINVERSION");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -713,28 +810,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return Convert.ToUInt32(ResponseString);
-                }
-                else
-                {
-                    throw new Exception("PS3MAPI not connected!");
-                }
-            }
-            internal static string Core_GetFirmware()
-            {
-                if (IsConnected)
-                {
-                    SendCommand("CORE GETFW");
-                    switch (ResponseCode)
-                    {
-                        case PS3MAPI_ResponseCode.RequestSuccessful:
-                        case PS3MAPI_ResponseCode.CommandOK:
-                            break;
-                        default:
-                            Fail();
-                            break;
-                    }
-                    return ResponseString;
+                    return Convert.ToUInt32(sResponse);
                 }
                 else
                 {
@@ -742,12 +818,54 @@ namespace PS3ManagerAPI
                 }
             }
             //PS3------------------------------------------------------------------------------------
+            internal static uint PS3_GetFwVersion()
+            {
+                if (IsConnected)
+                {
+                    SendCommand("PS3 GETFWVERSION");
+                    switch (eResponseCode)
+                    {
+                        case PS3MAPI_ResponseCode.RequestSuccessful:
+                        case PS3MAPI_ResponseCode.CommandOK:
+                            break;
+                        default:
+                            Fail();
+                            break;
+                    }
+                    return Convert.ToUInt32(sResponse);
+                }
+                else
+                {
+                    throw new Exception("PS3MAPI not connected!");
+                }
+            }
+            internal static string PS3_GetFirmwareType()
+            {
+                if (IsConnected)
+                {
+                    SendCommand("PS3 GETFWTYPE");
+                    switch (eResponseCode)
+                    {
+                        case PS3MAPI_ResponseCode.RequestSuccessful:
+                        case PS3MAPI_ResponseCode.CommandOK:
+                            break;
+                        default:
+                            Fail();
+                            break;
+                    }
+                    return sResponse;
+                }
+                else
+                {
+                    throw new Exception("PS3MAPI not connected!");
+                }
+            }
             internal static void PS3_Shutdown()
             {
                 if (IsConnected)
                 {
                     SendCommand("PS3 SHUTDOWN");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -769,7 +887,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 REBOOT");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -790,7 +908,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 SOFTREBOOT");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -811,7 +929,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 HARDREBOOT");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -832,7 +950,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 NOTIFY  " + msg);
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -852,7 +970,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 BUZZER " + mode.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -872,7 +990,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 LED " + color.ToString() + " " + mode.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -893,7 +1011,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 GETTEMP");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -902,7 +1020,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-					string[] tmp = ResponseString.Split(new char[] { '|' });
+                    string[] tmp = sResponse.Split(new char[] { '|' });
                     cpu = System.Convert.ToUInt32(tmp[0], 10);
                     rsx = System.Convert.ToUInt32(tmp[1], 10);
                 }
@@ -916,7 +1034,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 CLEANSYSCALL");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -936,7 +1054,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 FULLCLEAN");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -956,7 +1074,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 DELHISTORY");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -976,7 +1094,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PS3 CHECKSYSCALL");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -985,7 +1103,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    if (Convert.ToInt32(ResponseString) == 0) return true;
+                    if (Convert.ToInt32(sResponse) == 0) return true;
                     else return false;
                 }
                 else
@@ -994,34 +1112,12 @@ namespace PS3ManagerAPI
                 }
             }
             //PROCESS--------------------------------------------------------------------------------
-            internal static void Process_Attach(uint proc_id)
-            {
-                if (IsConnected)
-                {
-                    SendCommand("PROCESS ATTACH " + proc_id.ToString());
-                    switch (ResponseCode)
-                    {
-                        case PS3MAPI_ResponseCode.RequestSuccessful:
-                        case PS3MAPI_ResponseCode.CommandOK:
-                            iPid = proc_id;
-                            break;
-                        default:
-                            Fail();
-                            break;
-                    }
-                }
-                else
-                {
-                    iPid = 0;
-                    throw new Exception("PS3MAPI not connected!");
-                }
-            }
             internal static string Process_GetName(uint pid)
             { 
                 if (IsConnected)
                 {
                     SendCommand("PROCESS GETNAME " + pid.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1030,7 +1126,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return ResponseString;
+                    return sResponse;
                 }
                 else
                 {
@@ -1042,7 +1138,7 @@ namespace PS3ManagerAPI
                 if (IsConnected)
                 {
                     SendCommand("PROCESS GETALLPID");
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1052,12 +1148,12 @@ namespace PS3ManagerAPI
                             break;
                     }
                     int i = 0;
-                    uint[] ret_pid_list = new uint[16];
-                    foreach (string s in ResponseString.Split(new char[] { '|' }))
+                    iprocesses_pid = new uint[16];
+                    foreach (string s in sResponse.Split(new char[] { '|' }))
                     {
-                        if (s.Length != 0 && s != null && s != "") { ret_pid_list[i] = Convert.ToUInt32(s, 10); i++; }
+                        if (s.Length != 0 && s != null && s != "") { iprocesses_pid[i] = Convert.ToUInt32(s, 10); i++; }
                     }
-                    return ret_pid_list;
+                    return iprocesses_pid;
                 }
                 else
                 {
@@ -1065,7 +1161,7 @@ namespace PS3ManagerAPI
                 }
             }
             //MEMORY--------------------------------------------------------------------------------
-            internal static void Memory_Get(uint Address, byte[] Bytes)
+            internal static void Memory_Get(uint Pid, uint Address, byte[] Bytes)
             {
                 if (IsConnected && IsAttached)
                 {
@@ -1075,14 +1171,14 @@ namespace PS3ManagerAPI
                     long lBytesReceived = 0;
                     bool bComplete = false;
                     OpenDataSocket();
-                    SendCommand("MEMORY GET " + string.Format("{0}", Address) + " " + string.Format("{0}", Bytes.Length));
-                    switch (ResponseCode)
+                    SendCommand("MEMORY GET " + string.Format("{0}", Pid) + " " + string.Format("{0}", Address) + " " + string.Format("{0}", Bytes.Length));
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.DataConnectionAlreadyOpen:
                         case PS3MAPI_ResponseCode.MemoryStatusOK:
                             break;
                         default:
-                            throw new Exception(ResponseString);
+                            throw new Exception(sResponse);
                     }
                     ConnectDataSocket();
                     while (bComplete != true)
@@ -1103,13 +1199,13 @@ namespace PS3ManagerAPI
                             {
                                 CloseDataSocket();
                                 ReadResponse();
-                                switch (ResponseCode)
+                                switch (eResponseCode)
                                 {
                                     case PS3MAPI_ResponseCode.RequestSuccessful:
                                     case PS3MAPI_ResponseCode.MemoryActionCompleted:
                                         break;
                                     default:
-                                        throw new Exception(ResponseString);
+                                        throw new Exception(sResponse);
                                 }
                                 SetBinaryMode(false);
                             }
@@ -1128,7 +1224,7 @@ namespace PS3ManagerAPI
                     throw new Exception("PS3MAPI not connected or not attached!");
                 }
             }
-            internal static void Memory_Set(uint Address, byte[] Bytes)
+            internal static void Memory_Set(uint Pid, uint Address, byte[] Bytes)
             {
                 if (IsConnected && IsAttached)
                 {
@@ -1138,14 +1234,14 @@ namespace PS3ManagerAPI
                     long lBytesSended = 0;
                     bool bComplete = false;
                     OpenDataSocket();
-                    SendCommand("MEMORY SET " + string.Format("{0}", Address));
-                    switch (ResponseCode)
+                    SendCommand("MEMORY SET " + string.Format("{0}", Pid) + " " + string.Format("{0}", Address));
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.DataConnectionAlreadyOpen:
                         case PS3MAPI_ResponseCode.MemoryStatusOK:
                             break;
                         default:
-                            throw new Exception(ResponseString);
+                            throw new Exception(sResponse);
                     }
                     ConnectDataSocket();
                     while (bComplete != true)
@@ -1167,13 +1263,13 @@ namespace PS3ManagerAPI
                             {
                                 CloseDataSocket();
                                 ReadResponse();
-                                switch (ResponseCode)
+                                switch (eResponseCode)
                                 {
                                     case PS3MAPI_ResponseCode.RequestSuccessful:
                                     case PS3MAPI_ResponseCode.MemoryActionCompleted:
                                         break;
                                     default:
-                                        throw new Exception(ResponseString);
+                                        throw new Exception(sResponse);
                                 }
                                 SetBinaryMode(false);
                             }
@@ -1198,7 +1294,7 @@ namespace PS3ManagerAPI
                 if (IsConnected && IsAttached)
                 {
                     SendCommand("MODULE GETALLPRXID " + pid.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1208,12 +1304,12 @@ namespace PS3ManagerAPI
                             break;
                     }
                     int i = 0;
-                    int[] ret_prxid_list = new int[64];
-                    foreach (string s in ResponseString.Split(new char[] { '|' }))
+                    imodules_prx_id = new int[64];
+                    foreach (string s in sResponse.Split(new char[] { '|' }))
                     {
-                        if (s.Length != 0 && s != null && s != "") { ret_prxid_list[i] = Convert.ToInt32(s, 10); i++; }
+                        if (s.Length != 0 && s != null && s != "") { imodules_prx_id[i] = Convert.ToInt32(s, 10); i++; }
                     }
-                    return ret_prxid_list;
+                    return imodules_prx_id;
                 }
                 else
                 {
@@ -1225,7 +1321,7 @@ namespace PS3ManagerAPI
                 if (IsConnected && IsAttached)
                 {
                     SendCommand("MODULE GETNAME " + pid.ToString() + " " + prxid.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1234,7 +1330,7 @@ namespace PS3ManagerAPI
                             Fail();
                             break;
                     }
-                    return ResponseString;
+                    return sResponse;
                 }
                 else
                 {
@@ -1246,7 +1342,7 @@ namespace PS3ManagerAPI
                 if (IsConnected && IsAttached)
                 {
                     SendCommand("MODULE LOAD " + pid.ToString() + " " + path);
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1266,7 +1362,7 @@ namespace PS3ManagerAPI
                 if (IsConnected && IsAttached)
                 {
                     SendCommand("MODULE UNLOAD " + pid.ToString() + " " + prx_id.ToString());
-                    switch (ResponseCode)
+                    switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
                         case PS3MAPI_ResponseCode.CommandOK:
@@ -1284,7 +1380,7 @@ namespace PS3ManagerAPI
             //--------------------------------------------------------------------------------------
             internal static void Fail()
             {
-                Fail(new Exception("[" + ResponseCode.ToString() + "] " + ResponseString));
+                Fail(new Exception("[" + eResponseCode.ToString() + "] " + sResponse));
             }
             internal static void Fail(Exception e)
             {
@@ -1294,7 +1390,7 @@ namespace PS3ManagerAPI
             internal static void SetBinaryMode(bool bMode)
             {
                 SendCommand("TYPE" + ((bMode) ? " I" : " A"));
-                switch (ResponseCode)
+                switch (eResponseCode)
                 {
                     case PS3MAPI_ResponseCode.RequestSuccessful:
                     case PS3MAPI_ResponseCode.CommandOK:
@@ -1311,26 +1407,26 @@ namespace PS3ManagerAPI
                 int iPort;
                 Connect();
                 SendCommand("PASV");
-                if (ResponseCode != PS3MAPI_ResponseCode.EnteringPassiveMode)
+                if (eResponseCode != PS3MAPI_ResponseCode.EnteringPassiveMode)
                 {
                      Fail();
                 }
                 try
                 {
                      int i1, i2;
-                     i1 = ResponseString.IndexOf('(') + 1;
-                     i2 = ResponseString.IndexOf(')') - i1;
-                     pasv = ResponseString.Substring(i1, i2).Split(',');
+                     i1 = sResponse.IndexOf('(') + 1;
+                     i2 = sResponse.IndexOf(')') - i1;
+                     pasv = sResponse.Substring(i1, i2).Split(',');
                  }
                  catch (Exception)
                  {
-                     Fail(new Exception("Malformed PASV response: " + ResponseString));
-                     throw new Exception("Malformed PASV response: " + ResponseString);
+                     Fail(new Exception("Malformed PASV response: " + sResponse));
+                     throw new Exception("Malformed PASV response: " + sResponse);
                  }
 
                  if (pasv.Length < 6)
                  {
-                     Fail(new Exception("Malformed PASV response: " + ResponseString));
+                     Fail(new Exception("Malformed PASV response: " + sResponse));
                  }
 
                  sServer = String.Format("{0}.{1}.{2}.{3}", pasv[0], pasv[1], pasv[2], pasv[3]);
@@ -1339,7 +1435,7 @@ namespace PS3ManagerAPI
                  {
                      CloseDataSocket();
                      data_sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                     data_ipEndPoint = new IPEndPoint(Dns.GetHostByName(ServerIP).AddressList[0], iPort);
+                     data_ipEndPoint = new IPEndPoint(Dns.GetHostByName(sServerIP).AddressList[0], iPort);
                      data_sock.Connect(data_ipEndPoint);
                  }
                  catch (Exception e)
@@ -1389,8 +1485,8 @@ namespace PS3ManagerAPI
                     sBuffer = GetLineFromBucket();
                     if (Regex.Match(sBuffer, "^[0-9]+ ").Success)
                     {
-                        ResponseString = sBuffer.Substring(4).Replace("\r", "").Replace("\n", "");
-                        ResponseCode = (PS3MAPI_ResponseCode)int.Parse(sBuffer.Substring(0, 3));
+                        sResponse = sBuffer.Substring(4).Replace("\r", "").Replace("\n", "");
+                        eResponseCode = (PS3MAPI_ResponseCode)int.Parse(sBuffer.Substring(0, 3));
                         break;
                     }
                     else

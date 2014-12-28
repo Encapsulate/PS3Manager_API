@@ -25,14 +25,15 @@
 #include <lv1/patch.h>
 
 #include "ps3mapi_core.h"
+
 //-----------------------------------------------
 //CORE
 //-----------------------------------------------
 
-int ps3mapi_get_fw(char *fw)
+int ps3mapi_get_fw_type(char *fw)
 {
-	char tmp_fw[32];
-	strcpy(tmp_fw, PS3MAPI_FW_VERSION);
+	char tmp_fw[28];
+	strcpy(tmp_fw, PS3MAPI_FW_TYPE);
 	return copy_to_user(&tmp_fw, get_secure_user_ptr(fw), strlen(tmp_fw));
 }
 

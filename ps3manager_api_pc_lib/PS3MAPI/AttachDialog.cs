@@ -31,8 +31,7 @@ namespace PS3ManagerAPI
             : this()
         {
             comboBox1.Items.Clear();
-            MyPS3MAPI.processes_pid = MyPS3MAPI.Process.GetPidProcesses();
-            foreach (uint pid in MyPS3MAPI.processes_pid)
+            foreach (uint pid in MyPS3MAPI.Process.GetPidProcesses())
             {
                 if (pid != 0) comboBox1.Items.Add(MyPS3MAPI.Process.GetName(pid));
                 else break;

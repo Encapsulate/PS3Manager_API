@@ -4,7 +4,6 @@ PS3Manager_API_MAMBA v1 By _NzV_
 
 Modded version of mamba who include ps3m_api_core.
 	
-Paypal donate: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=7591434
 
 ----------------------------------------------------------------------
 ORIGINAL README

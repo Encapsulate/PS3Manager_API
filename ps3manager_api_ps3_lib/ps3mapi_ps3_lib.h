@@ -13,7 +13,7 @@
 
 #define PS3MAPI_PS3_LIB_VERSION					0x0001
 
-#define PS3MAPI_CORE_MINVERSION					0x0001
+#define PS3MAPI_CORE_MINVERSION					0x0101
 
 //-----------------------------------------------
 //CORE
@@ -21,11 +21,13 @@
 
 #define PS3MAPI_OPCODE_GET_CORE_VERSION			0x0011
 #define PS3MAPI_OPCODE_GET_CORE_MINVERSION		0x0012
-#define PS3MAPI_OPCODE_GET_FW					0x0013
+#define PS3MAPI_OPCODE_GET_FW_TYPE				0x0013
+#define PS3MAPI_OPCODE_GET_FW_VERSION			0x0014
 
 int ps3mapi_get_core_version(void);
 int ps3mapi_get_core_minversion(void);
-int ps3mapi_get_fw(char *fw);
+int ps3mapi_get_fw_type(char *fw);
+int ps3mapi_get_fw_version(void);
 
 //-----------------------------------------------
 //PROCESSES

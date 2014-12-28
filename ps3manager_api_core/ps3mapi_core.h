@@ -18,72 +18,89 @@
 //CORE
 //-----------------------------------------------
 
-#define PS3MAPI_CORE_VERSION			 		0x0001
-#define PS3MAPI_CORE_MINVERSION			 		0x0001
+#define PS3MAPI_CORE_VERSION			 		0x0101
+#define PS3MAPI_CORE_MINVERSION			 		0x0101
 
 #if defined(FIRMWARE_4_46)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.46 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0446
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-	  #define PS3MAPI_FW_VERSION			 		"4.46 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0446
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_53)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.53 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0453
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.53 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0453
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_55)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.55 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0455
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.55 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0455
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_50)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.50 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0450
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.50 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0450
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_50DEX)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.50 DEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0450
+		#define PS3MAPI_FW_TYPE			 			"DEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.50 DEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0450
+		#define PS3MAPI_FW_TYPE			 			"DEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_60)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.60 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0460
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.60 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0460
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_65)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.65 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0465
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.65 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0465
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #elif defined(FIRMWARE_4_66)
 	#ifdef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.66 CEX MAMBA"
+		#define PS3MAPI_FW_VERSION			 		0x0466
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
 	#endif
 	#ifndef IS_MAMBA
-		#define PS3MAPI_FW_VERSION			 		"4.66 CEX COBRA"
+		#define PS3MAPI_FW_VERSION			 		0x0466
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
 	#endif
 #endif
 
 #define PS3MAPI_OPCODE_GET_CORE_VERSION			0x0011
 #define PS3MAPI_OPCODE_GET_CORE_MINVERSION		0x0012
-#define PS3MAPI_OPCODE_GET_FW					0x0013
+#define PS3MAPI_OPCODE_GET_FW_TYPE				0x0013
+#define PS3MAPI_OPCODE_GET_FW_VERSION			0x0014
 
-int ps3mapi_get_fw(char *fw);
+int ps3mapi_get_fw_type(char *fw);
 
 //-----------------------------------------------
 //PROCESSES

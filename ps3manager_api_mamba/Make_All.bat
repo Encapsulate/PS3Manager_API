@@ -1,27 +1,31 @@
 @echo off
+
 set PS3DEV=./ps3dev
 set PS3SDK=/c/PSDK3v2
 set WIN_PS3SDK=C:/PSDK3v2
 set PATH=%WIN_PS3SDK%/mingw/msys/1.0/bin;%WIN_PS3SDK%/mingw/bin;%PS3DEV%/ppu/bin;
+
 rem %PATH%;
 
-if not exist mamba mkdir mamba
-del mamba\*.bin>nul
-del *.bin>nul
-make clean
+if exist mamba del mamba\*.lz.bin>nul
+if exist mamba rmdir mamba
 
-pause
+del *.bin>nul
+
+make clean
 
 make all
 
-if exist mamba_4_46.lz.bin     move  mamba_4_46.lz.bin     MAMBA\mamba_446C.lz.bin>nul
-if exist mamba_4_50.lz.bin     move  mamba_4_50.lz.bin     MAMBA\mamba_450C.lz.bin>nul
-if exist mamba_4_50DEX.lz.bin  move  mamba_4_50DEX.lz.bin  MAMBA\mamba_450D.lz.bin>nul
-if exist mamba_4_53.lz.bin     move  mamba_4_53.lz.bin     MAMBA\mamba_453C.lz.bin>nul
-if exist mamba_4_55.lz.bin     move  mamba_4_55.lz.bin     MAMBA\mamba_455C.lz.bin>nul
-if exist mamba_4_60.lz.bin     move  mamba_4_60.lz.bin     MAMBA\mamba_460C.lz.bin>nul
-if exist mamba_4_65.lz.bin     move  mamba_4_65.lz.bin     MAMBA\mamba_465C.lz.bin>nul
-if exist mamba_4_66.lz.bin     move  mamba_4_66.lz.bin     MAMBA\mamba_466C.lz.bin>nul
+if not exist mamba mkdir mamba
+
+if exist mamba_4_46.lz.bin     move  mamba_4_46.lz.bin     mamba\mamba_446C.lz.bin>nul
+if exist mamba_4_50.lz.bin     move  mamba_4_50.lz.bin     mamba\mamba_450C.lz.bin>nul
+if exist mamba_4_50DEX.lz.bin  move  mamba_4_50DEX.lz.bin  mamba\mamba_450D.lz.bin>nul
+if exist mamba_4_53.lz.bin     move  mamba_4_53.lz.bin     mamba\mamba_453C.lz.bin>nul
+if exist mamba_4_55.lz.bin     move  mamba_4_55.lz.bin     mamba\mamba_455C.lz.bin>nul
+if exist mamba_4_60.lz.bin     move  mamba_4_60.lz.bin     mamba\mamba_460C.lz.bin>nul
+if exist mamba_4_65.lz.bin     move  mamba_4_65.lz.bin     mamba\mamba_465C.lz.bin>nul
+if exist mamba_4_66.lz.bin     move  mamba_4_66.lz.bin     mamba\mamba_466C.lz.bin>nul
 
 if exist mamba_446C.bin        del mamba_446C.bin>nul
 if exist mamba_450C.bin        del mamba_450C.bin>nul

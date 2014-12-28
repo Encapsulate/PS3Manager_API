@@ -793,9 +793,9 @@
             this.lbl_core_version.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_core_version.Location = new System.Drawing.Point(9, 33);
             this.lbl_core_version.Name = "lbl_core_version";
-            this.lbl_core_version.Size = new System.Drawing.Size(130, 20);
+            this.lbl_core_version.Size = new System.Drawing.Size(77, 20);
             this.lbl_core_version.TabIndex = 4;
-            this.lbl_core_version.Text = "PS3M_API Version:";
+            this.lbl_core_version.Text = "PS3M_API:";
             // 
             // lbl_fw
             // 

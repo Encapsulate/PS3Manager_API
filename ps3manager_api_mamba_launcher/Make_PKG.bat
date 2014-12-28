@@ -5,5 +5,8 @@ set PATH=%WIN_PS3SDK%/mingw/msys/1.0/bin;%WIN_PS3SDK%/mingw/bin;%WIN_PS3SDK%/ps3
 set PSL1GHT=%PS3SDK%/psl1ght
 set PS3DEV=%PS3SDK%/ps3dev
 
+make clean
+
 make pkg
+
 pause

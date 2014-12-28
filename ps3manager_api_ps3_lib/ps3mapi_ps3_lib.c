@@ -28,9 +28,15 @@ int ps3mapi_get_core_minversion(void)
 	return_to_user_prog(int);						
 }
 
-int ps3mapi_get_fw(char *fw) 
+int ps3mapi_get_fw_type(char *fw) 
 {
-	system_call_3(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_GET_FW, (uint64_t)fw);
+	system_call_3(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_GET_FW_TYPE, (uint64_t)fw);
+	return_to_user_prog(int);						
+}
+
+int ps3mapi_get_fw_version(void)
+{
+	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_GET_FW_VERSION);
 	return_to_user_prog(int);						
 }
 
