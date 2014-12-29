@@ -1,4 +1,10 @@
-﻿
+﻿/*PS3 MANAGER API
+ * Copyright (c) 2014 _NzV_.
+ *
+ * This code is write by _NzV_ <donm7v@gmail.com>.
+ * It may be used for any purpose as long as this notice remains intact on all
+ * source code distributions.
+ */
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -9,7 +15,7 @@ namespace PS3ManagerAPI
     public class PS3MAPI
     {
 
-        public int PS3M_API_PC_LIB_VERSION = 0x101; 
+        public int PS3M_API_PC_LIB_VERSION = 0x102; 
 
         public CORE_CMD Core = new CORE_CMD();
         public SERVER_CMD Server = new SERVER_CMD();
@@ -366,11 +372,12 @@ namespace PS3ManagerAPI
                 }
             }
             /// <summary>Clear PS3 History.</summary>
-            public void ClearHistory()
+            /// <param name="include_directory">If set to true, directory will be also deleted.</param>
+            public void ClearHistory(bool include_directory = true)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_ClearHistory();
+                    PS3MAPI_Client_Core.PS3_ClearHistory(include_directory);
                 }
                 catch (Exception ex)
                 {
@@ -535,6 +542,20 @@ namespace PS3ManagerAPI
                     throw new Exception(ex.Message, ex);
                 }
             }
+            /// <summary>Get filename of this module</summary>
+            /// <param name="pid">Process Pid</param>
+            /// <param name="prxid">Module Prx_id</param>
+            public string GetFilename(uint pid, int prxid)
+            {
+                try
+                {
+                    return PS3MAPI_Client_Core.Module_GetFilename(pid, prxid);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
             /// <summary>Load a module.</summary>
             /// <param name="pid">Process Pid</param>
             /// <param name="path">Path of the plugin to load.</param>
@@ -575,7 +596,7 @@ namespace PS3ManagerAPI
         {
             #region Private Members
 
-            static private int ps3m_api_server_minversion = 0x0101;
+            static private int ps3m_api_server_minversion = 0x0102;
             static private PS3MAPI_ResponseCode eResponseCode;
             static private string sResponse;
             static private string sMessages = "";
@@ -1069,11 +1090,12 @@ namespace PS3ManagerAPI
                     throw new Exception("PS3MAPI not connected!");
                 }
             }
-            internal static void PS3_ClearHistory()
+            internal static void PS3_ClearHistory(bool include_directory)
             {
                 if (IsConnected)
                 {
-                    SendCommand("PS3 DELHISTORY");
+                   if (include_directory) SendCommand("PS3 DELHISTORY");
+                   else SendCommand("PS3 DELHISTORYL");
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
@@ -1151,7 +1173,7 @@ namespace PS3ManagerAPI
                     iprocesses_pid = new uint[16];
                     foreach (string s in sResponse.Split(new char[] { '|' }))
                     {
-                        if (s.Length != 0 && s != null && s != "") { iprocesses_pid[i] = Convert.ToUInt32(s, 10); i++; }
+                        if (s.Length != 0 && s != null && s != ""  && s != " " && s!= "0") { iprocesses_pid[i] = Convert.ToUInt32(s, 10); i++; }
                     }
                     return iprocesses_pid;
                 }
@@ -1307,7 +1329,7 @@ namespace PS3ManagerAPI
                     imodules_prx_id = new int[64];
                     foreach (string s in sResponse.Split(new char[] { '|' }))
                     {
-                        if (s.Length != 0 && s != null && s != "") { imodules_prx_id[i] = Convert.ToInt32(s, 10); i++; }
+                        if (s.Length != 0 && s != null && s != "" && s != " " && s != "0") { imodules_prx_id[i] = Convert.ToInt32(s, 10); i++; }
                     }
                     return imodules_prx_id;
                 }
@@ -1321,6 +1343,27 @@ namespace PS3ManagerAPI
                 if (IsConnected && IsAttached)
                 {
                     SendCommand("MODULE GETNAME " + pid.ToString() + " " + prxid.ToString());
+                    switch (eResponseCode)
+                    {
+                        case PS3MAPI_ResponseCode.RequestSuccessful:
+                        case PS3MAPI_ResponseCode.CommandOK:
+                            break;
+                        default:
+                            Fail();
+                            break;
+                    }
+                    return sResponse;
+                }
+                else
+                {
+                    throw new Exception("PS3MAPI not connected or not attached!");
+                }
+            }
+            internal static string Module_GetFilename(uint pid, int prxid)
+            {
+                if (IsConnected && IsAttached)
+                {
+                    SendCommand("MODULE GETFILENAME " + pid.ToString() + " " + prxid.ToString());
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:

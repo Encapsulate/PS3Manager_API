@@ -55,7 +55,7 @@ int ps3mapi_get_all_processes_pid(process_id_t *pid_list)
 		proc_list += 2;	
 		if ((((uint64_t)process) & 0xFFFFFFFF00000000ULL) != MKA(0)) {tmp_pid_list[i] = 0; continue;}
 		char *proc_name = get_process_name(process);
-		if ( 8 < strlen(proc_name)) tmp_pid_list[i] = process->pid;	
+		if ( 0 < strlen(proc_name)) tmp_pid_list[i] = process->pid;	
 		else tmp_pid_list[i] = 0 ;
 	}
 	return copy_to_user(&tmp_pid_list, get_secure_user_ptr(pid_list), sizeof(tmp_pid_list));
@@ -167,18 +167,47 @@ int ps3mapi_get_all_process_modules_prx_id(process_id_t pid, sys_prx_id_t *prx_i
 	unk = alloc(MAX_MODULES*sizeof(uint32_t), 0x35);
 	if (prx_get_module_list(process, list, unk, MAX_MODULES, &n, &unk2) == 0)
 	{
-		for (int i = 0; i < n; i++)
+		for (int i = 0; i < MAX_MODULES; i++)
 		{
-			tmp_prx_id_list[i] = list[i];
+			if (i < n) 
+			{
+				tmp_prx_id_list[i] = list[i];
+			}
+			else {tmp_prx_id_list[i] = 0;}
 		}
 	}
 	dealloc(list, 0x35);
 	dealloc(unk, 0x35);
 	return copy_to_user(&tmp_prx_id_list, get_secure_user_ptr(prx_id_list), sizeof(tmp_prx_id_list));
-
 }
 
 int ps3mapi_get_process_module_name_by_prx_id(process_id_t pid, sys_prx_id_t prx_id, char *name)
+{
+	process_t process = ps3mapi_internal_get_process_by_pid(pid);
+	if (process == 0) return -1;
+	char *filename = alloc(256, 0x35);
+	char tmp_name[30];
+	sys_prx_segment_info_t *segments = alloc(sizeof(sys_prx_segment_info_t), 0x35);
+	sys_prx_module_info_t modinfo;
+	memset(&modinfo, 0, sizeof(sys_prx_module_info_t));
+	modinfo.filename_size = 256;
+	modinfo.segments_num = 1;
+	if (prx_get_module_info(process, prx_id, &modinfo, filename, segments) == 0)
+	{
+		sprintf(tmp_name, "%s", modinfo.name);
+		dealloc(filename, 0x35);
+		dealloc(segments, 0x35);	
+		return copy_to_user(&tmp_name, get_secure_user_ptr(name), strlen(tmp_name));		
+	}
+	else
+	{
+		dealloc(filename, 0x35);
+		dealloc(segments, 0x35);
+		return -2;
+	}
+}
+
+int ps3mapi_get_process_module_filename_by_prx_id(process_id_t pid, sys_prx_id_t prx_id, char *name)
 {
 	process_t process = ps3mapi_internal_get_process_by_pid(pid);
 	if (process == 0) return -1;
@@ -191,7 +220,7 @@ int ps3mapi_get_process_module_name_by_prx_id(process_id_t pid, sys_prx_id_t prx
 	modinfo.segments_num = 1;
 	if (prx_get_module_info(process, prx_id, &modinfo, filename, segments) == 0)
 	{
-		strcpy(tmp_name, filename);
+		sprintf(tmp_name, "%s", filename);
 		dealloc(filename, 0x35);
 		dealloc(segments, 0x35);	
 		return copy_to_user(&tmp_name, get_secure_user_ptr(name), strlen(tmp_name));		

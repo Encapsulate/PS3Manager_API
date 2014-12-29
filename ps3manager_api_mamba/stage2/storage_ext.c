@@ -3466,3 +3466,21 @@ void storage_ext_patches(void)
 
 }
 
+///////////// PS3MAPI BEGIN //////////////
+
+void unhook_all_storage_ext(void)
+{
+	suspend_intr();
+	unhook_function_on_precall_success(storage_get_device_info_symbol, post_storage_get_device_info, 2);
+	unhook_function_with_cond_postcall(read_bdvd0_symbol, emu_read_bdvd0, 8);
+	unhook_function_with_cond_postcall(read_bdvd1_symbol, emu_read_bdvd1, 4);
+	unhook_function_with_cond_postcall(read_bdvd2_symbol, emu_read_bdvd2, 3);	
+	unhook_function_with_cond_postcall(storage_read_symbol, emu_storage_read, 7);
+	unhook_function_with_cond_postcall(get_syscall_address(SYS_STORAGE_ASYNC_READ), emu_sys_storage_async_read, 7);
+	unhook_function_with_cond_postcall(storage_send_device_command_symbol, emu_storage_send_device_command, 7);
+	unhook_function_with_cond_postcall(get_syscall_address(SYS_STORAGE_ASYNC_SEND_DEVICE_COMMAND), emu_sys_storage_async_send_device_command, 7);
+	unhook_function_with_cond_postcall(get_syscall_address(864), emu_disc_auth, 2);
+	resume_intr();
+}
+
+///////////// PS3MAPI END //////////////

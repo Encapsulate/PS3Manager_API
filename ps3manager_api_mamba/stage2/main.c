@@ -295,6 +295,8 @@ static void unhook_all(void)
 	resume_intr();
 	unhook_all_modules();
 	unhook_all_region();
+	//unhook_all_map_path;
+    //unhook_all_storage_ext;
 }
 
 ///////////// PS3MAPI END //////////////
@@ -428,6 +430,26 @@ LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t pa
 					return 0; //MISSING SYMBOLS
 				#endif
 				break;
+				case PS3MAPI_OPCODE_GET_PROC_MODULE_FILENAME:
+				#if defined(FIRMWARE_4_46)
+					return ps3mapi_get_process_module_filename_by_prx_id((process_id_t)param2, (sys_prx_id_t)param3, (char *)param4);
+				#elif defined(FIRMWARE_4_50)
+					return 0; //MISSING SYMBOLS
+				#elif defined(FIRMWARE_4_50DEX)
+					return ps3mapi_get_process_module_filename_by_prx_id((process_id_t)param2, (sys_prx_id_t)param3, (char *)param4);
+				#elif defined(FIRMWARE_4_53)
+					return ps3mapi_get_process_module_filename_by_prx_id((process_id_t)param2, (sys_prx_id_t)param3, (char *)param4);
+				#elif defined(FIRMWARE_4_55)
+					return ps3mapi_get_process_module_filename_by_prx_id((process_id_t)param2, (sys_prx_id_t)param3, (char *)param4);
+				#elif defined(FIRMWARE_4_60)
+					return 0; //MISSING SYMBOLS
+				#elif defined(FIRMWARE_4_65)
+					return ps3mapi_get_process_module_filename_by_prx_id((process_id_t)param2, (sys_prx_id_t)param3, (char *)param4);
+				#elif defined(FIRMWARE_4_66)
+					return 0; //MISSING SYMBOLS
+				#endif
+				break;
+				
 				case PS3MAPI_OPCODE_LOAD_PROC_MODULE:
 					return ps3mapi_load_process_modules((process_id_t)param2, (char *)param3, (void *)param4, (uint32_t)param5);
 				break;

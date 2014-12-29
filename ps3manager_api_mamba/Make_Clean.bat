@@ -13,5 +13,3 @@ if exist mamba rmdir mamba
 del *.bin>nul
 
 make clean
-
-pause

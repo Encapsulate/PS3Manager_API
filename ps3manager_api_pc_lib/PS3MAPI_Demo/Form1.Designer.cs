@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.btnDisconnect = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -114,6 +115,10 @@
             this.txtB_Ip = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
+            this.cH_Modules_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label24 = new System.Windows.Forms.Label();
+            this.cB_PS3_MIMICOFW = new System.Windows.Forms.CheckBox();
             this.tabC_Global.SuspendLayout();
             this.tabP_PS3.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -408,7 +413,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(9, 272);
+            this.label19.Location = new System.Drawing.Point(9, 247);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(124, 20);
             this.label19.TabIndex = 14;
@@ -418,23 +423,26 @@
             // 
             this.p_PS3_MimicOFW.BackColor = System.Drawing.SystemColors.Control;
             this.p_PS3_MimicOFW.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_PS3_MimicOFW.Controls.Add(this.cB_PS3_MIMICOFW);
+            this.p_PS3_MimicOFW.Controls.Add(this.label24);
+            this.p_PS3_MimicOFW.Controls.Add(this.panel4);
             this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_ClearHistory);
             this.p_PS3_MimicOFW.Controls.Add(this.label9);
             this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall_F);
             this.p_PS3_MimicOFW.Controls.Add(this.label1);
             this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall_L);
-            this.p_PS3_MimicOFW.Location = new System.Drawing.Point(9, 297);
+            this.p_PS3_MimicOFW.Location = new System.Drawing.Point(9, 270);
             this.p_PS3_MimicOFW.Name = "p_PS3_MimicOFW";
-            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(722, 59);
+            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(722, 86);
             this.p_PS3_MimicOFW.TabIndex = 13;
             // 
             // btn_PS3_ClearHistory
             // 
-            this.btn_PS3_ClearHistory.Location = new System.Drawing.Point(13, 6);
+            this.btn_PS3_ClearHistory.Location = new System.Drawing.Point(201, 27);
             this.btn_PS3_ClearHistory.Name = "btn_PS3_ClearHistory";
             this.btn_PS3_ClearHistory.Size = new System.Drawing.Size(98, 24);
             this.btn_PS3_ClearHistory.TabIndex = 22;
-            this.btn_PS3_ClearHistory.Text = "Clear History";
+            this.btn_PS3_ClearHistory.Text = "Clear";
             this.btn_PS3_ClearHistory.UseVisualStyleBackColor = true;
             this.btn_PS3_ClearHistory.Click += new System.EventHandler(this.btn_PS3_ClearHistory_Click);
             // 
@@ -442,16 +450,16 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(8, 34);
+            this.label9.Location = new System.Drawing.Point(326, 54);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(703, 15);
+            this.label9.Size = new System.Drawing.Size(379, 30);
             this.label9.TabIndex = 21;
-            this.label9.Text = "\"Full\" mode will also disable syscall 8 and remove cobra/mamba hook. Somes featur" +
-    "es of ps3m_api, webman, ... will no longer work.";
+            this.label9.Text = "\"Full\" mode will also disable syscall 8 and remove cobra/mamba hook.\r\nSomes featu" +
+    "res of ps3m_api, webman, ... will no longer work.";
             // 
             // btn_PS3_CleanSyscall_F
             // 
-            this.btn_PS3_CleanSyscall_F.Location = new System.Drawing.Point(607, 6);
+            this.btn_PS3_CleanSyscall_F.Location = new System.Drawing.Point(420, 27);
             this.btn_PS3_CleanSyscall_F.Name = "btn_PS3_CleanSyscall_F";
             this.btn_PS3_CleanSyscall_F.Size = new System.Drawing.Size(98, 24);
             this.btn_PS3_CleanSyscall_F.TabIndex = 20;
@@ -463,15 +471,15 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(140, 7);
+            this.label1.Location = new System.Drawing.Point(325, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(339, 20);
+            this.label1.Size = new System.Drawing.Size(335, 20);
             this.label1.TabIndex = 19;
-            this.label1.Text = "Syscall 6, 7 , 9, 10, 11, 35, 36 (1022 too if mamba) :";
+            this.label1.Text = "Syscall 6, 7 , 9, 10, 11, 35, 36 (1022 too if mamba):";
             // 
             // btn_PS3_CleanSyscall_L
             // 
-            this.btn_PS3_CleanSyscall_L.Location = new System.Drawing.Point(498, 6);
+            this.btn_PS3_CleanSyscall_L.Location = new System.Drawing.Point(546, 27);
             this.btn_PS3_CleanSyscall_L.Name = "btn_PS3_CleanSyscall_L";
             this.btn_PS3_CleanSyscall_L.Size = new System.Drawing.Size(98, 24);
             this.btn_PS3_CleanSyscall_L.TabIndex = 15;
@@ -504,14 +512,14 @@
             this.p_PS3_Led.Controls.Add(this.cB_PS3_Led_Red);
             this.p_PS3_Led.Location = new System.Drawing.Point(9, 209);
             this.p_PS3_Led.Name = "p_PS3_Led";
-            this.p_PS3_Led.Size = new System.Drawing.Size(722, 60);
+            this.p_PS3_Led.Size = new System.Drawing.Size(722, 35);
             this.p_PS3_Led.TabIndex = 11;
             // 
             // btn_PS3_Led_Yellow_Set
             // 
-            this.btn_PS3_Led_Yellow_Set.Location = new System.Drawing.Point(586, 31);
+            this.btn_PS3_Led_Yellow_Set.Location = new System.Drawing.Point(650, 3);
             this.btn_PS3_Led_Yellow_Set.Name = "btn_PS3_Led_Yellow_Set";
-            this.btn_PS3_Led_Yellow_Set.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_Led_Yellow_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Yellow_Set.TabIndex = 15;
             this.btn_PS3_Led_Yellow_Set.Text = "Set";
             this.btn_PS3_Led_Yellow_Set.UseVisualStyleBackColor = true;
@@ -526,17 +534,17 @@
             "On",
             "Blink Fast",
             "Blink Slow"});
-            this.cB_PS3_Led_Yellow.Location = new System.Drawing.Point(562, 5);
+            this.cB_PS3_Led_Yellow.Location = new System.Drawing.Point(533, 3);
             this.cB_PS3_Led_Yellow.MaxDropDownItems = 16;
             this.cB_PS3_Led_Yellow.Name = "cB_PS3_Led_Yellow";
-            this.cB_PS3_Led_Yellow.Size = new System.Drawing.Size(143, 23);
+            this.cB_PS3_Led_Yellow.Size = new System.Drawing.Size(111, 23);
             this.cB_PS3_Led_Yellow.TabIndex = 16;
             // 
             // btn_PS3_Led_Green_Set
             // 
-            this.btn_PS3_Led_Green_Set.Location = new System.Drawing.Point(332, 32);
+            this.btn_PS3_Led_Green_Set.Location = new System.Drawing.Point(405, 4);
             this.btn_PS3_Led_Green_Set.Name = "btn_PS3_Led_Green_Set";
-            this.btn_PS3_Led_Green_Set.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_Led_Green_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Green_Set.TabIndex = 13;
             this.btn_PS3_Led_Green_Set.Text = "Set";
             this.btn_PS3_Led_Green_Set.UseVisualStyleBackColor = true;
@@ -551,17 +559,17 @@
             "On",
             "Blink Fast",
             "Blink Slow"});
-            this.cB_PS3_Led_Green.Location = new System.Drawing.Point(308, 5);
+            this.cB_PS3_Led_Green.Location = new System.Drawing.Point(288, 4);
             this.cB_PS3_Led_Green.MaxDropDownItems = 16;
             this.cB_PS3_Led_Green.Name = "cB_PS3_Led_Green";
-            this.cB_PS3_Led_Green.Size = new System.Drawing.Size(143, 23);
+            this.cB_PS3_Led_Green.Size = new System.Drawing.Size(111, 23);
             this.cB_PS3_Led_Green.TabIndex = 14;
             // 
             // label18
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(500, 8);
+            this.label18.Location = new System.Drawing.Point(471, 5);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(56, 20);
             this.label18.TabIndex = 12;
@@ -571,7 +579,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(251, 8);
+            this.label17.Location = new System.Drawing.Point(236, 5);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(51, 20);
             this.label17.TabIndex = 11;
@@ -581,7 +589,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(9, 8);
+            this.label16.Location = new System.Drawing.Point(9, 5);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 20);
             this.label16.TabIndex = 10;
@@ -589,9 +597,9 @@
             // 
             // btn_PS3_Led_Red_Set
             // 
-            this.btn_PS3_Led_Red_Set.Location = new System.Drawing.Point(79, 32);
+            this.btn_PS3_Led_Red_Set.Location = new System.Drawing.Point(170, 4);
             this.btn_PS3_Led_Red_Set.Name = "btn_PS3_Led_Red_Set";
-            this.btn_PS3_Led_Red_Set.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_Led_Red_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Red_Set.TabIndex = 4;
             this.btn_PS3_Led_Red_Set.Text = "Set";
             this.btn_PS3_Led_Red_Set.UseVisualStyleBackColor = true;
@@ -609,7 +617,7 @@
             this.cB_PS3_Led_Red.Location = new System.Drawing.Point(53, 5);
             this.cB_PS3_Led_Red.MaxDropDownItems = 16;
             this.cB_PS3_Led_Red.Name = "cB_PS3_Led_Red";
-            this.cB_PS3_Led_Red.Size = new System.Drawing.Size(143, 23);
+            this.cB_PS3_Led_Red.Size = new System.Drawing.Size(111, 23);
             this.cB_PS3_Led_Red.TabIndex = 9;
             // 
             // label15
@@ -1056,6 +1064,7 @@
             this.lV_Modules.AutoArrange = false;
             this.lV_Modules.BackColor = System.Drawing.SystemColors.Control;
             this.lV_Modules.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.cH_Modules_Name,
             this.cH_Modules_Path});
             this.lV_Modules.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lV_Modules.FullRowSelect = true;
@@ -1073,7 +1082,7 @@
             // cH_Modules_Path
             // 
             this.cH_Modules_Path.Text = "Path";
-            this.cH_Modules_Path.Width = 675;
+            this.cH_Modules_Path.Width = 549;
             // 
             // txtB_Port
             // 
@@ -1130,18 +1139,56 @@
             this.panel8.Size = new System.Drawing.Size(723, 39);
             this.panel8.TabIndex = 26;
             // 
+            // cH_Modules_Name
+            // 
+            this.cH_Modules_Name.Text = "Name";
+            this.cH_Modules_Name.Width = 135;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel4.ForeColor = System.Drawing.Color.Black;
+            this.panel4.Location = new System.Drawing.Point(319, 5);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(2, 75);
+            this.panel4.TabIndex = 23;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(9, 5);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(89, 20);
+            this.label24.TabIndex = 24;
+            this.label24.Text = "User history:";
+            // 
+            // cB_PS3_MIMICOFW
+            // 
+            this.cB_PS3_MIMICOFW.AutoSize = true;
+            this.cB_PS3_MIMICOFW.Location = new System.Drawing.Point(13, 53);
+            this.cB_PS3_MIMICOFW.Name = "cB_PS3_MIMICOFW";
+            this.cB_PS3_MIMICOFW.Size = new System.Drawing.Size(143, 19);
+            this.cB_PS3_MIMICOFW.TabIndex = 25;
+            this.cB_PS3_MIMICOFW.Text = "Remove directory too.";
+            this.cB_PS3_MIMICOFW.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(752, 627);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.tabC_Global);
             this.Controls.Add(this.label7);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PS3 Manager API Demo Tools";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -1267,6 +1314,10 @@
         private System.Windows.Forms.Button btn_Module_Refresh;
         private System.Windows.Forms.ColumnHeader cH_Modules_Path;
         private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.ColumnHeader cH_Modules_Name;
+        private System.Windows.Forms.CheckBox cB_PS3_MIMICOFW;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Panel panel4;
     }
 }
 

@@ -44,6 +44,7 @@ namespace PS3Lib_Mod_Demo
                     comboB_Procs.Enabled = true;
                     btnRefresh.Enabled = true;
                     btnAttach.Enabled = true;
+                    lV_Modules.Items.Clear();
                 }
                 if (PS3M_API.PS3.CheckSyscall())
                 {
@@ -64,6 +65,7 @@ namespace PS3Lib_Mod_Demo
                 btnConnect.Enabled = true;
                 txtB_Ip.Enabled = true;
                 txtB_Port.Enabled = true;
+                comboB_Procs.Items.Clear();
             }
         }
         private void Form1_Load(object sender, EventArgs e)
@@ -131,7 +133,7 @@ namespace PS3Lib_Mod_Demo
                 comboB_Procs.Items.Clear();
                 foreach (uint pid in PS3M_API.Process.GetPidProcesses())
                 {
-                    if (1 < pid) comboB_Procs.Items.Add(PS3M_API.Process.GetName(pid));
+                    if (pid != 0) comboB_Procs.Items.Add(PS3M_API.Process.GetName(pid));
                     else break;
                 }
                 comboB_Procs.SelectedIndex = 0;
@@ -323,7 +325,7 @@ namespace PS3Lib_Mod_Demo
             p_PS3_MimicOFW.Enabled = false;
             try
             {
-                PS3M_API.PS3.ClearHistory();
+                PS3M_API.PS3.ClearHistory(cB_PS3_MIMICOFW.Checked);
             }
             catch (Exception ex)
             {
@@ -353,7 +355,13 @@ namespace PS3Lib_Mod_Demo
                 lV_Modules.Items.Clear();
                 foreach (int prx_id in PS3M_API.Process.Modules.GetPrxIdModules(PS3M_API.Process.Processes_Pid[comboB_Procs.SelectedIndex]))
                 {
-                    if (1 < prx_id) lV_Modules.Items.Add(PS3M_API.Process.Modules.GetName(PS3M_API.Process.Processes_Pid[comboB_Procs.SelectedIndex], prx_id));
+                    if (prx_id != 0)
+                    {
+                        ListViewItem lvi =  new ListViewItem();
+                        lvi.Text = PS3M_API.Process.Modules.GetName(PS3M_API.Process.Processes_Pid[comboB_Procs.SelectedIndex], prx_id);
+                        lvi.SubItems.Add(PS3M_API.Process.Modules.GetFilename(PS3M_API.Process.Processes_Pid[comboB_Procs.SelectedIndex], prx_id));
+                        lV_Modules.Items.Add(lvi);
+                    }
                     else break;
                 }
             }

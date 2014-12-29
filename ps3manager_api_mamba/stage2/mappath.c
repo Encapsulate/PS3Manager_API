@@ -301,4 +301,14 @@ void map_path_patches(int syscall)
 }
 
 
+///////////// PS3MAPI BEGIN //////////////
+
+void unhook_all_map_path(void)
+{
+	suspend_intr();
+	unhook_function_with_postcall(open_path_symbol, open_path_hook, 2);
+	resume_intr();
+}
+
+///////////// PS3MAPI END //////////////
 

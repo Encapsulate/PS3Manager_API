@@ -107,6 +107,12 @@ int ps3mapi_get_process_module_name_by_prx_id(process_id_t pid, sys_prx_id_t prx
 	return_to_user_prog(int);						
 }
 
+int ps3mapi_get_process_module_filename_by_prx_id(process_id_t pid, sys_prx_id_t prx_id, char *filename);
+{
+	system_call_5(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_GET_PROC_MODULE_FILENAME, (uint64_t)pid, (uint64_t)prx_id, (uint64_t)filename);
+	return_to_user_prog(int);						
+}
+
 int ps3mapi_load_process_modules(process_id_t pid, char *path, void *arg, uint32_t arg_size)
 {
 	system_call_6(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_LOAD_PROC_MODULE, (uint64_t)pid, (uint64_t)path, (uint64_t)arg, (uint64_t)arg_size);

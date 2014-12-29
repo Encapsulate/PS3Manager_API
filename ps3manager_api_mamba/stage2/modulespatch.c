@@ -1258,7 +1258,6 @@ void modules_patch_init(void)
 }
 
 ///////////// PS3MAPI BEGIN //////////////
-
 void unhook_all_modules(void)
 {
 	int n;
@@ -1272,9 +1271,6 @@ void unhook_all_modules(void)
 	unhook_function_on_precall_success(create_process_common_symbol, create_process_common_hooked, 16);
 	//unhook_function_with_postcall(create_process_common_symbol, create_process_common_hooked_pre, 8);
 	#endif
-	#ifndef IS_MAMBA
-		memset((void *)MKA(0x7f0000), 0, 0x10000);
-	#endif
+	resume_intr();
 }
-
 ///////////// PS3MAPI END //////////////
