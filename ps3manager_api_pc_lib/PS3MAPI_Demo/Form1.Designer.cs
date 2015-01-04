@@ -41,7 +41,6 @@
             this.btnRefresh = new System.Windows.Forms.Button();
             this.comboB_Procs = new System.Windows.Forms.ComboBox();
             this.lblProcs = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.tabC_Global = new System.Windows.Forms.TabControl();
             this.tabP_PS3 = new System.Windows.Forms.TabPage();
             this.label8 = new System.Windows.Forms.Label();
@@ -55,11 +54,17 @@
             this.btn_PS3_Notify = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.p_PS3_MimicOFW = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.btn_PS3_Disable_CM = new System.Windows.Forms.Button();
+            this.label25 = new System.Windows.Forms.Label();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.cB_PS3_MIMICOFW = new System.Windows.Forms.CheckBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.btn_PS3_ClearHistory = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.btn_PS3_CleanSyscall_F = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_PS3_CleanSyscall_L = new System.Windows.Forms.Button();
+            this.btn_PS3_CleanSyscall = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.p_PS3_Led = new System.Windows.Forms.Panel();
             this.btn_PS3_Led_Yellow_Set = new System.Windows.Forms.Button();
@@ -109,16 +114,16 @@
             this.tB_Module_Path = new System.Windows.Forms.TextBox();
             this.btn_Module_Refresh = new System.Windows.Forms.Button();
             this.lV_Modules = new System.Windows.Forms.ListView();
+            this.cH_Modules_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.cH_Modules_Path = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtB_Port = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtB_Ip = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.cH_Modules_Name = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.label24 = new System.Windows.Forms.Label();
-            this.cB_PS3_MIMICOFW = new System.Windows.Forms.CheckBox();
+            this.btn_ShowLog = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.lbl_Lib_Version = new System.Windows.Forms.Label();
             this.tabC_Global.SuspendLayout();
             this.tabP_PS3.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -136,12 +141,13 @@
             this.tabP_SetMem.SuspendLayout();
             this.tabP_Modules.SuspendLayout();
             this.panel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // btnDisconnect
             // 
             this.btnDisconnect.Enabled = false;
-            this.btnDisconnect.Location = new System.Drawing.Point(618, 5);
+            this.btnDisconnect.Location = new System.Drawing.Point(383, 4);
             this.btnDisconnect.Name = "btnDisconnect";
             this.btnDisconnect.Size = new System.Drawing.Size(87, 27);
             this.btnDisconnect.TabIndex = 9;
@@ -151,7 +157,7 @@
             // 
             // btnConnect
             // 
-            this.btnConnect.Location = new System.Drawing.Point(501, 5);
+            this.btnConnect.Location = new System.Drawing.Point(290, 4);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(87, 27);
             this.btnConnect.TabIndex = 2;
@@ -173,20 +179,20 @@
             // 
             this.textOutput.BackColor = System.Drawing.SystemColors.Control;
             this.textOutput.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textOutput.Location = new System.Drawing.Point(3, 89);
+            this.textOutput.Location = new System.Drawing.Point(3, 92);
             this.textOutput.MaxLength = 65536;
             this.textOutput.Multiline = true;
             this.textOutput.Name = "textOutput";
             this.textOutput.ReadOnly = true;
             this.textOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textOutput.Size = new System.Drawing.Size(722, 289);
+            this.textOutput.Size = new System.Drawing.Size(754, 245);
             this.textOutput.TabIndex = 18;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(390, 27);
+            this.label2.Location = new System.Drawing.Point(403, 27);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(55, 17);
             this.label2.TabIndex = 17;
@@ -204,7 +210,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(622, 23);
+            this.button1.Location = new System.Drawing.Point(667, 22);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(87, 23);
             this.button1.TabIndex = 15;
@@ -216,7 +222,7 @@
             // 
             this.txtB_GetOffset.BackColor = System.Drawing.SystemColors.Control;
             this.txtB_GetOffset.Location = new System.Drawing.Point(67, 24);
-            this.txtB_GetOffset.MaxLength = 64;
+            this.txtB_GetOffset.MaxLength = 32;
             this.txtB_GetOffset.Name = "txtB_GetOffset";
             this.txtB_GetOffset.Size = new System.Drawing.Size(261, 23);
             this.txtB_GetOffset.TabIndex = 13;
@@ -227,9 +233,9 @@
             // btnAttach
             // 
             this.btnAttach.Enabled = false;
-            this.btnAttach.Location = new System.Drawing.Point(522, 21);
+            this.btnAttach.Location = new System.Drawing.Point(565, 19);
             this.btnAttach.Name = "btnAttach";
-            this.btnAttach.Size = new System.Drawing.Size(87, 24);
+            this.btnAttach.Size = new System.Drawing.Size(87, 25);
             this.btnAttach.TabIndex = 3;
             this.btnAttach.Text = "Attach";
             this.btnAttach.UseVisualStyleBackColor = true;
@@ -238,9 +244,9 @@
             // btnRefresh
             // 
             this.btnRefresh.Enabled = false;
-            this.btnRefresh.Location = new System.Drawing.Point(413, 21);
+            this.btnRefresh.Location = new System.Drawing.Point(472, 19);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(87, 24);
+            this.btnRefresh.Size = new System.Drawing.Size(87, 25);
             this.btnRefresh.TabIndex = 2;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -251,10 +257,10 @@
             this.comboB_Procs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboB_Procs.Enabled = false;
             this.comboB_Procs.FormattingEnabled = true;
-            this.comboB_Procs.Location = new System.Drawing.Point(125, 21);
+            this.comboB_Procs.Location = new System.Drawing.Point(129, 21);
             this.comboB_Procs.MaxDropDownItems = 16;
             this.comboB_Procs.Name = "comboB_Procs";
-            this.comboB_Procs.Size = new System.Drawing.Size(245, 23);
+            this.comboB_Procs.Size = new System.Drawing.Size(306, 23);
             this.comboB_Procs.TabIndex = 1;
             // 
             // lblProcs
@@ -267,16 +273,6 @@
             this.lblProcs.TabIndex = 0;
             this.lblProcs.Text = "Processes:";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(28, 3);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(695, 65);
-            this.label7.TabIndex = 24;
-            this.label7.Text = "PS3 Manager API Demo Tools";
-            // 
             // tabC_Global
             // 
             this.tabC_Global.Controls.Add(this.tabP_PS3);
@@ -284,10 +280,10 @@
             this.tabC_Global.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tabC_Global.Enabled = false;
             this.tabC_Global.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabC_Global.Location = new System.Drawing.Point(0, 114);
+            this.tabC_Global.Location = new System.Drawing.Point(0, 105);
             this.tabC_Global.Name = "tabC_Global";
             this.tabC_Global.SelectedIndex = 0;
-            this.tabC_Global.Size = new System.Drawing.Size(752, 513);
+            this.tabC_Global.Size = new System.Drawing.Size(784, 473);
             this.tabC_Global.TabIndex = 25;
             // 
             // tabP_PS3
@@ -313,7 +309,7 @@
             this.tabP_PS3.Location = new System.Drawing.Point(4, 26);
             this.tabP_PS3.Name = "tabP_PS3";
             this.tabP_PS3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabP_PS3.Size = new System.Drawing.Size(744, 483);
+            this.tabP_PS3.Size = new System.Drawing.Size(776, 443);
             this.tabP_PS3.TabIndex = 0;
             this.tabP_PS3.Text = "PS3 Commands";
             // 
@@ -321,7 +317,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(8, 421);
+            this.label8.Location = new System.Drawing.Point(259, 93);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(79, 20);
             this.label8.TabIndex = 18;
@@ -334,14 +330,14 @@
             this.panel3.Controls.Add(this.btn_Setup);
             this.panel3.Controls.Add(this.btn_FileManager);
             this.panel3.Controls.Add(this.btn_GameManager);
-            this.panel3.Location = new System.Drawing.Point(8, 446);
+            this.panel3.Location = new System.Drawing.Point(263, 116);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(723, 34);
+            this.panel3.Size = new System.Drawing.Size(504, 39);
             this.panel3.TabIndex = 17;
             // 
             // btn_Setup
             // 
-            this.btn_Setup.Location = new System.Drawing.Point(502, 4);
+            this.btn_Setup.Location = new System.Drawing.Point(351, 6);
             this.btn_Setup.Name = "btn_Setup";
             this.btn_Setup.Size = new System.Drawing.Size(108, 24);
             this.btn_Setup.TabIndex = 18;
@@ -351,7 +347,7 @@
             // 
             // btn_FileManager
             // 
-            this.btn_FileManager.Location = new System.Drawing.Point(80, 4);
+            this.btn_FileManager.Location = new System.Drawing.Point(39, 6);
             this.btn_FileManager.Name = "btn_FileManager";
             this.btn_FileManager.Size = new System.Drawing.Size(108, 24);
             this.btn_FileManager.TabIndex = 17;
@@ -361,7 +357,7 @@
             // 
             // btn_GameManager
             // 
-            this.btn_GameManager.Location = new System.Drawing.Point(289, 4);
+            this.btn_GameManager.Location = new System.Drawing.Point(199, 6);
             this.btn_GameManager.Name = "btn_GameManager";
             this.btn_GameManager.Size = new System.Drawing.Size(108, 24);
             this.btn_GameManager.TabIndex = 16;
@@ -373,7 +369,7 @@
             // 
             this.label20.AutoSize = true;
             this.label20.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label20.Location = new System.Drawing.Point(8, 359);
+            this.label20.Location = new System.Drawing.Point(259, 158);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(88, 20);
             this.label20.TabIndex = 16;
@@ -385,23 +381,25 @@
             this.p_PS3_Notify.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_PS3_Notify.Controls.Add(this.tB_PS3_Notify);
             this.p_PS3_Notify.Controls.Add(this.btn_PS3_Notify);
-            this.p_PS3_Notify.Location = new System.Drawing.Point(8, 384);
+            this.p_PS3_Notify.Location = new System.Drawing.Point(263, 181);
             this.p_PS3_Notify.Name = "p_PS3_Notify";
-            this.p_PS3_Notify.Size = new System.Drawing.Size(723, 34);
+            this.p_PS3_Notify.Size = new System.Drawing.Size(504, 99);
             this.p_PS3_Notify.TabIndex = 15;
             // 
             // tB_PS3_Notify
             // 
             this.tB_PS3_Notify.BackColor = System.Drawing.SystemColors.Control;
-            this.tB_PS3_Notify.Location = new System.Drawing.Point(7, 5);
-            this.tB_PS3_Notify.MaxLength = 128;
+            this.tB_PS3_Notify.Location = new System.Drawing.Point(7, 8);
+            this.tB_PS3_Notify.MaxLength = 200;
+            this.tB_PS3_Notify.Multiline = true;
             this.tB_PS3_Notify.Name = "tB_PS3_Notify";
-            this.tB_PS3_Notify.Size = new System.Drawing.Size(603, 23);
+            this.tB_PS3_Notify.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.tB_PS3_Notify.Size = new System.Drawing.Size(399, 81);
             this.tB_PS3_Notify.TabIndex = 16;
             // 
             // btn_PS3_Notify
             // 
-            this.btn_PS3_Notify.Location = new System.Drawing.Point(619, 4);
+            this.btn_PS3_Notify.Location = new System.Drawing.Point(412, 36);
             this.btn_PS3_Notify.Name = "btn_PS3_Notify";
             this.btn_PS3_Notify.Size = new System.Drawing.Size(87, 24);
             this.btn_PS3_Notify.TabIndex = 15;
@@ -413,7 +411,7 @@
             // 
             this.label19.AutoSize = true;
             this.label19.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(9, 247);
+            this.label19.Location = new System.Drawing.Point(4, 283);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(124, 20);
             this.label19.TabIndex = 14;
@@ -423,22 +421,95 @@
             // 
             this.p_PS3_MimicOFW.BackColor = System.Drawing.SystemColors.Control;
             this.p_PS3_MimicOFW.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_PS3_MimicOFW.Controls.Add(this.panel4);
+            this.p_PS3_MimicOFW.Controls.Add(this.label26);
+            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_Disable_CM);
+            this.p_PS3_MimicOFW.Controls.Add(this.label25);
+            this.p_PS3_MimicOFW.Controls.Add(this.panel5);
             this.p_PS3_MimicOFW.Controls.Add(this.cB_PS3_MIMICOFW);
             this.p_PS3_MimicOFW.Controls.Add(this.label24);
-            this.p_PS3_MimicOFW.Controls.Add(this.panel4);
             this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_ClearHistory);
             this.p_PS3_MimicOFW.Controls.Add(this.label9);
-            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall_F);
             this.p_PS3_MimicOFW.Controls.Add(this.label1);
-            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall_L);
-            this.p_PS3_MimicOFW.Location = new System.Drawing.Point(9, 270);
+            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall);
+            this.p_PS3_MimicOFW.Location = new System.Drawing.Point(8, 306);
             this.p_PS3_MimicOFW.Name = "p_PS3_MimicOFW";
-            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(722, 86);
+            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(759, 131);
             this.p_PS3_MimicOFW.TabIndex = 13;
+            // 
+            // panel4
+            // 
+            this.panel4.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel4.ForeColor = System.Drawing.Color.Black;
+            this.panel4.Location = new System.Drawing.Point(226, 9);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(2, 113);
+            this.panel4.TabIndex = 23;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label26.Location = new System.Drawing.Point(539, 73);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(212, 45);
+            this.label26.TabIndex = 29;
+            this.label26.Text = "Note: this will fully disable syscall8 and\r\nremove cobra/mamba hook, ps3m_api\r\nwi" +
+    "ll no longer work. ";
+            // 
+            // btn_PS3_Disable_CM
+            // 
+            this.btn_PS3_Disable_CM.Location = new System.Drawing.Point(603, 39);
+            this.btn_PS3_Disable_CM.Name = "btn_PS3_Disable_CM";
+            this.btn_PS3_Disable_CM.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_Disable_CM.TabIndex = 28;
+            this.btn_PS3_Disable_CM.Text = "Disable";
+            this.btn_PS3_Disable_CM.UseVisualStyleBackColor = true;
+            this.btn_PS3_Disable_CM.Click += new System.EventHandler(this.btn_PS3_Disable_CM_Click);
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label25.Location = new System.Drawing.Point(539, 9);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(121, 20);
+            this.label25.TabIndex = 27;
+            this.label25.Text = "COBRA/MAMBA:";
+            // 
+            // panel5
+            // 
+            this.panel5.BackColor = System.Drawing.SystemColors.ButtonShadow;
+            this.panel5.ForeColor = System.Drawing.Color.Black;
+            this.panel5.Location = new System.Drawing.Point(531, 9);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(2, 113);
+            this.panel5.TabIndex = 26;
+            // 
+            // cB_PS3_MIMICOFW
+            // 
+            this.cB_PS3_MIMICOFW.AutoSize = true;
+            this.cB_PS3_MIMICOFW.Location = new System.Drawing.Point(4, 48);
+            this.cB_PS3_MIMICOFW.Name = "cB_PS3_MIMICOFW";
+            this.cB_PS3_MIMICOFW.Size = new System.Drawing.Size(219, 64);
+            this.cB_PS3_MIMICOFW.TabIndex = 25;
+            this.cB_PS3_MIMICOFW.Text = "Also remove \"unsafe\" empty\r\ndirectory (GAMES, GAMEZ, PS3ISO,\r\nPS2ISO, PSXISO, PSX" +
+    "GAMES, PSPISO,\r\nISO, BDISO, DVDISO, PKG).";
+            this.cB_PS3_MIMICOFW.UseVisualStyleBackColor = true;
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(5, 9);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(89, 20);
+            this.label24.TabIndex = 24;
+            this.label24.Text = "User history:";
             // 
             // btn_PS3_ClearHistory
             // 
-            this.btn_PS3_ClearHistory.Location = new System.Drawing.Point(201, 27);
+            this.btn_PS3_ClearHistory.Location = new System.Drawing.Point(118, 8);
             this.btn_PS3_ClearHistory.Name = "btn_PS3_ClearHistory";
             this.btn_PS3_ClearHistory.Size = new System.Drawing.Size(98, 24);
             this.btn_PS3_ClearHistory.TabIndex = 22;
@@ -450,48 +521,38 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(326, 54);
+            this.label9.Location = new System.Drawing.Point(235, 73);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(379, 30);
+            this.label9.Size = new System.Drawing.Size(287, 45);
             this.label9.TabIndex = 21;
-            this.label9.Text = "\"Full\" mode will also disable syscall 8 and remove cobra/mamba hook.\r\nSomes featu" +
-    "res of ps3m_api, webman, ... will no longer work.";
-            // 
-            // btn_PS3_CleanSyscall_F
-            // 
-            this.btn_PS3_CleanSyscall_F.Location = new System.Drawing.Point(420, 27);
-            this.btn_PS3_CleanSyscall_F.Name = "btn_PS3_CleanSyscall_F";
-            this.btn_PS3_CleanSyscall_F.Size = new System.Drawing.Size(98, 24);
-            this.btn_PS3_CleanSyscall_F.TabIndex = 20;
-            this.btn_PS3_CleanSyscall_F.Text = "Disable [Full]";
-            this.btn_PS3_CleanSyscall_F.UseVisualStyleBackColor = true;
-            this.btn_PS3_CleanSyscall_F.Click += new System.EventHandler(this.btn_PS3_CleanSyscall_F_Click);
+            this.label9.Text = "Note: syscall 8 will be only partialy disabled, all cobra\r\nor mamba and ps3m_api " +
+    "features will be keeped only\r\nextra features (lv1_peek, ...) will be disabled.";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(325, 2);
+            this.label1.Location = new System.Drawing.Point(235, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(335, 20);
+            this.label1.Size = new System.Drawing.Size(247, 20);
             this.label1.TabIndex = 19;
-            this.label1.Text = "Syscall 6, 7 , 9, 10, 11, 35, 36 (1022 too if mamba):";
+            this.label1.Text = "CFW Syscall 6, 7 , 8,  9, 10, 11, 35, 36:";
             // 
-            // btn_PS3_CleanSyscall_L
+            // btn_PS3_CleanSyscall
             // 
-            this.btn_PS3_CleanSyscall_L.Location = new System.Drawing.Point(546, 27);
-            this.btn_PS3_CleanSyscall_L.Name = "btn_PS3_CleanSyscall_L";
-            this.btn_PS3_CleanSyscall_L.Size = new System.Drawing.Size(98, 24);
-            this.btn_PS3_CleanSyscall_L.TabIndex = 15;
-            this.btn_PS3_CleanSyscall_L.Text = "Disable [Light]";
-            this.btn_PS3_CleanSyscall_L.UseVisualStyleBackColor = true;
-            this.btn_PS3_CleanSyscall_L.Click += new System.EventHandler(this.btn_PS3_CleanSyscall_L_Click);
+            this.btn_PS3_CleanSyscall.Location = new System.Drawing.Point(331, 39);
+            this.btn_PS3_CleanSyscall.Name = "btn_PS3_CleanSyscall";
+            this.btn_PS3_CleanSyscall.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_CleanSyscall.TabIndex = 15;
+            this.btn_PS3_CleanSyscall.Text = "Disable";
+            this.btn_PS3_CleanSyscall.UseVisualStyleBackColor = true;
+            this.btn_PS3_CleanSyscall.Click += new System.EventHandler(this.btn_PS3_CleanSyscall_Click);
             // 
             // label13
             // 
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(9, 184);
+            this.label13.Location = new System.Drawing.Point(4, 158);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(75, 20);
             this.label13.TabIndex = 12;
@@ -510,14 +571,14 @@
             this.p_PS3_Led.Controls.Add(this.label16);
             this.p_PS3_Led.Controls.Add(this.btn_PS3_Led_Red_Set);
             this.p_PS3_Led.Controls.Add(this.cB_PS3_Led_Red);
-            this.p_PS3_Led.Location = new System.Drawing.Point(9, 209);
+            this.p_PS3_Led.Location = new System.Drawing.Point(8, 181);
             this.p_PS3_Led.Name = "p_PS3_Led";
-            this.p_PS3_Led.Size = new System.Drawing.Size(722, 35);
+            this.p_PS3_Led.Size = new System.Drawing.Size(249, 99);
             this.p_PS3_Led.TabIndex = 11;
             // 
             // btn_PS3_Led_Yellow_Set
             // 
-            this.btn_PS3_Led_Yellow_Set.Location = new System.Drawing.Point(650, 3);
+            this.btn_PS3_Led_Yellow_Set.Location = new System.Drawing.Point(182, 67);
             this.btn_PS3_Led_Yellow_Set.Name = "btn_PS3_Led_Yellow_Set";
             this.btn_PS3_Led_Yellow_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Yellow_Set.TabIndex = 15;
@@ -534,7 +595,7 @@
             "On",
             "Blink Fast",
             "Blink Slow"});
-            this.cB_PS3_Led_Yellow.Location = new System.Drawing.Point(533, 3);
+            this.cB_PS3_Led_Yellow.Location = new System.Drawing.Point(65, 67);
             this.cB_PS3_Led_Yellow.MaxDropDownItems = 16;
             this.cB_PS3_Led_Yellow.Name = "cB_PS3_Led_Yellow";
             this.cB_PS3_Led_Yellow.Size = new System.Drawing.Size(111, 23);
@@ -542,7 +603,7 @@
             // 
             // btn_PS3_Led_Green_Set
             // 
-            this.btn_PS3_Led_Green_Set.Location = new System.Drawing.Point(405, 4);
+            this.btn_PS3_Led_Green_Set.Location = new System.Drawing.Point(182, 38);
             this.btn_PS3_Led_Green_Set.Name = "btn_PS3_Led_Green_Set";
             this.btn_PS3_Led_Green_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Green_Set.TabIndex = 13;
@@ -559,7 +620,7 @@
             "On",
             "Blink Fast",
             "Blink Slow"});
-            this.cB_PS3_Led_Green.Location = new System.Drawing.Point(288, 4);
+            this.cB_PS3_Led_Green.Location = new System.Drawing.Point(65, 38);
             this.cB_PS3_Led_Green.MaxDropDownItems = 16;
             this.cB_PS3_Led_Green.Name = "cB_PS3_Led_Green";
             this.cB_PS3_Led_Green.Size = new System.Drawing.Size(111, 23);
@@ -569,7 +630,7 @@
             // 
             this.label18.AutoSize = true;
             this.label18.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label18.Location = new System.Drawing.Point(471, 5);
+            this.label18.Location = new System.Drawing.Point(3, 68);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(56, 20);
             this.label18.TabIndex = 12;
@@ -579,7 +640,7 @@
             // 
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(236, 5);
+            this.label17.Location = new System.Drawing.Point(8, 39);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(51, 20);
             this.label17.TabIndex = 11;
@@ -589,7 +650,7 @@
             // 
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label16.Location = new System.Drawing.Point(9, 5);
+            this.label16.Location = new System.Drawing.Point(21, 10);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 20);
             this.label16.TabIndex = 10;
@@ -597,7 +658,7 @@
             // 
             // btn_PS3_Led_Red_Set
             // 
-            this.btn_PS3_Led_Red_Set.Location = new System.Drawing.Point(170, 4);
+            this.btn_PS3_Led_Red_Set.Location = new System.Drawing.Point(182, 9);
             this.btn_PS3_Led_Red_Set.Name = "btn_PS3_Led_Red_Set";
             this.btn_PS3_Led_Red_Set.Size = new System.Drawing.Size(60, 24);
             this.btn_PS3_Led_Red_Set.TabIndex = 4;
@@ -614,7 +675,7 @@
             "On",
             "Blink Fast",
             "Blink Slow"});
-            this.cB_PS3_Led_Red.Location = new System.Drawing.Point(53, 5);
+            this.cB_PS3_Led_Red.Location = new System.Drawing.Point(65, 9);
             this.cB_PS3_Led_Red.MaxDropDownItems = 16;
             this.cB_PS3_Led_Red.Name = "cB_PS3_Led_Red";
             this.cB_PS3_Led_Red.Size = new System.Drawing.Size(111, 23);
@@ -624,7 +685,7 @@
             // 
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label15.Location = new System.Drawing.Point(374, 95);
+            this.label15.Location = new System.Drawing.Point(4, 93);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(91, 20);
             this.label15.TabIndex = 10;
@@ -634,7 +695,7 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label14.Location = new System.Drawing.Point(374, 3);
+            this.label14.Location = new System.Drawing.Point(259, 3);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(140, 20);
             this.label14.TabIndex = 9;
@@ -644,7 +705,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(9, 95);
+            this.label11.Location = new System.Drawing.Point(514, 3);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(88, 20);
             this.label11.TabIndex = 8;
@@ -657,16 +718,16 @@
             this.p_PS3_Buzzer.Controls.Add(this.label12);
             this.p_PS3_Buzzer.Controls.Add(this.btn_Ring_Buzzer);
             this.p_PS3_Buzzer.Controls.Add(this.cB_PS3_Buzzer);
-            this.p_PS3_Buzzer.Location = new System.Drawing.Point(374, 119);
+            this.p_PS3_Buzzer.Location = new System.Drawing.Point(8, 116);
             this.p_PS3_Buzzer.Name = "p_PS3_Buzzer";
-            this.p_PS3_Buzzer.Size = new System.Drawing.Size(358, 62);
+            this.p_PS3_Buzzer.Size = new System.Drawing.Size(249, 39);
             this.p_PS3_Buzzer.TabIndex = 7;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(9, 6);
+            this.label12.Location = new System.Drawing.Point(3, 8);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(51, 20);
             this.label12.TabIndex = 11;
@@ -674,11 +735,11 @@
             // 
             // btn_Ring_Buzzer
             // 
-            this.btn_Ring_Buzzer.Location = new System.Drawing.Point(136, 32);
+            this.btn_Ring_Buzzer.Location = new System.Drawing.Point(182, 4);
             this.btn_Ring_Buzzer.Name = "btn_Ring_Buzzer";
-            this.btn_Ring_Buzzer.Size = new System.Drawing.Size(87, 27);
+            this.btn_Ring_Buzzer.Size = new System.Drawing.Size(60, 26);
             this.btn_Ring_Buzzer.TabIndex = 11;
-            this.btn_Ring_Buzzer.Text = "Ring Buzzer";
+            this.btn_Ring_Buzzer.Text = "Ring";
             this.btn_Ring_Buzzer.UseVisualStyleBackColor = true;
             this.btn_Ring_Buzzer.Click += new System.EventHandler(this.btn_Ring_Buzzer_Click);
             // 
@@ -690,10 +751,10 @@
             "Simple",
             "Double",
             "Triple"});
-            this.cB_PS3_Buzzer.Location = new System.Drawing.Point(76, 5);
+            this.cB_PS3_Buzzer.Location = new System.Drawing.Point(60, 7);
             this.cB_PS3_Buzzer.MaxDropDownItems = 16;
             this.cB_PS3_Buzzer.Name = "cB_PS3_Buzzer";
-            this.cB_PS3_Buzzer.Size = new System.Drawing.Size(264, 23);
+            this.cB_PS3_Buzzer.Size = new System.Drawing.Size(116, 23);
             this.cB_PS3_Buzzer.TabIndex = 12;
             // 
             // p_PS3_Power
@@ -702,16 +763,16 @@
             this.p_PS3_Power.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.p_PS3_Power.Controls.Add(this.btn_Power_Execute);
             this.p_PS3_Power.Controls.Add(this.cB_PS3_Power);
-            this.p_PS3_Power.Location = new System.Drawing.Point(9, 119);
+            this.p_PS3_Power.Location = new System.Drawing.Point(518, 26);
             this.p_PS3_Power.Name = "p_PS3_Power";
-            this.p_PS3_Power.Size = new System.Drawing.Size(358, 62);
+            this.p_PS3_Power.Size = new System.Drawing.Size(249, 64);
             this.p_PS3_Power.TabIndex = 6;
             // 
             // btn_Power_Execute
             // 
-            this.btn_Power_Execute.Location = new System.Drawing.Point(132, 31);
+            this.btn_Power_Execute.Location = new System.Drawing.Point(84, 33);
             this.btn_Power_Execute.Name = "btn_Power_Execute";
-            this.btn_Power_Execute.Size = new System.Drawing.Size(87, 27);
+            this.btn_Power_Execute.Size = new System.Drawing.Size(87, 26);
             this.btn_Power_Execute.TabIndex = 4;
             this.btn_Power_Execute.Text = "Execute";
             this.btn_Power_Execute.UseVisualStyleBackColor = true;
@@ -726,10 +787,10 @@
             "Quick Reboot",
             "Soft Reboot",
             "Hard Reboot"});
-            this.cB_PS3_Power.Location = new System.Drawing.Point(19, 4);
+            this.cB_PS3_Power.Location = new System.Drawing.Point(37, 5);
             this.cB_PS3_Power.MaxDropDownItems = 16;
             this.cB_PS3_Power.Name = "cB_PS3_Power";
-            this.cB_PS3_Power.Size = new System.Drawing.Size(311, 23);
+            this.cB_PS3_Power.Size = new System.Drawing.Size(173, 23);
             this.cB_PS3_Power.TabIndex = 9;
             // 
             // label10
@@ -749,16 +810,16 @@
             this.panel2.Controls.Add(this.btn_Temp_Refresh);
             this.panel2.Controls.Add(this.lbl_Temp_CPU);
             this.panel2.Controls.Add(this.lbl_Temp_RSX);
-            this.panel2.Location = new System.Drawing.Point(374, 28);
+            this.panel2.Location = new System.Drawing.Point(263, 26);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(358, 64);
+            this.panel2.Size = new System.Drawing.Size(249, 64);
             this.panel2.TabIndex = 4;
             // 
             // btn_Temp_Refresh
             // 
-            this.btn_Temp_Refresh.Location = new System.Drawing.Point(253, 15);
+            this.btn_Temp_Refresh.Location = new System.Drawing.Point(168, 16);
             this.btn_Temp_Refresh.Name = "btn_Temp_Refresh";
-            this.btn_Temp_Refresh.Size = new System.Drawing.Size(87, 27);
+            this.btn_Temp_Refresh.Size = new System.Drawing.Size(76, 27);
             this.btn_Temp_Refresh.TabIndex = 3;
             this.btn_Temp_Refresh.Text = "Refresh";
             this.btn_Temp_Refresh.UseVisualStyleBackColor = true;
@@ -768,7 +829,7 @@
             // 
             this.lbl_Temp_CPU.AutoSize = true;
             this.lbl_Temp_CPU.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Temp_CPU.Location = new System.Drawing.Point(9, 6);
+            this.lbl_Temp_CPU.Location = new System.Drawing.Point(3, 5);
             this.lbl_Temp_CPU.Name = "lbl_Temp_CPU";
             this.lbl_Temp_CPU.Size = new System.Drawing.Size(39, 20);
             this.lbl_Temp_CPU.TabIndex = 1;
@@ -778,7 +839,7 @@
             // 
             this.lbl_Temp_RSX.AutoSize = true;
             this.lbl_Temp_RSX.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_Temp_RSX.Location = new System.Drawing.Point(9, 32);
+            this.lbl_Temp_RSX.Location = new System.Drawing.Point(3, 33);
             this.lbl_Temp_RSX.Name = "lbl_Temp_RSX";
             this.lbl_Temp_RSX.Size = new System.Drawing.Size(38, 20);
             this.lbl_Temp_RSX.TabIndex = 2;
@@ -790,16 +851,16 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.lbl_core_version);
             this.panel1.Controls.Add(this.lbl_fw);
-            this.panel1.Location = new System.Drawing.Point(9, 28);
+            this.panel1.Location = new System.Drawing.Point(8, 26);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(358, 64);
+            this.panel1.Size = new System.Drawing.Size(249, 64);
             this.panel1.TabIndex = 0;
             // 
             // lbl_core_version
             // 
             this.lbl_core_version.AutoSize = true;
             this.lbl_core_version.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_core_version.Location = new System.Drawing.Point(9, 33);
+            this.lbl_core_version.Location = new System.Drawing.Point(3, 33);
             this.lbl_core_version.Name = "lbl_core_version";
             this.lbl_core_version.Size = new System.Drawing.Size(77, 20);
             this.lbl_core_version.TabIndex = 4;
@@ -809,7 +870,7 @@
             // 
             this.lbl_fw.AutoSize = true;
             this.lbl_fw.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_fw.Location = new System.Drawing.Point(9, 4);
+            this.lbl_fw.Location = new System.Drawing.Point(3, 5);
             this.lbl_fw.Name = "lbl_fw";
             this.lbl_fw.Size = new System.Drawing.Size(73, 20);
             this.lbl_fw.TabIndex = 0;
@@ -828,16 +889,16 @@
             this.tabP_Processes.Location = new System.Drawing.Point(4, 26);
             this.tabP_Processes.Name = "tabP_Processes";
             this.tabP_Processes.Padding = new System.Windows.Forms.Padding(3);
-            this.tabP_Processes.Size = new System.Drawing.Size(744, 483);
+            this.tabP_Processes.Size = new System.Drawing.Size(776, 443);
             this.tabP_Processes.TabIndex = 1;
             this.tabP_Processes.Text = "Processes Commands";
             // 
             // btnUnattach
             // 
             this.btnUnattach.Enabled = false;
-            this.btnUnattach.Location = new System.Drawing.Point(628, 21);
+            this.btnUnattach.Location = new System.Drawing.Point(658, 19);
             this.btnUnattach.Name = "btnUnattach";
-            this.btnUnattach.Size = new System.Drawing.Size(87, 24);
+            this.btnUnattach.Size = new System.Drawing.Size(87, 25);
             this.btnUnattach.TabIndex = 5;
             this.btnUnattach.Text = "Unattach";
             this.btnUnattach.UseVisualStyleBackColor = true;
@@ -852,10 +913,10 @@
             this.tabC_Process.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tabC_Process.Enabled = false;
             this.tabC_Process.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabC_Process.Location = new System.Drawing.Point(3, 64);
+            this.tabC_Process.Location = new System.Drawing.Point(3, 65);
             this.tabC_Process.Name = "tabC_Process";
             this.tabC_Process.SelectedIndex = 0;
-            this.tabC_Process.Size = new System.Drawing.Size(738, 416);
+            this.tabC_Process.Size = new System.Drawing.Size(770, 375);
             this.tabC_Process.TabIndex = 4;
             // 
             // tabP_GetMem
@@ -873,16 +934,21 @@
             this.tabP_GetMem.Location = new System.Drawing.Point(4, 29);
             this.tabP_GetMem.Name = "tabP_GetMem";
             this.tabP_GetMem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabP_GetMem.Size = new System.Drawing.Size(730, 383);
+            this.tabP_GetMem.Size = new System.Drawing.Size(762, 342);
             this.tabP_GetMem.TabIndex = 0;
             this.tabP_GetMem.Text = "Get Memory";
             // 
             // nUD_GetLength
             // 
             this.nUD_GetLength.BackColor = System.Drawing.SystemColors.Control;
-            this.nUD_GetLength.Location = new System.Drawing.Point(451, 24);
+            this.nUD_GetLength.Location = new System.Drawing.Point(464, 24);
             this.nUD_GetLength.Maximum = new decimal(new int[] {
             65536,
+            0,
+            0,
+            0});
+            this.nUD_GetLength.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
@@ -909,7 +975,7 @@
             this.tabP_SetMem.Location = new System.Drawing.Point(4, 29);
             this.tabP_SetMem.Name = "tabP_SetMem";
             this.tabP_SetMem.Padding = new System.Windows.Forms.Padding(3);
-            this.tabP_SetMem.Size = new System.Drawing.Size(730, 383);
+            this.tabP_SetMem.Size = new System.Drawing.Size(762, 342);
             this.tabP_SetMem.TabIndex = 1;
             this.tabP_SetMem.Text = "Set Memory";
             // 
@@ -917,7 +983,7 @@
             // 
             this.txtB_SetOffset.BackColor = System.Drawing.SystemColors.Control;
             this.txtB_SetOffset.Location = new System.Drawing.Point(67, 24);
-            this.txtB_SetOffset.MaxLength = 128;
+            this.txtB_SetOffset.MaxLength = 32;
             this.txtB_SetOffset.Name = "txtB_SetOffset";
             this.txtB_SetOffset.Size = new System.Drawing.Size(261, 23);
             this.txtB_SetOffset.TabIndex = 24;
@@ -929,19 +995,19 @@
             // 
             this.textValue.BackColor = System.Drawing.SystemColors.Control;
             this.textValue.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textValue.Location = new System.Drawing.Point(3, 89);
+            this.textValue.Location = new System.Drawing.Point(3, 92);
             this.textValue.MaxLength = 65536;
             this.textValue.Multiline = true;
             this.textValue.Name = "textValue";
             this.textValue.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textValue.Size = new System.Drawing.Size(722, 289);
+            this.textValue.Size = new System.Drawing.Size(754, 245);
             this.textValue.TabIndex = 25;
             this.textValue.Text = "000102030405060708090A0B0C0D0E0F";
             this.textValue.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_KeyPress_HexOnly);
             // 
             // btnSetMem
             // 
-            this.btnSetMem.Location = new System.Drawing.Point(623, 23);
+            this.btnSetMem.Location = new System.Drawing.Point(667, 24);
             this.btnSetMem.Name = "btnSetMem";
             this.btnSetMem.Size = new System.Drawing.Size(87, 23);
             this.btnSetMem.TabIndex = 26;
@@ -985,7 +1051,7 @@
             this.tabP_Modules.Location = new System.Drawing.Point(4, 29);
             this.tabP_Modules.Name = "tabP_Modules";
             this.tabP_Modules.Padding = new System.Windows.Forms.Padding(3);
-            this.tabP_Modules.Size = new System.Drawing.Size(730, 383);
+            this.tabP_Modules.Size = new System.Drawing.Size(762, 342);
             this.tabP_Modules.TabIndex = 2;
             this.tabP_Modules.Text = "Modules";
             // 
@@ -994,7 +1060,7 @@
             this.label23.AutoSize = true;
             this.label23.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label23.ForeColor = System.Drawing.Color.Red;
-            this.label23.Location = new System.Drawing.Point(263, 59);
+            this.label23.Location = new System.Drawing.Point(276, 59);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(238, 20);
             this.label23.TabIndex = 31;
@@ -1002,7 +1068,7 @@
             // 
             // btn_Module_Unload
             // 
-            this.btn_Module_Unload.Location = new System.Drawing.Point(534, 58);
+            this.btn_Module_Unload.Location = new System.Drawing.Point(581, 58);
             this.btn_Module_Unload.Name = "btn_Module_Unload";
             this.btn_Module_Unload.Size = new System.Drawing.Size(173, 24);
             this.btn_Module_Unload.TabIndex = 30;
@@ -1032,7 +1098,7 @@
             // 
             // btn_Module_Load
             // 
-            this.btn_Module_Load.Location = new System.Drawing.Point(620, 11);
+            this.btn_Module_Load.Location = new System.Drawing.Point(667, 11);
             this.btn_Module_Load.Name = "btn_Module_Load";
             this.btn_Module_Load.Size = new System.Drawing.Size(87, 24);
             this.btn_Module_Load.TabIndex = 18;
@@ -1046,7 +1112,7 @@
             this.tB_Module_Path.Location = new System.Drawing.Point(156, 11);
             this.tB_Module_Path.MaxLength = 128;
             this.tB_Module_Path.Name = "tB_Module_Path";
-            this.tB_Module_Path.Size = new System.Drawing.Size(458, 23);
+            this.tB_Module_Path.Size = new System.Drawing.Size(505, 23);
             this.tB_Module_Path.TabIndex = 17;
             // 
             // btn_Module_Refresh
@@ -1070,14 +1136,19 @@
             this.lV_Modules.FullRowSelect = true;
             this.lV_Modules.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lV_Modules.HideSelection = false;
-            this.lV_Modules.Location = new System.Drawing.Point(3, 88);
+            this.lV_Modules.Location = new System.Drawing.Point(3, 92);
             this.lV_Modules.MultiSelect = false;
             this.lV_Modules.Name = "lV_Modules";
             this.lV_Modules.ShowGroups = false;
-            this.lV_Modules.Size = new System.Drawing.Size(722, 290);
+            this.lV_Modules.Size = new System.Drawing.Size(754, 245);
             this.lV_Modules.TabIndex = 0;
             this.lV_Modules.UseCompatibleStateImageBehavior = false;
             this.lV_Modules.View = System.Windows.Forms.View.Details;
+            // 
+            // cH_Modules_Name
+            // 
+            this.cH_Modules_Name.Text = "Name";
+            this.cH_Modules_Name.Width = 135;
             // 
             // cH_Modules_Path
             // 
@@ -1086,7 +1157,7 @@
             // 
             // txtB_Port
             // 
-            this.txtB_Port.Location = new System.Drawing.Point(292, 6);
+            this.txtB_Port.Location = new System.Drawing.Point(215, 7);
             this.txtB_Port.MaxLength = 5;
             this.txtB_Port.Name = "txtB_Port";
             this.txtB_Port.Size = new System.Drawing.Size(55, 23);
@@ -1098,7 +1169,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(236, 9);
+            this.label5.Location = new System.Drawing.Point(159, 10);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(50, 17);
             this.label5.TabIndex = 12;
@@ -1106,7 +1177,7 @@
             // 
             // txtB_Ip
             // 
-            this.txtB_Ip.Location = new System.Drawing.Point(90, 6);
+            this.txtB_Ip.Location = new System.Drawing.Point(37, 7);
             this.txtB_Ip.MaxLength = 16;
             this.txtB_Ip.Name = "txtB_Ip";
             this.txtB_Ip.Size = new System.Drawing.Size(116, 23);
@@ -1118,7 +1189,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(56, 9);
+            this.label6.Location = new System.Drawing.Point(5, 8);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(28, 17);
             this.label6.TabIndex = 10;
@@ -1128,50 +1199,47 @@
             // 
             this.panel8.BackColor = System.Drawing.SystemColors.Control;
             this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel8.Controls.Add(this.btn_ShowLog);
             this.panel8.Controls.Add(this.txtB_Ip);
             this.panel8.Controls.Add(this.txtB_Port);
             this.panel8.Controls.Add(this.btnConnect);
             this.panel8.Controls.Add(this.btnDisconnect);
             this.panel8.Controls.Add(this.label5);
             this.panel8.Controls.Add(this.label6);
-            this.panel8.Location = new System.Drawing.Point(13, 71);
+            this.panel8.Location = new System.Drawing.Point(185, 32);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(723, 39);
+            this.panel8.Size = new System.Drawing.Size(586, 38);
             this.panel8.TabIndex = 26;
             // 
-            // cH_Modules_Name
+            // btn_ShowLog
             // 
-            this.cH_Modules_Name.Text = "Name";
-            this.cH_Modules_Name.Width = 135;
+            this.btn_ShowLog.Location = new System.Drawing.Point(476, 4);
+            this.btn_ShowLog.Name = "btn_ShowLog";
+            this.btn_ShowLog.Size = new System.Drawing.Size(87, 27);
+            this.btn_ShowLog.TabIndex = 14;
+            this.btn_ShowLog.Text = "Show Log";
+            this.btn_ShowLog.UseVisualStyleBackColor = true;
+            this.btn_ShowLog.Click += new System.EventHandler(this.btn_ShowLog_Click);
             // 
-            // panel4
+            // pictureBox1
             // 
-            this.panel4.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel4.ForeColor = System.Drawing.Color.Black;
-            this.panel4.Location = new System.Drawing.Point(319, 5);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(2, 75);
-            this.panel4.TabIndex = 23;
+            this.pictureBox1.Image = global::PS3_Manager_API_Demo_Tools.Properties.Resources.ICON0;
+            this.pictureBox1.Location = new System.Drawing.Point(1, -7);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(178, 107);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pictureBox1.TabIndex = 27;
+            this.pictureBox1.TabStop = false;
             // 
-            // label24
+            // lbl_Lib_Version
             // 
-            this.label24.AutoSize = true;
-            this.label24.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label24.Location = new System.Drawing.Point(9, 5);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(89, 20);
-            this.label24.TabIndex = 24;
-            this.label24.Text = "User history:";
-            // 
-            // cB_PS3_MIMICOFW
-            // 
-            this.cB_PS3_MIMICOFW.AutoSize = true;
-            this.cB_PS3_MIMICOFW.Location = new System.Drawing.Point(13, 53);
-            this.cB_PS3_MIMICOFW.Name = "cB_PS3_MIMICOFW";
-            this.cB_PS3_MIMICOFW.Size = new System.Drawing.Size(143, 19);
-            this.cB_PS3_MIMICOFW.TabIndex = 25;
-            this.cB_PS3_MIMICOFW.Text = "Remove directory too.";
-            this.cB_PS3_MIMICOFW.UseVisualStyleBackColor = true;
+            this.lbl_Lib_Version.AutoSize = true;
+            this.lbl_Lib_Version.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Lib_Version.Location = new System.Drawing.Point(695, 9);
+            this.lbl_Lib_Version.Name = "lbl_Lib_Version";
+            this.lbl_Lib_Version.Size = new System.Drawing.Size(77, 20);
+            this.lbl_Lib_Version.TabIndex = 28;
+            this.lbl_Lib_Version.Text = "Lib v7.7.7";
             // 
             // Form1
             // 
@@ -1179,10 +1247,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(752, 627);
+            this.ClientSize = new System.Drawing.Size(784, 578);
+            this.Controls.Add(this.lbl_Lib_Version);
             this.Controls.Add(this.panel8);
             this.Controls.Add(this.tabC_Global);
-            this.Controls.Add(this.label7);
+            this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1221,6 +1290,7 @@
             this.tabP_Modules.PerformLayout();
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1240,7 +1310,6 @@
         private System.Windows.Forms.Button btnDisconnect;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox textOutput;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TabControl tabC_Global;
         private System.Windows.Forms.TabPage tabP_PS3;
         private System.Windows.Forms.TabPage tabP_Processes;
@@ -1287,7 +1356,7 @@
         private System.Windows.Forms.Button btn_PS3_Notify;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Panel p_PS3_MimicOFW;
-        private System.Windows.Forms.Button btn_PS3_CleanSyscall_L;
+        private System.Windows.Forms.Button btn_PS3_CleanSyscall;
         private System.Windows.Forms.Button btnUnattach;
         private System.Windows.Forms.TabPage tabP_Modules;
         private System.Windows.Forms.NumericUpDown nUD_GetLength;
@@ -1303,21 +1372,27 @@
         private System.Windows.Forms.Button btn_Setup;
         private System.Windows.Forms.Button btn_FileManager;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Button btn_PS3_CleanSyscall_F;
         private System.Windows.Forms.Button btn_PS3_ClearHistory;
-        private System.Windows.Forms.ListView lV_Modules;
         private System.Windows.Forms.Button btn_Module_Unload;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Button btn_Module_Load;
         private System.Windows.Forms.TextBox tB_Module_Path;
         private System.Windows.Forms.Button btn_Module_Refresh;
-        private System.Windows.Forms.ColumnHeader cH_Modules_Path;
         private System.Windows.Forms.Label label23;
-        private System.Windows.Forms.ColumnHeader cH_Modules_Name;
         private System.Windows.Forms.CheckBox cB_PS3_MIMICOFW;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button btn_ShowLog;
+        private System.Windows.Forms.ListView lV_Modules;
+        private System.Windows.Forms.ColumnHeader cH_Modules_Name;
+        private System.Windows.Forms.ColumnHeader cH_Modules_Path;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Button btn_PS3_Disable_CM;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Label lbl_Lib_Version;
     }
 }
 

@@ -11,9 +11,9 @@
 
 #define SYSCALL8_OPCODE_PS3MAPI			 		0x7777
 
-#define PS3MAPI_PS3_LIB_VERSION					0x0001
+#define PS3MAPI_PS3_LIB_VERSION					0x0110
 
-#define PS3MAPI_CORE_MINVERSION					0x0101
+#define PS3MAPI_CORE_MINVERSION					0x0110
 
 //-----------------------------------------------
 //CORE
@@ -139,11 +139,19 @@ int ps3mapi_unload_process_modules(process_id_t pid, sys_prx_id_t prx_id);
 //CLEAN SYSCALL
 //-----------------------------------------------
 
-#define PS3MAPI_OPCODE_CLEAN_SYSCALL		0x0091
-#define PS3MAPI_OPCODE_FULL_CLEAN_SYSCALL	0x0092
+#define PS3MAPI_OPCODE_CLEAN_SYSCALL			0x0091
+#define PS3MAPI_OPCODE_CHECK_SYSCALL			0x0092
 
 int ps3mapi_clean_syscall(void);
-int ps3mapi_full_clean_syscall(void);
+int ps3mapi_check_syscall(void);
+
+//-----------------------------------------------
+//DISABLE COBRA/MAMBA
+//-----------------------------------------------
+
+#define PS3MAPI_OPCODE_DISABLE_COBRA			0x0101
+
+int ps3mapi_disable_cm(void);
 
 //-----------------------------------------------
 //EXTRA

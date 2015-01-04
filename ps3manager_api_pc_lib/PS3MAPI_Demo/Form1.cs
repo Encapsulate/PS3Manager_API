@@ -48,13 +48,11 @@ namespace PS3Lib_Mod_Demo
                 }
                 if (PS3M_API.PS3.CheckSyscall())
                 {
-                    btn_PS3_CleanSyscall_L.Enabled = false;
-                    btn_PS3_CleanSyscall_F.Enabled = false;
+                    btn_PS3_CleanSyscall.Enabled = true;
                 }
                 else
                 {
-                    btn_PS3_CleanSyscall_L.Enabled = true;
-                    btn_PS3_CleanSyscall_F.Enabled = true;
+                    btn_PS3_CleanSyscall.Enabled = false;
                 }
 
             }
@@ -75,6 +73,7 @@ namespace PS3Lib_Mod_Demo
             cB_PS3_Led_Red.SelectedIndex = 0;
             cB_PS3_Led_Green.SelectedIndex = 1;
             cB_PS3_Led_Yellow.SelectedIndex = 0;
+            lbl_Lib_Version.Text = "Lib v" + PS3M_API.GetLibVersion_Str();
             FormUpdate();
         }
         private void Form1_Closed(object sender, FormClosedEventArgs e)
@@ -86,6 +85,11 @@ namespace PS3Lib_Mod_Demo
             catch
             {
             }
+        }
+        //LOG
+        private void btn_ShowLog_Click(object sender, EventArgs e)
+        {
+            PS3M_API.ShowLog();
         }
         //CONNECT-DISCONNECT
         private void btnConnect_Click(object sender, EventArgs e)
@@ -100,7 +104,7 @@ namespace PS3Lib_Mod_Demo
                 else
                 {
                     lbl_fw.Text = "Firmware: " + PS3M_API.PS3.GetFirmwareVersion_Str() + " " + PS3M_API.PS3.GetFirmwareType();
-                    lbl_core_version.Text = "PS3M_API: Server v" + PS3M_API.Server.GetVersion_Str() + "|Core v" + PS3M_API.Core.GetVersion_Str() + "|Lib v" + PS3M_API.GetLibVersion_Str();
+                    lbl_core_version.Text = "PS3M_API: Server v" + PS3M_API.Server.GetVersion_Str() + "|Core v" + PS3M_API.Core.GetVersion_Str();
                 }
             }
             catch (Exception ex)
@@ -124,7 +128,7 @@ namespace PS3Lib_Mod_Demo
             }
             FormUpdate();
         }
-        //ATTACH
+        //PROCESS
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             tabP_Processes.Enabled = false;
@@ -184,25 +188,39 @@ namespace PS3Lib_Mod_Demo
             FormUpdate();
             tabP_Processes.Enabled = true;
         }
-        //MEMORY
+       //MEMORY
         private void btnGetMem_Click(object sender, EventArgs e)
         {
-            byte[] buffer = new byte[int.Parse(nUD_GetLength.Value.ToString())];
-            uint offset = Convert.ToUInt32(txtB_GetOffset.Text.Replace("0x", ""), 16);
-            PS3M_API.Process.Memory.Get(PS3M_API.Process.Process_Pid, offset, buffer);
-            textOutput.Text = ByteArrayToString(buffer);
-            MessageBox.Show("Memory get with succes :)", "Succes.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Enabled = true;
+            tabP_GetMem.Enabled = false;
+            try
+            {
+                byte[] buffer = new byte[int.Parse(nUD_GetLength.Value.ToString())];
+                uint offset = Convert.ToUInt32(txtB_GetOffset.Text, 16);
+                PS3M_API.Process.Memory.Get(PS3M_API.Process.Process_Pid, offset, buffer);
+                textOutput.Text = ByteArrayToString(buffer);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            tabP_GetMem.Enabled = true;
         }       
         private void btnSetMem_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
-            byte[] buffer = new byte[textValue.Text.Length / 2];
-            buffer = StringToByteArray(textValue.Text);
-            uint offset = Convert.ToUInt32(txtB_SetOffset.Text.Replace("0x", ""), 16);
-            PS3M_API.Process.Memory.Set(PS3M_API.Process.Process_Pid, offset, buffer);
-            MessageBox.Show("Memory set with succes :)", "Succes.", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            this.Enabled = true;
+            tabP_SetMem.Enabled = false;
+            try
+            {
+                this.Enabled = false;
+                byte[] buffer = new byte[textValue.Text.Length / 2];
+                buffer = StringToByteArray(textValue.Text);
+                uint offset = Convert.ToUInt32(txtB_SetOffset.Text, 16);
+                PS3M_API.Process.Memory.Set(PS3M_API.Process.Process_Pid, offset, buffer);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            tabP_SetMem.Enabled = true;
         }
         //PS3
         private void btn_Temp_Refresh_Click(object sender, EventArgs e)
@@ -213,8 +231,8 @@ namespace PS3Lib_Mod_Demo
                 uint cpu;
                 uint rsx;
                 PS3M_API.PS3.GetTemperature( out cpu,  out rsx);
-                lbl_Temp_CPU.Text = "CPU: " + cpu.ToString() + "°C / " + (cpu + 74).ToString() + "°F";
-                lbl_Temp_RSX.Text = "RSX: " + rsx.ToString() + "°C / " + (rsx + 74).ToString() + "°F";
+                lbl_Temp_CPU.Text = "CPU: " + cpu.ToString() + "°C / " + (((9.0 / 5.0) * cpu) + 32).ToString() + "°F";
+                lbl_Temp_RSX.Text = "RSX: " + rsx.ToString() + "°C / " + (((9.0 / 5.0) * rsx) + 32).ToString() + "°F";
             }
             catch (Exception ex)
             {
@@ -292,7 +310,7 @@ namespace PS3Lib_Mod_Demo
             }
             p_PS3_Led.Enabled = true;     
         }
-        private void btn_PS3_CleanSyscall_L_Click(object sender, EventArgs e)
+        private void btn_PS3_CleanSyscall_Click(object sender, EventArgs e)
         {
             p_PS3_MimicOFW.Enabled = false;
             try
@@ -305,20 +323,6 @@ namespace PS3Lib_Mod_Demo
                 MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             p_PS3_MimicOFW.Enabled = true;    
-        }
-        private void btn_PS3_CleanSyscall_F_Click(object sender, EventArgs e)
-        {
-            p_PS3_MimicOFW.Enabled = false;
-            try
-            {
-                PS3M_API.PS3.CleanSyscallFull();
-                FormUpdate();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            p_PS3_MimicOFW.Enabled = true;
         }
         private void btn_PS3_ClearHistory_Click(object sender, EventArgs e)
         {
@@ -345,6 +349,19 @@ namespace PS3Lib_Mod_Demo
                 MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             p_PS3_Notify.Enabled = true;    
+        }
+        private void btn_PS3_Disable_CM_Click(object sender, EventArgs e)
+        {
+            btn_PS3_Disable_CM.Enabled = false;
+            try
+            {
+                PS3M_API.PS3.DisableCobraMamba();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            btn_PS3_Disable_CM.Enabled = true;    
         }
         //MODULES
         private void btn_Module_Refresh_Click(object sender, EventArgs e)
@@ -442,5 +459,6 @@ namespace PS3Lib_Mod_Demo
               ) e.Handled = true;
         }
 
+       
     }
 }

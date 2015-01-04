@@ -47,6 +47,12 @@
     <Compile Include="AttachDialog.designer.cs">
       <DependentUpon>AttachDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="LogDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LogDialog.designer.cs">
+      <DependentUpon>LogDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="ConnectDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +65,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AttachDialog.resx">
       <DependentUpon>AttachDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LogDialog.resx">
+      <DependentUpon>LogDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ConnectDialog.resx">
       <DependentUpon>ConnectDialog.cs</DependentUpon>

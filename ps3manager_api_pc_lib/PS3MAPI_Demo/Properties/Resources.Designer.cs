@@ -59,5 +59,15 @@ namespace PS3_Manager_API_Demo_Tools.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ICON0 {
+            get {
+                object obj = ResourceManager.GetObject("ICON0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

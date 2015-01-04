@@ -1,6 +1,6 @@
 ﻿namespace PS3ManagerAPI
 {
-	partial class ConnectDialog
+    partial class ConnectDialog
 	{
 		/// <summary>
 		/// Required designer variable.

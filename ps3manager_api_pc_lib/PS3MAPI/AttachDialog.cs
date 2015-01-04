@@ -38,5 +38,6 @@ namespace PS3ManagerAPI
             }
             comboBox1.SelectedIndex = 0;
         }
+
 	}
 }

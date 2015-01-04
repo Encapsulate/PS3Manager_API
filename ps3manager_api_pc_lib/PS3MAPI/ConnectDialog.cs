@@ -22,7 +22,7 @@ namespace PS3ManagerAPI
 {
 	public partial class ConnectDialog : Form
 	{
-		public ConnectDialog()
+        public ConnectDialog()
 		{
 			InitializeComponent();
 		}

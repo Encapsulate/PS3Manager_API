@@ -129,15 +129,25 @@ int ps3mapi_unload_process_modules(process_id_t pid, sys_prx_id_t prx_id)
 //CLEAN SYSCALL
 //-----------------------------------------------
 
+int ps3mapi_check_syscall(void)
+{
+	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_CHECK_SYSCALL);
+	return_to_user_prog(int);						
+}
+
 int ps3mapi_clean_syscall(void)
 {
 	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_CLEAN_SYSCALL);
 	return_to_user_prog(int);						
 }
 
-int ps3mapi_full_clean_syscall(void)
+//-----------------------------------------------
+//DISABLE COBRA/MAMBA
+//-----------------------------------------------
+
+int ps3mapi_disable_cm(void)
 {
-	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_FULL_CLEAN_SYSCALL);
+	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_DISABLE_COBRA);
 	return_to_user_prog(int);						
 }
 

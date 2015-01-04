@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ps3.ico" />
+    <None Include="Resources\ICON0.PNG" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
