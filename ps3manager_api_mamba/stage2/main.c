@@ -301,9 +301,10 @@ static void unhook_all(void)
     //unhook_all_storage_ext;
 }
 
+int partial_disable_syscall8 = 0;
 ///////////// PS3MAPI END //////////////
 
-int partial_disable_syscall8 = 0;
+
 LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t param2, uint64_t param3, uint64_t param4, uint64_t param5, uint64_t param6, uint64_t param7))
 {
 	static uint32_t pid_blocked = 0;
