@@ -120,16 +120,14 @@ LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_8(int, load_process_hooked, (process_t proce
 	{
         if(is_vsh_process(process->parent)) {
             vsh_process = process->parent;
-
+			unhook_function_on_precall_success(load_process_symbol, load_process_hooked, 9); //NzV Hook no more needed
            storage_ext_patches();
         }
-        else
-
-		if (strcmp(path, "/dev_flash/vsh/module/vsh.self") == 0)
+        else if (strcmp(path, "/dev_flash/vsh/module/vsh.self") == 0)
 		{
 			vsh_process = process;
+			unhook_function_on_precall_success(load_process_symbol, load_process_hooked, 9); //NzV Hook no more needed
             storage_ext_patches();
-
 		}
 		else if (strcmp(path, "emer_init.self") == 0)
 		{
@@ -292,13 +290,10 @@ LV2_SYSCALL2(void, sys_cfw_poke, (uint64_t *ptr, uint64_t value))
 
 static void unhook_all(void)
 {
-	suspend_intr();
-	unhook_function_on_precall_success(load_process_symbol, load_process_hooked, 9);	
-	resume_intr();
 	unhook_all_modules();
 	unhook_all_region();
-	//unhook_all_map_path;
-    //unhook_all_storage_ext;
+	//unhook_all_map_path();
+    unhook_all_storage_ext();
 }
 
 int partial_disable_syscall8 = 0;
