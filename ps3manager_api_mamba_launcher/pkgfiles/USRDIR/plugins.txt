@@ -1,1 +1,1 @@
-/dev_hdd0/game/IRISMAN01/USRDIR/webftp_server.sprx
+/dev_hdd0/game/IRISMAN01/USRDIR/webftp_server_ps3mapi.sprx
