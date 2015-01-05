@@ -108,8 +108,8 @@
 
 #define IS_CFW			1
 
-process_t vsh_process = NULL;
-uint8_t safe_mode = 0;
+//process_t vsh_process = NULL; //NZV Already in modulespatch.h
+//uint8_t safe_mode = 0; //NZV Already in modulespatch.h
 
 LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_8(int, load_process_hooked, (process_t process, int fd, char *path, int r6, uint64_t r7, uint64_t r8, uint64_t r9, uint64_t r10, uint64_t sp_70))
 {
@@ -121,7 +121,7 @@ LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_8(int, load_process_hooked, (process_t proce
         if(is_vsh_process(process->parent)) {
             vsh_process = process->parent;
 			unhook_function_on_precall_success(load_process_symbol, load_process_hooked, 9); //NzV Hook no more needed
-           storage_ext_patches();
+			storage_ext_patches();
         }
         else if (strcmp(path, "/dev_flash/vsh/module/vsh.self") == 0)
 		{
@@ -292,7 +292,7 @@ static void unhook_all(void)
 {
 	unhook_all_modules();
 	unhook_all_region();
-	//unhook_all_map_path();
+	unhook_all_map_path();
     unhook_all_storage_ext();
 }
 
@@ -338,19 +338,26 @@ LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t pa
 		pid_blocked = pid;
 		return ENOSYS;
 	}
-
+///////////////////////////////////// PS3MAPI BEGIN //////////////
+	if (3 <= partial_disable_syscall8)
+	{
+		if (function == SYSCALL8_OPCODE_PS3MAPI)
+		{
+			if ((int)param1 == PS3MAPI_OPCODE_PDISABLE_SYSCALL8)
+			{
+				partial_disable_syscall8 = (int)param2;
+				return SUCCEEDED;
+			}
+			else if ((int)param1 == PS3MAPI_OPCODE_PCHECK_SYSCALL8)
+			{
+				return partial_disable_syscall8;
+			}
+			else return ENOSYS;
+		}
+		else return ENOSYS;
+	}		
 	switch (function)
 	{       	
-		///////////// PS3MAPI BEGIN //////////////
-		case SYSCALL8_OPCODE_STEALTH_TEST:  //PSNPatch stealth extension compatibility
-			return SYSCALL8_STEALTH_OK;
-		break;
-		case SYSCALL8_OPCODE_STEALTH_ACTIVATE: //PSNPatch stealth extension compatibility
-		{
-			ps3mapi_clean_syscall();//disables syscalls (exclude 8)
-			return SYSCALL8_STEALTH_OK;
-		}
-		break;
 		case SYSCALL8_OPCODE_PS3MAPI:	
 			switch ((int)param1)
 			{
@@ -417,20 +424,24 @@ LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t pa
 				//----------
 				//SYSCALL
 				//----------
-				case PS3MAPI_OPCODE_CLEAN_SYSCALL:
-					partial_disable_syscall8 = 1;
-					return ps3mapi_clean_syscall();
+				case PS3MAPI_OPCODE_DISABLE_SYSCALL:
+					return ps3mapi_disable_syscall((int)param2);
 				break;
 				case PS3MAPI_OPCODE_CHECK_SYSCALL:
-					return ps3mapi_check_syscall();
+					return ps3mapi_check_syscall((int)param2);
+				break;
+				case PS3MAPI_OPCODE_PDISABLE_SYSCALL8:
+					partial_disable_syscall8 = (int)param2;
+					return SUCCEEDED;
+				break;
+				case PS3MAPI_OPCODE_PCHECK_SYSCALL8:
+					return partial_disable_syscall8;
 				break;
 				//----------
-				//DISABLE COBRA
+				//REMOVE HOOK
 				//----------
-				case PS3MAPI_OPCODE_DISABLE_COBRA:
+				case PS3MAPI_OPCODE_REMOVE_HOOK:
 					unhook_all(); //Remove "MAMBA/COBRA HOOK" their are no more needed.
-					uint64_t syscall_not_impl = *(uint64_t *)MKA(syscall_table_symbol);
-					*(uint64_t *)MKA(syscall_table_symbol + 8 * 8) = syscall_not_impl;
 					return SUCCEEDED;
 				break;
 				//----------
@@ -441,7 +452,27 @@ LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t pa
 				break;
 			}
 		break;
-		///////////// PS3MAPI END //////////////
+		if (2 <= partial_disable_syscall8)	return ENOSYS;	
+		case SYSCALL8_OPCODE_STEALTH_TEST:  //KW PSNPatch stealth extension compatibility
+			return SYSCALL8_STEALTH_OK;
+		break;
+		case SYSCALL8_OPCODE_STEALTH_ACTIVATE: //KW PSNPatch stealth extension compatibility
+		{
+				uint64_t syscall_not_impl = *(uint64_t *)MKA(syscall_table_symbol);
+				//*(uint64_t *)MKA(syscall_table_symbol+ 8* 8) = syscall_not_impl;
+				partial_disable_syscall8 = 2; //NzV Edit: Keep PS3M_API Features only.
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 9) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 *10) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 11) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 35) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 36) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 6) = syscall_not_impl;
+				*(uint64_t *)MKA(syscall_table_symbol + 8 * 7) = syscall_not_impl;
+			return SYSCALL8_STEALTH_OK;
+		}
+		break;
+///////////////////////////////////// PS3MAPI END //////////////
+		
 		case SYSCALL8_OPCODE_GET_MAMBA:
             return 0x666;
 		break;
@@ -544,41 +575,36 @@ LV2_SYSCALL2(int64_t, syscall8, (uint64_t function, uint64_t param1, uint64_t pa
 
         default:
 		///////////// PS3MAPI BEGIN //////////////
-			if (partial_disable_syscall8 == 0)
+		if (1 <= partial_disable_syscall8)	return ENOSYS;
+		///////////// PS3MAPI END //////////////
+		if (extended_syscall8.addr)
 			{
-		///////////// PS3MAPI END //////////////
-				if (extended_syscall8.addr)
+				// Lets handle a few hermes opcodes ourself, and let their payload handle the rest
+				if (function == 2)
 				{
-					// Lets handle a few hermes opcodes ourself, and let their payload handle the rest
-					if (function == 2)
-					{
-						return (uint64_t)_sys_cfw_memcpy((void *)param1, (void *)param2, param3);
-					}
-					else if (function == 0xC)
-					{
-						//DPRINTF("Hermes copy inst: %lx %lx %lx\n", param1, param2, param3);
-					}
-					else if (function == 0xD)
-					{
-						//DPRINTF("Hermes poke inst: %lx %lx\n", param1, param2);
-						_sys_cfw_new_poke((void *)param1, param2);
-						return param1;
-					}
-
-					int64_t (* syscall8_hb)() = (void *)&extended_syscall8;
-
-					//DPRINTF("Handling control to HB syscall 8 (opcode=0x%lx)\n", function);
-					return syscall8_hb(function, param1, param2, param3, param4, param5, param6, param7);
+					return (uint64_t)_sys_cfw_memcpy((void *)param1, (void *)param2, param3);
 				}
-				else if (function >= 0xA000)
+				else if (function == 0xC)
 				{
-					// Partial support for lv1_peek here
-					return lv1_peekd(function);
+					//DPRINTF("Hermes copy inst: %lx %lx %lx\n", param1, param2, param3);
 				}
-		///////////// PS3MAPI BEGIN //////////////
+				else if (function == 0xD)
+				{
+					//DPRINTF("Hermes poke inst: %lx %lx\n", param1, param2);
+					_sys_cfw_new_poke((void *)param1, param2);
+					return param1;
+				}
+
+				int64_t (* syscall8_hb)() = (void *)&extended_syscall8;
+
+				//DPRINTF("Handling control to HB syscall 8 (opcode=0x%lx)\n", function);
+				return syscall8_hb(function, param1, param2, param3, param4, param5, param6, param7);
 			}
-			else return ENOSYS;
-		///////////// PS3MAPI END //////////////
+			else if (function >= 0xA000)
+			{
+				// Partial support for lv1_peek here
+				return lv1_peekd(function);
+			}
 
 	}
 
@@ -666,12 +692,18 @@ int main(void)
     storage_ext_init();
 
     modules_patch_init();
-    hook_function_on_precall_success(load_process_symbol, load_process_hooked, 9);
+    //hook_function_on_precall_success(load_process_symbol, load_process_hooked, 9); //Removed by NzV see bellow.
     //apply_kernel_patches();
     //map_path_patches(1);
     //storage_ext_patches();
+	
+	///////////// NzV BEGIN //////////////
+	if (!vsh_process) vsh_process = get_vsh_process();
+    if (vsh_process) storage_ext_patches();
+	else hook_function_on_precall_success(load_process_symbol, load_process_hooked, 9); //Use old method in case we can not find vsh_process, but their is no reason to this append.
+	///////////// NzV END //////////////
+	
     region_patches();
-
 
     extended_syscall8.addr = 0;
 

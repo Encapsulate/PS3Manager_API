@@ -18,8 +18,8 @@
 //CORE
 //-----------------------------------------------
 
-#define PS3MAPI_CORE_VERSION			 		0x0110
-#define PS3MAPI_CORE_MINVERSION			 		0x0110
+#define PS3MAPI_CORE_VERSION			 		0x0111
+#define PS3MAPI_CORE_MINVERSION			 		0x0111
 
 #if defined(FIRMWARE_3_55)
 	#ifdef IS_MAMBA
@@ -277,22 +277,22 @@ int ps3mapi_unload_process_modules(process_id_t pid, sys_prx_id_t prx_id);
 //CLEAN SYSCALL
 //-----------------------------------------------
 
-#define SYSCALL8_OPCODE_STEALTH_TEST			0x3993 //PSNPatch stealth extension compatibility
-#define SYSCALL8_OPCODE_STEALTH_ACTIVATE    	0x3995 //PSNPatch stealth extension compatibility
-#define SYSCALL8_STEALTH_OK						0x5555 //PSNPatch stealth extension compatibility
-#define PS3MAPI_OPCODE_CLEAN_SYSCALL			0x0091
-#define PS3MAPI_OPCODE_CHECK_SYSCALL			0x0092
+#define SYSCALL8_OPCODE_STEALTH_TEST			0x3993 //KW PSNPatch stealth extension compatibility
+#define SYSCALL8_OPCODE_STEALTH_ACTIVATE    	0x3995 //KW PSNPatch stealth extension compatibility
+#define SYSCALL8_STEALTH_OK						0x5555 //KW PSNPatch stealth extension compatibility
+#define PS3MAPI_OPCODE_CHECK_SYSCALL			0x0091
+#define PS3MAPI_OPCODE_DISABLE_SYSCALL			0x0092
+#define PS3MAPI_OPCODE_PDISABLE_SYSCALL8 		0x0093//Look in main.c for code.
+#define PS3MAPI_OPCODE_PCHECK_SYSCALL8 			0x0094//Look in main.c for code.
 
-int ps3mapi_check_syscall(void);
-int ps3mapi_clean_syscall(void);
+int ps3mapi_check_syscall(int num);
+int ps3mapi_disable_syscall(int num);
 
 //-----------------------------------------------
-//DISABLE COBRA/MAMBA
+//REMOVE COBRA/MAMBA HOOK
 //-----------------------------------------------
 
-#define PS3MAPI_OPCODE_DISABLE_COBRA			0x0101
-
-//Look in main.c for code.
+#define PS3MAPI_OPCODE_REMOVE_HOOK			0x0101//Look in main.c for code.
 
 
 #endif /* __PS3MAPI_H__ */

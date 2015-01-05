@@ -89,8 +89,26 @@ KeySet sprx_keys_set2[] =
 static uint8_t *saved_buf;
 static void *saved_sce_hdr;
 
-process_t vsh_process;
-uint8_t safe_mode;
+process_t vsh_process = NULL;
+
+///////////// NzV BEGIN //////////////
+process_t get_vsh_process(void)
+{
+	uint64_t *proc_list = *(uint64_t **)MKA(TOC+process_rtoc_entry_1);	
+	proc_list = *(uint64_t **)proc_list;
+	proc_list = *(uint64_t **)proc_list;	
+	for (int i = 0; i < 16; i++)
+	{
+		process_t p = (process_t)proc_list[1];	
+		proc_list += 2;		
+		if ((((uint64_t)p) & 0xFFFFFFFF00000000ULL) != MKA(0)) continue;
+		if (is_vsh_process(p)) return p;
+	}
+	return NULL;
+}
+///////////// NzV BEGIN //////////////
+
+uint8_t safe_mode = 0;
 
 static uint32_t caller_process = 0;
 

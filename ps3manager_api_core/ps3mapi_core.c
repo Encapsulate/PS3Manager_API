@@ -262,30 +262,16 @@ int ps3mapi_unload_process_modules(process_id_t pid, sys_prx_id_t prx_id)
 //SYSCALL
 //-----------------------------------------------
 
-int ps3mapi_check_syscall(void)
+int ps3mapi_check_syscall(int num)
 {
 	uint64_t syscall_not_impl = *(uint64_t *)MKA(syscall_table_symbol);
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 6)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 7)) != syscall_not_impl) return SUCCEEDED;
-	//if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 8)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 9)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 10)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 11)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 35)) != syscall_not_impl) return SUCCEEDED;
-	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * 36)) != syscall_not_impl) return SUCCEEDED;
+	if ((*(uint64_t *)MKA(syscall_table_symbol + 8 * num)) != syscall_not_impl) return SUCCEEDED;
 	return ENOSYS;
 }
 
-int ps3mapi_clean_syscall(void) //KW STEALTH EXTENTION
+int ps3mapi_disable_syscall(int num)
 {
 	uint64_t syscall_not_impl = *(uint64_t *)MKA(syscall_table_symbol);
-	//*(uint64_t *)MKA(syscall_table_symbol+ 8* 8) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 9) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 *10) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 11) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 35) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 36) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 6) = syscall_not_impl;
-	*(uint64_t *)MKA(syscall_table_symbol + 8 * 7) = syscall_not_impl;
+	*(uint64_t *)MKA(syscall_table_symbol+ 8 * num) = syscall_not_impl;
 	return SUCCEEDED;
 }

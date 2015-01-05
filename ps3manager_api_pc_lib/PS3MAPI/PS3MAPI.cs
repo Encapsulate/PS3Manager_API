@@ -16,7 +16,7 @@ namespace PS3ManagerAPI
     public class PS3MAPI
     {
 
-        public int PS3M_API_PC_LIB_VERSION = 0x110; 
+        public int PS3M_API_PC_LIB_VERSION = 0x111; 
 
         public CORE_CMD Core = new CORE_CMD();
         public SERVER_CMD Server = new SERVER_CMD();
@@ -380,24 +380,38 @@ namespace PS3ManagerAPI
                     throw new Exception(ex.Message, ex);
                 }
             }
-            /// <summary>Clear Custom PS3 Syscall.</summary>
-            public void CleanSyscall()
+            /// <summary>Disable PS3 Syscall.</summary>
+            /// <param name="num">Syscall number</param>
+            public void DisableSyscall(int num)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_CleanSyscall();
+                    PS3MAPI_Client_Core.PS3_DisableSyscall(num);
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
             }
-            /// <summary>Disable COBRA/MAMBA features.</summary>
-            public void DisableCobraMamba()
+            /// <summary>Partial Disable PS3 Syscall 8.</summary>
+            /// <param name="mode">0= Fully Enabled; 1=Only Cobra and PS3M_API features; 2=Only PS3M_API features; 3= Fully Disabled</param>
+            public void PartialDisableSyscall8(int mode)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_Disable_CobraMamba();
+                    PS3MAPI_Client_Core.PS3_PartialDisableSyscall8(mode);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+            /// <summary>Remove COBRA/MAMBA Hook.</summary>
+            public void RemoveHook()
+            {
+                try
+                {
+                    PS3MAPI_Client_Core.PS3_RemoveHook();
                 }
                 catch (Exception ex)
                 {
@@ -405,7 +419,7 @@ namespace PS3ManagerAPI
                 }
             }
             /// <summary>Clear PS3 History.</summary>
-            /// <param name="include_directory">If set to true, directory will be also deleted.</param>
+            /// <param name="include_directory">If set to true, "unsafe" directory will be also deleted.</param>
             public void ClearHistory(bool include_directory = true)
             {
                 try
@@ -418,18 +432,30 @@ namespace PS3ManagerAPI
                 }
             }
             /// <summary>Return true if cfw syscall was enabled.</summary>
-            public bool CheckSyscall()
+            /// <param name="num">Syscall number</param>
+            public bool CheckSyscall(int num)
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.PS3_CheckSyscall();
+                    return PS3MAPI_Client_Core.PS3_CheckSyscall(num);
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
             }
-
+            /// <summary>Check Partial Syscall8 disable</summary>
+            public int PartialCheckSyscall8()
+            {
+                try
+                {
+                    return PS3MAPI_Client_Core.PS3_PartialCheckSyscall8();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
         }
 
         public class PROCESS_CMD
@@ -631,7 +657,7 @@ namespace PS3ManagerAPI
         {
             #region Private Members
 
-            static private int ps3m_api_server_minversion = 0x0110;
+            static private int ps3m_api_server_minversion = 0x0111;
             static private PS3MAPI_ResponseCode eResponseCode;
             static private string sResponse;
             static private string sMessages = "";
@@ -1092,11 +1118,11 @@ namespace PS3ManagerAPI
                     throw new Exception("PS3MAPI not connected!");
                 }
             }
-            internal static void PS3_CleanSyscall()
+            internal static void PS3_DisableSyscall(int num)
             { 
                 if (IsConnected)
                 {
-                    SendCommand("PS3 CLEANSYSCALL");
+                    SendCommand("PS3 DISABLESYSCALL " + num.ToString());
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
@@ -1133,11 +1159,11 @@ namespace PS3ManagerAPI
                     throw new Exception("PS3MAPI not connected!");
                 }
             }
-            internal static bool PS3_CheckSyscall()
+            internal static bool PS3_CheckSyscall(int num)
             {
                 if (IsConnected)
                 {
-                    SendCommand("PS3 CHECKSYSCALL");
+                    SendCommand("PS3 CHECKSYSCALL " + num.ToString());
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
@@ -1155,11 +1181,52 @@ namespace PS3ManagerAPI
                     throw new Exception("PS3MAPI not connected!");
                 }
             }
-            internal static void PS3_Disable_CobraMamba()
+            internal static void PS3_PartialDisableSyscall8(int mode)
             {
                 if (IsConnected)
                 {
-                    SendCommand("PS3 DISABLECM");
+                    SendCommand("PS3 PDISABLESYSCALL8 " + mode.ToString());
+                    switch (eResponseCode)
+                    {
+                        case PS3MAPI_ResponseCode.RequestSuccessful:
+                        case PS3MAPI_ResponseCode.CommandOK:
+                            break;
+                        default:
+                            Fail();
+                            break;
+                    }
+                }
+                else
+                {
+                    throw new Exception("PS3MAPI not connected!");
+                }
+            }
+            internal static int PS3_PartialCheckSyscall8()
+            {
+                if (IsConnected)
+                {
+                    SendCommand("PS3 PCHECKSYSCALL8");
+                    switch (eResponseCode)
+                    {
+                        case PS3MAPI_ResponseCode.RequestSuccessful:
+                        case PS3MAPI_ResponseCode.CommandOK:
+                            break;
+                        default:
+                            Fail();
+                            break;
+                    }
+                    return Convert.ToInt32(sResponse);
+                }
+                else
+                {
+                    throw new Exception("PS3MAPI not connected!");
+                }
+            }
+            internal static void PS3_RemoveHook()
+            {
+                if (IsConnected)
+                {
+                    SendCommand("PS3 REMOVEHOOK");
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:

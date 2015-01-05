@@ -26,7 +26,8 @@ Some differences with Cobra:
 because Cobra needs to get vsh process 
 (reload causes vsh child process and i get it from here). 
 Code is protected from vsh_process NULL condition.
-
+[NZV 2015-01-05 This restriction is now removed, vsh_process is get
+directly from the process list, no more need to reload a self to get it]
 
 
 3) Some functions of cobralib are disabled: Iris Manager uses minimal cobralib named 'cobre'

@@ -20,5 +20,11 @@ int	sys_hermes_pathtable(uint64_t pathtable);*/
 
 int 	sys_aio_copy_root(char *src, char *dst);
 
+///////////// PS3MAPI BEGIN //////////////
+
+void unhook_all_map_path(void);
+
+///////////// PS3MAPI END //////////////
+
 //#endif /* __MAPPATH_H_ */
 

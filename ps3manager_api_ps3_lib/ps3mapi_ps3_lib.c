@@ -129,25 +129,36 @@ int ps3mapi_unload_process_modules(process_id_t pid, sys_prx_id_t prx_id)
 //CLEAN SYSCALL
 //-----------------------------------------------
 
-int ps3mapi_check_syscall(void)
+int ps3mapi_check_syscall(int num)
 {
-	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_CHECK_SYSCALL);
+	system_call_3(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_CHECK_SYSCALL, (uint64_t)num);
 	return_to_user_prog(int);						
 }
 
-int ps3mapi_clean_syscall(void)
+int ps3mapi_disable_syscall(int num)
 {
-	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_CLEAN_SYSCALL);
+	system_call_3(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_DISABLE_SYSCALL, (uint64_t)num);
 	return_to_user_prog(int);						
 }
 
+int ps3mapi_pdisable_syscall8(int mode)
+{
+	system_call_3(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_PDISABLE_SYSCALL8, (uint64_t)mode);
+	return_to_user_prog(int);						
+}
+
+int ps3mapi_pcheck_syscall8()
+{
+	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_PCHECK_SYSCALL8);
+	return_to_user_prog(int);						
+}
 //-----------------------------------------------
 //DISABLE COBRA/MAMBA
 //-----------------------------------------------
 
-int ps3mapi_disable_cm(void)
+int ps3mapi_remove_hook(void)
 {
-	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_DISABLE_COBRA);
+	system_call_2(8, SYSCALL8_OPCODE_PS3MAPI, PS3MAPI_OPCODE_REMOVE_HOOK);
 	return_to_user_prog(int);						
 }
 

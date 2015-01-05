@@ -46,15 +46,6 @@ namespace PS3Lib_Mod_Demo
                     btnAttach.Enabled = true;
                     lV_Modules.Items.Clear();
                 }
-                if (PS3M_API.PS3.CheckSyscall())
-                {
-                    btn_PS3_CleanSyscall.Enabled = true;
-                }
-                else
-                {
-                    btn_PS3_CleanSyscall.Enabled = false;
-                }
-
             }
             else
             {
@@ -66,6 +57,133 @@ namespace PS3Lib_Mod_Demo
                 comboB_Procs.Items.Clear();
             }
         }
+        private void FormSyscallUpdate()
+        {
+            if (PS3M_API.IsConnected)
+            {
+                if (PS3M_API.PS3.CheckSyscall(6))
+                {
+                    cb_Syscall_6.Enabled = true;
+                    cb_Syscall_6.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_6.Enabled = false;
+                    cb_Syscall_6.Checked = true;
+                }
+                if (PS3M_API.PS3.CheckSyscall(7))
+                {
+                    cb_Syscall_7.Enabled = true;
+                    cb_Syscall_7.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_7.Enabled = false;
+                    cb_Syscall_7.Checked = true;
+                }
+                if (PS3M_API.PS3.CheckSyscall(9))
+                {
+                    cb_Syscall_9.Enabled = true;
+                    cb_Syscall_9.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_9.Enabled = false;
+                    cb_Syscall_9.Checked = true;
+                }
+                if (PS3M_API.PS3.CheckSyscall(10))
+                {
+                    cb_Syscall_10.Enabled = true;
+                    cb_Syscall_10.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_10.Enabled = false;
+                    cb_Syscall_10.Checked = true;
+                }
+
+                if (PS3M_API.PS3.CheckSyscall(11))
+                {
+                    cb_Syscall_11.Enabled = true;
+                    cb_Syscall_11.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_11.Enabled = false;
+                    cb_Syscall_11.Checked = true;
+                }
+                if (PS3M_API.PS3.CheckSyscall(35))
+                {
+                    cb_Syscall_35.Enabled = true;
+                    cb_Syscall_35.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_35.Enabled = false;
+                    cb_Syscall_35.Checked = true;
+                }
+                if (PS3M_API.PS3.CheckSyscall(36))
+                {
+                    cb_Syscall_36.Enabled = true;
+                    cb_Syscall_36.Checked = false;
+                }
+                else
+                {
+                    cb_Syscall_36.Enabled = false;
+                    cb_Syscall_36.Checked = true;
+                }
+                if (PS3M_API.PS3.PartialCheckSyscall8() >= 0)
+                {
+                    cb_Syscall_8.Enabled = true;
+                    if (PS3M_API.PS3.PartialCheckSyscall8() == 0)
+                    {
+                        cb_Syscall_8.Checked = false;
+                        cb_Syscall_8_P1.Checked = false;
+                        cb_Syscall_8_P2.Checked = false;
+                        cb_Syscall_8_P3.Checked = false;
+                        cb_Syscall_8_D.Checked = false;
+                    }
+                    else if (PS3M_API.PS3.PartialCheckSyscall8() == 1)
+                    {
+                        cb_Syscall_8.Checked = true;
+                        cb_Syscall_8_P1.Checked = true;
+                        cb_Syscall_8_P2.Checked = false;
+                        cb_Syscall_8_P3.Checked = false;
+                        cb_Syscall_8_D.Checked = false;
+                    }
+                    else if (PS3M_API.PS3.PartialCheckSyscall8() == 2)
+                    {
+                        cb_Syscall_8.Checked = true;
+                        cb_Syscall_8_P1.Checked = false;
+                        cb_Syscall_8_P2.Checked = true;
+                        cb_Syscall_8_P3.Checked = false;
+                        cb_Syscall_8_D.Checked = false;
+                    }
+                    else
+                    {
+                        cb_Syscall_8.Checked = true;
+                        cb_Syscall_8_P1.Checked = false;
+                        cb_Syscall_8_P2.Checked = false;
+                        cb_Syscall_8_P3.Checked = true;
+                        cb_Syscall_8_D.Checked = false;
+                    }
+                }
+                else
+                {
+                    cb_Syscall_8.Enabled = false;
+                    cb_Syscall_8.Checked = true;
+                    cb_Syscall_8_D.Enabled = false;
+                    cb_Syscall_8_D.Checked = true;
+                    cb_RemoveHook.Enabled = false;
+                    cb_Syscall_8_P1.Enabled = false;
+                    cb_Syscall_8_P1.Checked = false;
+                    cb_Syscall_8_P2.Enabled = false;
+                    cb_Syscall_8_P2.Checked = false;
+                    cb_Syscall_8_P3.Enabled = false;
+                    cb_Syscall_8_P3.Checked = false;
+                }
+            }
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
             cB_PS3_Power.SelectedIndex = 0;
@@ -75,6 +193,7 @@ namespace PS3Lib_Mod_Demo
             cB_PS3_Led_Yellow.SelectedIndex = 0;
             lbl_Lib_Version.Text = "Lib v" + PS3M_API.GetLibVersion_Str();
             FormUpdate();
+            FormSyscallUpdate();
         }
         private void Form1_Closed(object sender, FormClosedEventArgs e)
         {
@@ -86,6 +205,87 @@ namespace PS3Lib_Mod_Demo
             {
             }
         }
+        //CheckBox Syscall
+        private void cb_Syscall_8_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Syscall_8.Checked)
+            {
+                cb_Syscall_8_P1.Enabled = true;
+                cb_Syscall_8_P2.Enabled = true;
+                cb_Syscall_8_P3.Enabled = true;
+                cb_Syscall_8_D.Enabled = true;
+                if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8_P1.Checked = true;
+            }
+            else
+            {
+                cb_Syscall_8_P1.Enabled = false;
+                cb_Syscall_8_P2.Enabled = false;
+                cb_Syscall_8_P3.Enabled = false;
+                cb_Syscall_8_D.Enabled = false;
+                cb_Syscall_8_P1.Checked = false;
+                cb_Syscall_8_P2.Checked = false;
+                cb_Syscall_8_P3.Checked = false;
+                cb_Syscall_8_D.Checked = false;
+                cb_RemoveHook.Enabled = false;
+                cb_RemoveHook.Checked = false;
+            }
+
+        }
+
+        private void cb_Syscall_8_P1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Syscall_8_P1.Checked)
+            {
+                cb_Syscall_8_P3.Checked = false;
+                cb_Syscall_8_P2.Checked = false;
+                cb_Syscall_8_D.Checked = false;
+                cb_Syscall_8.Checked = true;
+            }
+            else if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
+
+        }
+
+        private void cb_Syscall_8_P2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Syscall_8_P2.Checked)
+            {
+                cb_Syscall_8_P1.Checked = false;
+                cb_Syscall_8_P3.Checked = false;
+                cb_Syscall_8_D.Checked = false;
+                cb_Syscall_8.Checked = true;
+            }
+            else if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
+
+        }
+
+        private void cb_Syscall_8_P3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Syscall_8_P3.Checked)
+            {
+                cb_Syscall_8_P1.Checked = false;
+                cb_Syscall_8_P2.Checked = false;
+                cb_Syscall_8_D.Checked = false;
+                cb_Syscall_8.Checked = true;
+            }
+            else if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
+        }
+        private void cb_Syscall_8_D_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_Syscall_8_D.Checked)
+            {
+                cb_RemoveHook.Enabled = true;
+                cb_Syscall_8_P1.Checked = false;
+                cb_Syscall_8_P2.Checked = false;
+                cb_Syscall_8_P3.Checked = false;
+                cb_Syscall_8.Checked = true;
+            }
+            else
+            {
+                cb_RemoveHook.Enabled = false;
+                cb_RemoveHook.Checked = false;
+                if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
+            }
+        }
         //LOG
         private void btn_ShowLog_Click(object sender, EventArgs e)
         {
@@ -94,7 +294,7 @@ namespace PS3Lib_Mod_Demo
         //CONNECT-DISCONNECT
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            this.Enabled = false;
+            p_Connection.Enabled = false;
             try
             {
                 if (!PS3M_API.ConnectTarget(txtB_Ip.Text,Convert.ToInt32(txtB_Port.Text)))
@@ -112,9 +312,10 @@ namespace PS3Lib_Mod_Demo
                 MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             FormUpdate();
-            this.Enabled = true;  
+            FormSyscallUpdate();
             btnRefresh_Click(sender, e);
             btn_Temp_Refresh_Click(sender, e);
+            p_Connection.Enabled = true;  
         }
         private void btnDisconnect_Click(object sender, EventArgs e)
         {
@@ -315,8 +516,27 @@ namespace PS3Lib_Mod_Demo
             p_PS3_MimicOFW.Enabled = false;
             try
             {
-                PS3M_API.PS3.CleanSyscall();
+                if (cb_Syscall_6.Checked) PS3M_API.PS3.DisableSyscall(6);
+                if (cb_Syscall_7.Checked) PS3M_API.PS3.DisableSyscall(7);
+                if (cb_Syscall_9.Checked) PS3M_API.PS3.DisableSyscall(9);
+                if (cb_Syscall_10.Checked) PS3M_API.PS3.DisableSyscall(10);
+                if (cb_Syscall_11.Checked) PS3M_API.PS3.DisableSyscall(11);
+                if (cb_Syscall_35.Checked) PS3M_API.PS3.DisableSyscall(35);
+                if (cb_Syscall_36.Checked) PS3M_API.PS3.DisableSyscall(36);
+                if (cb_Syscall_8.Checked) 
+                {
+                    if (cb_Syscall_8_P1.Checked) PS3M_API.PS3.PartialDisableSyscall8(1);
+                    else if (cb_Syscall_8_P2.Checked) PS3M_API.PS3.PartialDisableSyscall8(2);
+                    else if (cb_Syscall_8_P3.Checked) PS3M_API.PS3.PartialDisableSyscall8(3);
+                    else if (cb_Syscall_8_D.Checked)
+                    {
+                        if (cb_RemoveHook.Checked) PS3M_API.PS3.RemoveHook();
+                        PS3M_API.PS3.DisableSyscall(8);
+                    }
+                }
+                else PS3M_API.PS3.PartialDisableSyscall8(0);
                 FormUpdate();
+                FormSyscallUpdate();
             }
             catch (Exception ex)
             {
@@ -349,19 +569,6 @@ namespace PS3Lib_Mod_Demo
                 MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             p_PS3_Notify.Enabled = true;    
-        }
-        private void btn_PS3_Disable_CM_Click(object sender, EventArgs e)
-        {
-            btn_PS3_Disable_CM.Enabled = false;
-            try
-            {
-                PS3M_API.PS3.DisableCobraMamba();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            btn_PS3_Disable_CM.Enabled = true;    
         }
         //MODULES
         private void btn_Module_Refresh_Click(object sender, EventArgs e)
@@ -458,6 +665,8 @@ namespace PS3Lib_Mod_Demo
               ((e.KeyChar != (char)Keys.Delete) || (e.KeyChar == '.'))
               ) e.Handled = true;
         }
+
+
 
        
     }

@@ -788,6 +788,13 @@ extern uint8_t condition_psp_prometheus;
 extern uint8_t block_peek;
 
 extern process_t vsh_process;
+
+///////////// NzV BEGIN //////////////
+
+process_t get_vsh_process(void);
+
+///////////// NzV BEGIN //////////////
+
 extern uint8_t safe_mode;
 
 /* Functions for kernel */

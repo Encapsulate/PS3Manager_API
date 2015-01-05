@@ -54,17 +54,25 @@
             this.btn_PS3_Notify = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.p_PS3_MimicOFW = new System.Windows.Forms.Panel();
+            this.cb_RemoveHook = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_8_D = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_8_P3 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_8_P2 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_8_P1 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_8 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_36 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_35 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_11 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_10 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_9 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_7 = new System.Windows.Forms.CheckBox();
+            this.cb_Syscall_6 = new System.Windows.Forms.CheckBox();
             this.panel4 = new System.Windows.Forms.Panel();
-            this.label26 = new System.Windows.Forms.Label();
-            this.btn_PS3_Disable_CM = new System.Windows.Forms.Button();
-            this.label25 = new System.Windows.Forms.Label();
-            this.panel5 = new System.Windows.Forms.Panel();
             this.cB_PS3_MIMICOFW = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
             this.btn_PS3_ClearHistory = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_PS3_CleanSyscall = new System.Windows.Forms.Button();
+            this.btn_PS3_DisableSyscall = new System.Windows.Forms.Button();
             this.label13 = new System.Windows.Forms.Label();
             this.p_PS3_Led = new System.Windows.Forms.Panel();
             this.btn_PS3_Led_Yellow_Set = new System.Windows.Forms.Button();
@@ -120,7 +128,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtB_Ip = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel8 = new System.Windows.Forms.Panel();
+            this.p_Connection = new System.Windows.Forms.Panel();
             this.btn_ShowLog = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lbl_Lib_Version = new System.Windows.Forms.Label();
@@ -140,7 +148,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nUD_GetLength)).BeginInit();
             this.tabP_SetMem.SuspendLayout();
             this.tabP_Modules.SuspendLayout();
-            this.panel8.SuspendLayout();
+            this.p_Connection.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -421,21 +429,169 @@
             // 
             this.p_PS3_MimicOFW.BackColor = System.Drawing.SystemColors.Control;
             this.p_PS3_MimicOFW.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_RemoveHook);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_8_D);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_8_P3);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_8_P2);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_8_P1);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_8);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_36);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_35);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_11);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_10);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_9);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_7);
+            this.p_PS3_MimicOFW.Controls.Add(this.cb_Syscall_6);
             this.p_PS3_MimicOFW.Controls.Add(this.panel4);
-            this.p_PS3_MimicOFW.Controls.Add(this.label26);
-            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_Disable_CM);
-            this.p_PS3_MimicOFW.Controls.Add(this.label25);
-            this.p_PS3_MimicOFW.Controls.Add(this.panel5);
             this.p_PS3_MimicOFW.Controls.Add(this.cB_PS3_MIMICOFW);
             this.p_PS3_MimicOFW.Controls.Add(this.label24);
             this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_ClearHistory);
-            this.p_PS3_MimicOFW.Controls.Add(this.label9);
             this.p_PS3_MimicOFW.Controls.Add(this.label1);
-            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_CleanSyscall);
+            this.p_PS3_MimicOFW.Controls.Add(this.btn_PS3_DisableSyscall);
             this.p_PS3_MimicOFW.Location = new System.Drawing.Point(8, 306);
             this.p_PS3_MimicOFW.Name = "p_PS3_MimicOFW";
-            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(759, 131);
+            this.p_PS3_MimicOFW.Size = new System.Drawing.Size(759, 134);
             this.p_PS3_MimicOFW.TabIndex = 13;
+            // 
+            // cb_RemoveHook
+            // 
+            this.cb_RemoveHook.AutoSize = true;
+            this.cb_RemoveHook.Enabled = false;
+            this.cb_RemoveHook.Location = new System.Drawing.Point(559, 112);
+            this.cb_RemoveHook.Name = "cb_RemoveHook";
+            this.cb_RemoveHook.Size = new System.Drawing.Size(122, 19);
+            this.cb_RemoveHook.TabIndex = 39;
+            this.cb_RemoveHook.Text = "Also remove hook";
+            this.cb_RemoveHook.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_8_D
+            // 
+            this.cb_Syscall_8_D.AutoSize = true;
+            this.cb_Syscall_8_D.Enabled = false;
+            this.cb_Syscall_8_D.Location = new System.Drawing.Point(479, 112);
+            this.cb_Syscall_8_D.Name = "cb_Syscall_8_D";
+            this.cb_Syscall_8_D.Size = new System.Drawing.Size(64, 19);
+            this.cb_Syscall_8_D.TabIndex = 38;
+            this.cb_Syscall_8_D.Text = "Disable";
+            this.cb_Syscall_8_D.UseVisualStyleBackColor = true;
+            this.cb_Syscall_8_D.CheckedChanged += new System.EventHandler(this.cb_Syscall_8_D_CheckedChanged);
+            // 
+            // cb_Syscall_8_P3
+            // 
+            this.cb_Syscall_8_P3.AutoSize = true;
+            this.cb_Syscall_8_P3.Enabled = false;
+            this.cb_Syscall_8_P3.Location = new System.Drawing.Point(479, 87);
+            this.cb_Syscall_8_P3.Name = "cb_Syscall_8_P3";
+            this.cb_Syscall_8_P3.Size = new System.Drawing.Size(199, 19);
+            this.cb_Syscall_8_P3.TabIndex = 37;
+            this.cb_Syscall_8_P3.Text = "Fake Disable (Can be re-enabled)";
+            this.cb_Syscall_8_P3.UseVisualStyleBackColor = true;
+            this.cb_Syscall_8_P3.CheckedChanged += new System.EventHandler(this.cb_Syscall_8_P3_CheckedChanged);
+            // 
+            // cb_Syscall_8_P2
+            // 
+            this.cb_Syscall_8_P2.AutoSize = true;
+            this.cb_Syscall_8_P2.Enabled = false;
+            this.cb_Syscall_8_P2.Location = new System.Drawing.Point(479, 62);
+            this.cb_Syscall_8_P2.Name = "cb_Syscall_8_P2";
+            this.cb_Syscall_8_P2.Size = new System.Drawing.Size(218, 19);
+            this.cb_Syscall_8_P2.TabIndex = 36;
+            this.cb_Syscall_8_P2.Text = "Partial: Keep only PS3M_Api features";
+            this.cb_Syscall_8_P2.UseVisualStyleBackColor = true;
+            this.cb_Syscall_8_P2.CheckedChanged += new System.EventHandler(this.cb_Syscall_8_P2_CheckedChanged);
+            // 
+            // cb_Syscall_8_P1
+            // 
+            this.cb_Syscall_8_P1.AutoSize = true;
+            this.cb_Syscall_8_P1.Enabled = false;
+            this.cb_Syscall_8_P1.Location = new System.Drawing.Point(479, 37);
+            this.cb_Syscall_8_P1.Name = "cb_Syscall_8_P1";
+            this.cb_Syscall_8_P1.Size = new System.Drawing.Size(275, 19);
+            this.cb_Syscall_8_P1.TabIndex = 35;
+            this.cb_Syscall_8_P1.Text = "Partial: Keep Cobra/Mamba/PS3M_Api features";
+            this.cb_Syscall_8_P1.UseVisualStyleBackColor = true;
+            this.cb_Syscall_8_P1.CheckedChanged += new System.EventHandler(this.cb_Syscall_8_P1_CheckedChanged);
+            // 
+            // cb_Syscall_8
+            // 
+            this.cb_Syscall_8.AutoSize = true;
+            this.cb_Syscall_8.Location = new System.Drawing.Point(463, 12);
+            this.cb_Syscall_8.Name = "cb_Syscall_8";
+            this.cb_Syscall_8.Size = new System.Drawing.Size(252, 19);
+            this.cb_Syscall_8.TabIndex = 34;
+            this.cb_Syscall_8.Text = "[8] COBRA/MAMBA/PS3M_API/EXTENDED";
+            this.cb_Syscall_8.UseVisualStyleBackColor = true;
+            this.cb_Syscall_8.CheckedChanged += new System.EventHandler(this.cb_Syscall_8_CheckedChanged);
+            // 
+            // cb_Syscall_36
+            // 
+            this.cb_Syscall_36.AutoSize = true;
+            this.cb_Syscall_36.Location = new System.Drawing.Point(281, 112);
+            this.cb_Syscall_36.Name = "cb_Syscall_36";
+            this.cb_Syscall_36.Size = new System.Drawing.Size(107, 19);
+            this.cb_Syscall_36.TabIndex = 33;
+            this.cb_Syscall_36.Text = "[36] Map Game";
+            this.cb_Syscall_36.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_35
+            // 
+            this.cb_Syscall_35.AutoSize = true;
+            this.cb_Syscall_35.Location = new System.Drawing.Point(345, 87);
+            this.cb_Syscall_35.Name = "cb_Syscall_35";
+            this.cb_Syscall_35.Size = new System.Drawing.Size(100, 19);
+            this.cb_Syscall_35.TabIndex = 32;
+            this.cb_Syscall_35.Text = "[35] Map Path";
+            this.cb_Syscall_35.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_11
+            // 
+            this.cb_Syscall_11.AutoSize = true;
+            this.cb_Syscall_11.Location = new System.Drawing.Point(345, 62);
+            this.cb_Syscall_11.Name = "cb_Syscall_11";
+            this.cb_Syscall_11.Size = new System.Drawing.Size(96, 19);
+            this.cb_Syscall_11.TabIndex = 31;
+            this.cb_Syscall_11.Text = "[11] LV1 Peek";
+            this.cb_Syscall_11.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_10
+            // 
+            this.cb_Syscall_10.AutoSize = true;
+            this.cb_Syscall_10.Location = new System.Drawing.Point(345, 37);
+            this.cb_Syscall_10.Name = "cb_Syscall_10";
+            this.cb_Syscall_10.Size = new System.Drawing.Size(91, 19);
+            this.cb_Syscall_10.TabIndex = 30;
+            this.cb_Syscall_10.Text = "[10] LV1 Call";
+            this.cb_Syscall_10.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_9
+            // 
+            this.cb_Syscall_9.AutoSize = true;
+            this.cb_Syscall_9.Location = new System.Drawing.Point(239, 87);
+            this.cb_Syscall_9.Name = "cb_Syscall_9";
+            this.cb_Syscall_9.Size = new System.Drawing.Size(91, 19);
+            this.cb_Syscall_9.TabIndex = 29;
+            this.cb_Syscall_9.Text = "[9] LV1 Poke";
+            this.cb_Syscall_9.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_7
+            // 
+            this.cb_Syscall_7.AutoSize = true;
+            this.cb_Syscall_7.Location = new System.Drawing.Point(239, 62);
+            this.cb_Syscall_7.Name = "cb_Syscall_7";
+            this.cb_Syscall_7.Size = new System.Drawing.Size(91, 19);
+            this.cb_Syscall_7.TabIndex = 28;
+            this.cb_Syscall_7.Text = "[7] LV2 Poke";
+            this.cb_Syscall_7.UseVisualStyleBackColor = true;
+            // 
+            // cb_Syscall_6
+            // 
+            this.cb_Syscall_6.AutoSize = true;
+            this.cb_Syscall_6.Location = new System.Drawing.Point(239, 37);
+            this.cb_Syscall_6.Name = "cb_Syscall_6";
+            this.cb_Syscall_6.Size = new System.Drawing.Size(83, 19);
+            this.cb_Syscall_6.TabIndex = 27;
+            this.cb_Syscall_6.Text = "[6] L2 Peek";
+            this.cb_Syscall_6.UseVisualStyleBackColor = true;
             // 
             // panel4
             // 
@@ -445,46 +601,6 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(2, 113);
             this.panel4.TabIndex = 23;
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label26.Location = new System.Drawing.Point(539, 73);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(212, 45);
-            this.label26.TabIndex = 29;
-            this.label26.Text = "Note: this will fully disable syscall8 and\r\nremove cobra/mamba hook, ps3m_api\r\nwi" +
-    "ll no longer work. ";
-            // 
-            // btn_PS3_Disable_CM
-            // 
-            this.btn_PS3_Disable_CM.Location = new System.Drawing.Point(603, 39);
-            this.btn_PS3_Disable_CM.Name = "btn_PS3_Disable_CM";
-            this.btn_PS3_Disable_CM.Size = new System.Drawing.Size(87, 24);
-            this.btn_PS3_Disable_CM.TabIndex = 28;
-            this.btn_PS3_Disable_CM.Text = "Disable";
-            this.btn_PS3_Disable_CM.UseVisualStyleBackColor = true;
-            this.btn_PS3_Disable_CM.Click += new System.EventHandler(this.btn_PS3_Disable_CM_Click);
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label25.Location = new System.Drawing.Point(539, 9);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(121, 20);
-            this.label25.TabIndex = 27;
-            this.label25.Text = "COBRA/MAMBA:";
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.SystemColors.ButtonShadow;
-            this.panel5.ForeColor = System.Drawing.Color.Black;
-            this.panel5.Location = new System.Drawing.Point(531, 9);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(2, 113);
-            this.panel5.TabIndex = 26;
             // 
             // cB_PS3_MIMICOFW
             // 
@@ -517,36 +633,25 @@
             this.btn_PS3_ClearHistory.UseVisualStyleBackColor = true;
             this.btn_PS3_ClearHistory.Click += new System.EventHandler(this.btn_PS3_ClearHistory_Click);
             // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(235, 73);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(287, 45);
-            this.label9.TabIndex = 21;
-            this.label9.Text = "Note: syscall 8 will be only partialy disabled, all cobra\r\nor mamba and ps3m_api " +
-    "features will be keeped only\r\nextra features (lv1_peek, ...) will be disabled.";
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(235, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(247, 20);
+            this.label1.Size = new System.Drawing.Size(90, 20);
             this.label1.TabIndex = 19;
-            this.label1.Text = "CFW Syscall 6, 7 , 8,  9, 10, 11, 35, 36:";
+            this.label1.Text = "CFW Syscall:";
             // 
-            // btn_PS3_CleanSyscall
+            // btn_PS3_DisableSyscall
             // 
-            this.btn_PS3_CleanSyscall.Location = new System.Drawing.Point(331, 39);
-            this.btn_PS3_CleanSyscall.Name = "btn_PS3_CleanSyscall";
-            this.btn_PS3_CleanSyscall.Size = new System.Drawing.Size(87, 24);
-            this.btn_PS3_CleanSyscall.TabIndex = 15;
-            this.btn_PS3_CleanSyscall.Text = "Disable";
-            this.btn_PS3_CleanSyscall.UseVisualStyleBackColor = true;
-            this.btn_PS3_CleanSyscall.Click += new System.EventHandler(this.btn_PS3_CleanSyscall_Click);
+            this.btn_PS3_DisableSyscall.Location = new System.Drawing.Point(358, 8);
+            this.btn_PS3_DisableSyscall.Name = "btn_PS3_DisableSyscall";
+            this.btn_PS3_DisableSyscall.Size = new System.Drawing.Size(87, 24);
+            this.btn_PS3_DisableSyscall.TabIndex = 15;
+            this.btn_PS3_DisableSyscall.Text = "Disable";
+            this.btn_PS3_DisableSyscall.UseVisualStyleBackColor = true;
+            this.btn_PS3_DisableSyscall.Click += new System.EventHandler(this.btn_PS3_CleanSyscall_Click);
             // 
             // label13
             // 
@@ -1195,21 +1300,21 @@
             this.label6.TabIndex = 10;
             this.label6.Text = "IP: ";
             // 
-            // panel8
+            // p_Connection
             // 
-            this.panel8.BackColor = System.Drawing.SystemColors.Control;
-            this.panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel8.Controls.Add(this.btn_ShowLog);
-            this.panel8.Controls.Add(this.txtB_Ip);
-            this.panel8.Controls.Add(this.txtB_Port);
-            this.panel8.Controls.Add(this.btnConnect);
-            this.panel8.Controls.Add(this.btnDisconnect);
-            this.panel8.Controls.Add(this.label5);
-            this.panel8.Controls.Add(this.label6);
-            this.panel8.Location = new System.Drawing.Point(185, 32);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(586, 38);
-            this.panel8.TabIndex = 26;
+            this.p_Connection.BackColor = System.Drawing.SystemColors.Control;
+            this.p_Connection.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.p_Connection.Controls.Add(this.btn_ShowLog);
+            this.p_Connection.Controls.Add(this.txtB_Ip);
+            this.p_Connection.Controls.Add(this.txtB_Port);
+            this.p_Connection.Controls.Add(this.btnConnect);
+            this.p_Connection.Controls.Add(this.btnDisconnect);
+            this.p_Connection.Controls.Add(this.label5);
+            this.p_Connection.Controls.Add(this.label6);
+            this.p_Connection.Location = new System.Drawing.Point(185, 32);
+            this.p_Connection.Name = "p_Connection";
+            this.p_Connection.Size = new System.Drawing.Size(586, 38);
+            this.p_Connection.TabIndex = 26;
             // 
             // btn_ShowLog
             // 
@@ -1249,7 +1354,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(784, 578);
             this.Controls.Add(this.lbl_Lib_Version);
-            this.Controls.Add(this.panel8);
+            this.Controls.Add(this.p_Connection);
             this.Controls.Add(this.tabC_Global);
             this.Controls.Add(this.pictureBox1);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1288,8 +1393,8 @@
             this.tabP_SetMem.PerformLayout();
             this.tabP_Modules.ResumeLayout(false);
             this.tabP_Modules.PerformLayout();
-            this.panel8.ResumeLayout(false);
-            this.panel8.PerformLayout();
+            this.p_Connection.ResumeLayout(false);
+            this.p_Connection.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1356,7 +1461,7 @@
         private System.Windows.Forms.Button btn_PS3_Notify;
         private System.Windows.Forms.Label label19;
         private System.Windows.Forms.Panel p_PS3_MimicOFW;
-        private System.Windows.Forms.Button btn_PS3_CleanSyscall;
+        private System.Windows.Forms.Button btn_PS3_DisableSyscall;
         private System.Windows.Forms.Button btnUnattach;
         private System.Windows.Forms.TabPage tabP_Modules;
         private System.Windows.Forms.NumericUpDown nUD_GetLength;
@@ -1364,14 +1469,13 @@
         private System.Windows.Forms.Label label5;
         protected internal System.Windows.Forms.TextBox txtB_Ip;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel8;
+        private System.Windows.Forms.Panel p_Connection;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button btn_GameManager;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btn_Setup;
         private System.Windows.Forms.Button btn_FileManager;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button btn_PS3_ClearHistory;
         private System.Windows.Forms.Button btn_Module_Unload;
         private System.Windows.Forms.Label label22;
@@ -1388,11 +1492,20 @@
         private System.Windows.Forms.ListView lV_Modules;
         private System.Windows.Forms.ColumnHeader cH_Modules_Name;
         private System.Windows.Forms.ColumnHeader cH_Modules_Path;
-        private System.Windows.Forms.Label label26;
-        private System.Windows.Forms.Button btn_PS3_Disable_CM;
-        private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Label lbl_Lib_Version;
+        private System.Windows.Forms.CheckBox cb_RemoveHook;
+        private System.Windows.Forms.CheckBox cb_Syscall_8_D;
+        private System.Windows.Forms.CheckBox cb_Syscall_8_P3;
+        private System.Windows.Forms.CheckBox cb_Syscall_8_P2;
+        private System.Windows.Forms.CheckBox cb_Syscall_8_P1;
+        private System.Windows.Forms.CheckBox cb_Syscall_8;
+        private System.Windows.Forms.CheckBox cb_Syscall_36;
+        private System.Windows.Forms.CheckBox cb_Syscall_35;
+        private System.Windows.Forms.CheckBox cb_Syscall_11;
+        private System.Windows.Forms.CheckBox cb_Syscall_10;
+        private System.Windows.Forms.CheckBox cb_Syscall_9;
+        private System.Windows.Forms.CheckBox cb_Syscall_7;
+        private System.Windows.Forms.CheckBox cb_Syscall_6;
     }
 }
 
