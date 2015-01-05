@@ -108,8 +108,8 @@
 
 #define IS_CFW			1
 
-//process_t vsh_process = NULL; //NZV Already in modulespatch.h
-//uint8_t safe_mode = 0; //NZV Already in modulespatch.h
+process_t vsh_process = NULL;
+uint8_t safe_mode = 0;
 
 LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_8(int, load_process_hooked, (process_t process, int fd, char *path, int r6, uint64_t r7, uint64_t r8, uint64_t r9, uint64_t r10, uint64_t sp_70))
 {
