@@ -174,6 +174,14 @@ LV2_HOOKED_FUNCTION(void *, sys_cfw_memcpy, (void *dst, void *src, uint64_t len)
 }
 
 
+LV2_SYSCALL2(uint64_t, sys_cfw_lv1_peek, (uint64_t lv1_addr))
+{
+    uint64_t ret;
+    ret = lv1_peekd(lv1_addr); 
+    return ret;
+
+}
+
 #define MAKE_VERSION(cobra, fw, type) ((cobra&0xFF) | ((fw&0xffff)<<8) | ((type&0x1)<<24))
 
 static INLINE int sys_get_version(uint32_t *version)
@@ -720,6 +728,7 @@ int main(void)
 
     create_syscall2(8, syscall8);
     create_syscall2(7, sys_cfw_poke);
+	create_syscall2(11, sys_cfw_lv1_peek);
     create_syscall2(40, sys_cfw_40);
 
     return 0;
