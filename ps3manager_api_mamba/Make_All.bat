@@ -18,6 +18,7 @@ make all
 
 if not exist mamba mkdir mamba
 
+if exist mamba_3_55DEX.lz.bin  move  mamba_3_55DEX.lz.bin  mamba\mamba_355D.lz.bin>nul
 if exist mamba_3_55.lz.bin     move  mamba_3_55.lz.bin     mamba\mamba_355C.lz.bin>nul
 if exist mamba_4_21.lz.bin     move  mamba_4_21.lz.bin     mamba\mamba_421C.lz.bin>nul
 if exist mamba_4_21DEX.lz.bin  move  mamba_4_21DEX.lz.bin  mamba\mamba_421D.lz.bin>nul
