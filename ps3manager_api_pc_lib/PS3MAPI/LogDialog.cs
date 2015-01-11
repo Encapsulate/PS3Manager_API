@@ -22,17 +22,26 @@ namespace PS3ManagerAPI
 {
 	public partial class LogDialog : Form
 	{
-		public LogDialog()
+        PS3ManagerAPI.PS3MAPI PS3MAPI = null;
+        public LogDialog()
 		{
 			InitializeComponent();
 		}
 
-        public LogDialog(String Log)
+        public LogDialog(PS3ManagerAPI.PS3MAPI MyPS3MAPI)
             : this()
         {
-            tB_Log.Text = Log;
+            PS3MAPI = MyPS3MAPI;
         }
 
+        private void LogDialog_Refresh(object sender, EventArgs e)
+        {
+            if (PS3MAPI != null) tB_Log.Text = PS3MAPI.Log;
+        }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+        }
 	}
 }

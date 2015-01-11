@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1ACA14A4-FE79-4474-B67E-7D251F334456}</ProjectGuid>
+    <ProjectGuid>{3FE44A8F-5DB5-4F8A-9F31-9D3537A5EF5E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PS3Lib</RootNamespace>
@@ -33,7 +33,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,13 +41,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\ArrayBuilder.cs" />
-    <Compile Include="Fake_CCAPI.cs" />
-    <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="API\CCAPI\ConsoleList.cs" />
+    <Compile Include="Extra\ArrayBuilder.cs" />
+    <Compile Include="API\CCAPI\CCAPI.cs" />
+    <Compile Include="Extra\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="PS3API.cs" />
-    <Compile Include="TMAPI.cs" />
-    <Compile Include="TMAPI_NET.cs" />
+    <Compile Include="API\PS3MAPI\PS3M_API.cs" />
+    <Compile Include="API\TMAPI\TMAPI.cs" />
+    <Compile Include="API\TMAPI\TMAPI_NET.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ps3.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PS3MAPI\PS3MAPI.csproj">

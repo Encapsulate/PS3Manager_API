@@ -132,10 +132,10 @@ namespace PS3Lib_Mod_Demo
                     cb_Syscall_36.Enabled = false;
                     cb_Syscall_36.Checked = true;
                 }
-                if (PS3M_API.PS3.PartialCheckSyscall8() >= 0)
+                if (PS3M_API.PS3.CheckSyscall(8))
                 {
                     cb_Syscall_8.Enabled = true;
-                    if (PS3M_API.PS3.PartialCheckSyscall8() == 0)
+                    if (PS3M_API.PS3.PartialCheckSyscall8() == PS3MAPI.PS3_CMD.Syscall8Mode.Enabled)
                     {
                         cb_Syscall_8.Checked = false;
                         cb_Syscall_8_P1.Checked = false;
@@ -143,7 +143,7 @@ namespace PS3Lib_Mod_Demo
                         cb_Syscall_8_P3.Checked = false;
                         cb_Syscall_8_D.Checked = false;
                     }
-                    else if (PS3M_API.PS3.PartialCheckSyscall8() == 1)
+                    else if (PS3M_API.PS3.PartialCheckSyscall8() == PS3MAPI.PS3_CMD.Syscall8Mode.Only_PS3MAPI_Enabled)
                     {
                         cb_Syscall_8.Checked = true;
                         cb_Syscall_8_P1.Checked = true;
@@ -151,7 +151,7 @@ namespace PS3Lib_Mod_Demo
                         cb_Syscall_8_P3.Checked = false;
                         cb_Syscall_8_D.Checked = false;
                     }
-                    else if (PS3M_API.PS3.PartialCheckSyscall8() == 2)
+                    else if (PS3M_API.PS3.PartialCheckSyscall8()  == PS3MAPI.PS3_CMD.Syscall8Mode.Only_CobraMambaAndPS3MAPI_Enabled)
                     {
                         cb_Syscall_8.Checked = true;
                         cb_Syscall_8_P1.Checked = false;
@@ -159,7 +159,7 @@ namespace PS3Lib_Mod_Demo
                         cb_Syscall_8_P3.Checked = false;
                         cb_Syscall_8_D.Checked = false;
                     }
-                    else
+                    else if (PS3M_API.PS3.PartialCheckSyscall8() == PS3MAPI.PS3_CMD.Syscall8Mode.FakeDisabled)
                     {
                         cb_Syscall_8.Checked = true;
                         cb_Syscall_8_P1.Checked = false;
@@ -188,9 +188,8 @@ namespace PS3Lib_Mod_Demo
         {
             cB_PS3_Power.SelectedIndex = 0;
             cB_PS3_Buzzer.SelectedIndex = 0;
-            cB_PS3_Led_Red.SelectedIndex = 0;
-            cB_PS3_Led_Green.SelectedIndex = 1;
-            cB_PS3_Led_Yellow.SelectedIndex = 0;
+            cB_PS3_Led_Mode.SelectedIndex = 1;
+            cB_PS3_Led_Color.SelectedIndex = 1;
             lbl_Lib_Version.Text = "Lib v" + PS3M_API.GetLibVersion_Str();
             FormUpdate();
             FormSyscallUpdate();
@@ -231,7 +230,6 @@ namespace PS3Lib_Mod_Demo
             }
 
         }
-
         private void cb_Syscall_8_P1_CheckedChanged(object sender, EventArgs e)
         {
             if (cb_Syscall_8_P1.Checked)
@@ -244,7 +242,6 @@ namespace PS3Lib_Mod_Demo
             else if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
 
         }
-
         private void cb_Syscall_8_P2_CheckedChanged(object sender, EventArgs e)
         {
             if (cb_Syscall_8_P2.Checked)
@@ -257,7 +254,6 @@ namespace PS3Lib_Mod_Demo
             else if (!cb_Syscall_8_P1.Checked && !cb_Syscall_8_P2.Checked && !cb_Syscall_8_P3.Checked && !cb_Syscall_8_D.Checked) cb_Syscall_8.Checked = false;
 
         }
-
         private void cb_Syscall_8_P3_CheckedChanged(object sender, EventArgs e)
         {
             if (cb_Syscall_8_P3.Checked)
@@ -411,7 +407,6 @@ namespace PS3Lib_Mod_Demo
             tabP_SetMem.Enabled = false;
             try
             {
-                this.Enabled = false;
                 byte[] buffer = new byte[textValue.Text.Length / 2];
                 buffer = StringToByteArray(textValue.Text);
                 uint offset = Convert.ToUInt32(txtB_SetOffset.Text, 16);
@@ -446,10 +441,10 @@ namespace PS3Lib_Mod_Demo
             p_PS3_Power.Enabled = false;
             try
             {
-                if (cB_PS3_Power.Text == "") PS3M_API.PS3.Shutdown();
-                else if (cB_PS3_Power.SelectedIndex == 1) PS3M_API.PS3.Reboot(0);
-                else if (cB_PS3_Power.SelectedIndex == 2) PS3M_API.PS3.Reboot(1);
-                else if (cB_PS3_Power.SelectedIndex == 3) PS3M_API.PS3.Reboot(2);
+                if (cB_PS3_Power.SelectedIndex == 0) PS3M_API.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.ShutDown);
+                else if (cB_PS3_Power.SelectedIndex == 1) PS3M_API.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.QuickReboot);
+                else if (cB_PS3_Power.SelectedIndex == 2) PS3M_API.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.SoftReboot);
+                else if (cB_PS3_Power.SelectedIndex == 3) PS3M_API.PS3.Power(PS3MAPI.PS3_CMD.PowerFlags.HardReboot);
                 btnDisconnect_Click(sender, e);
             }
             catch (Exception ex)
@@ -464,7 +459,9 @@ namespace PS3Lib_Mod_Demo
             p_PS3_Buzzer.Enabled = false;
             try
             {
-                PS3M_API.PS3.RingBuzzer(cB_PS3_Buzzer.SelectedIndex);
+                if (cB_PS3_Buzzer.SelectedIndex == 0) PS3M_API.PS3.RingBuzzer(PS3MAPI.PS3_CMD.BuzzerMode.Single);
+                else if (cB_PS3_Buzzer.SelectedIndex == 1) PS3M_API.PS3.RingBuzzer(PS3MAPI.PS3_CMD.BuzzerMode.Double);
+                else if (cB_PS3_Buzzer.SelectedIndex == 2) PS3M_API.PS3.RingBuzzer(PS3MAPI.PS3_CMD.BuzzerMode.Triple);
             }
             catch (Exception ex)
             {
@@ -472,38 +469,33 @@ namespace PS3Lib_Mod_Demo
             }
             p_PS3_Buzzer.Enabled = true;     
         }
-        private void btn_PS3_Led_Red_Set_Click(object sender, EventArgs e)
+        private void btn_PS3_Led_Set_Click(object sender, EventArgs e)
         {
             p_PS3_Led.Enabled = false;
             try
             {
-                PS3M_API.PS3.Led(0, cB_PS3_Led_Red.SelectedIndex);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            p_PS3_Led.Enabled = true;     
-        }
-        private void btn_PS3_Led_Green_Set_Click(object sender, EventArgs e)
-        {
-            p_PS3_Led.Enabled = false;
-            try
-            {
-                PS3M_API.PS3.Led(1, cB_PS3_Led_Green.SelectedIndex);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error.", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            p_PS3_Led.Enabled = true;     
-        }
-        private void btn_PS3_Led_Yellow_Set_Click(object sender, EventArgs e)
-        {
-            p_PS3_Led.Enabled = false;
-            try
-            {
-                PS3M_API.PS3.Led(2, cB_PS3_Led_Yellow.SelectedIndex);
+
+                if (cB_PS3_Led_Color.SelectedIndex == 0)
+                {
+                    if (cB_PS3_Led_Mode.SelectedIndex == 0) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Red, PS3MAPI.PS3_CMD.LedMode.Off);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 1) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Red, PS3MAPI.PS3_CMD.LedMode.On);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 2) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Red, PS3MAPI.PS3_CMD.LedMode.BlinkFast);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 3) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Red, PS3MAPI.PS3_CMD.LedMode.BlinkSlow);
+                }
+                else if (cB_PS3_Led_Color.SelectedIndex == 1)
+                {
+                    if (cB_PS3_Led_Mode.SelectedIndex == 0) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Green, PS3MAPI.PS3_CMD.LedMode.Off);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 1) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Green, PS3MAPI.PS3_CMD.LedMode.On);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 2) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Green, PS3MAPI.PS3_CMD.LedMode.BlinkFast);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 3) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Green, PS3MAPI.PS3_CMD.LedMode.BlinkSlow);
+                }
+                else if (cB_PS3_Led_Color.SelectedIndex == 2)
+                {
+                    if (cB_PS3_Led_Mode.SelectedIndex == 0) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Yellow, PS3MAPI.PS3_CMD.LedMode.Off);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 1) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Yellow, PS3MAPI.PS3_CMD.LedMode.On);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 2) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Yellow, PS3MAPI.PS3_CMD.LedMode.BlinkFast);
+                    else if (cB_PS3_Led_Mode.SelectedIndex == 3) PS3M_API.PS3.Led(PS3MAPI.PS3_CMD.LedColor.Yellow, PS3MAPI.PS3_CMD.LedMode.BlinkSlow);
+                }
             }
             catch (Exception ex)
             {
@@ -525,16 +517,16 @@ namespace PS3Lib_Mod_Demo
                 if (cb_Syscall_36.Checked) PS3M_API.PS3.DisableSyscall(36);
                 if (cb_Syscall_8.Checked) 
                 {
-                    if (cb_Syscall_8_P1.Checked) PS3M_API.PS3.PartialDisableSyscall8(1);
-                    else if (cb_Syscall_8_P2.Checked) PS3M_API.PS3.PartialDisableSyscall8(2);
-                    else if (cb_Syscall_8_P3.Checked) PS3M_API.PS3.PartialDisableSyscall8(3);
+                    if (cb_Syscall_8_P1.Checked) PS3M_API.PS3.PartialDisableSyscall8(PS3MAPI.PS3_CMD.Syscall8Mode.Only_CobraMambaAndPS3MAPI_Enabled);
+                    else if (cb_Syscall_8_P2.Checked) PS3M_API.PS3.PartialDisableSyscall8(PS3MAPI.PS3_CMD.Syscall8Mode.Only_PS3MAPI_Enabled);
+                    else if (cb_Syscall_8_P3.Checked) PS3M_API.PS3.PartialDisableSyscall8(PS3MAPI.PS3_CMD.Syscall8Mode.FakeDisabled);
                     else if (cb_Syscall_8_D.Checked)
                     {
                         if (cb_RemoveHook.Checked) PS3M_API.PS3.RemoveHook();
                         PS3M_API.PS3.DisableSyscall(8);
                     }
                 }
-                else PS3M_API.PS3.PartialDisableSyscall8(0);
+                else PS3M_API.PS3.PartialDisableSyscall8(PS3MAPI.PS3_CMD.Syscall8Mode.Enabled);
                 FormUpdate();
                 FormSyscallUpdate();
             }
@@ -664,10 +656,6 @@ namespace PS3Lib_Mod_Demo
               (e.KeyChar != (char)Keys.Back) &&
               ((e.KeyChar != (char)Keys.Delete) || (e.KeyChar == '.'))
               ) e.Handled = true;
-        }
-
-
-
-       
+        }    
     }
 }

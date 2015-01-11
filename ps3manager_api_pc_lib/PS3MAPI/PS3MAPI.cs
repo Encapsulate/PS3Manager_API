@@ -16,7 +16,7 @@ namespace PS3ManagerAPI
     public class PS3MAPI
     {
 
-        public int PS3M_API_PC_LIB_VERSION = 0x111; 
+        public int PS3M_API_PC_LIB_VERSION = 0x0112; 
 
         public CORE_CMD Core = new CORE_CMD();
         public SERVER_CMD Server = new SERVER_CMD();
@@ -48,14 +48,14 @@ namespace PS3ManagerAPI
         /// </summary>
         public bool IsConnected
         {
-            get { return PS3MAPI_Client_Core.IsConnected; }
+            get { return PS3MAPI_Client_Server.IsConnected; }
         }
         /// <summary>
         /// Indicates if PS3MAPI is attached
         /// </summary>
         public bool IsAttached
         {
-            get { return PS3MAPI_Client_Core.IsAttached; }
+            get { return PS3MAPI_Client_Server.IsAttached; }
         }         
 
         /// <summary>Connect the target with "ConnectDialog".</summary>
@@ -65,7 +65,7 @@ namespace PS3ManagerAPI
         {
             try
             {
-                PS3MAPI_Client_Core.Connect(ip, port);
+                PS3MAPI_Client_Server.Connect(ip, port);
                 return true;
             }
             catch (Exception ex)
@@ -102,6 +102,7 @@ namespace PS3ManagerAPI
                 throw new Exception(ex.Message, ex);
             }
         }
+
         /// <summary>Attach to process by pid.</summary>
         /// <param name="pid">Process PID</param>
         public bool AttachProcess(uint pid)
@@ -116,6 +117,7 @@ namespace PS3ManagerAPI
                 throw new Exception(ex.Message, ex);
             }
         }
+
        /// <summary>Attach to process with "AttachDialog".</summary>
         public bool AttachProcess()
         {
@@ -156,50 +158,31 @@ namespace PS3ManagerAPI
                 throw new Exception(ex.Message, ex);
             }
         }
+
         /// <summary>Disconnect the target.</summary>
         public void DisconnectTarget()
         {
             try
             {
-                PS3MAPI_Client_Core.Disconnect();
+                PS3MAPI_Client_Server.Disconnect();
             }
             catch// (Exception ex)
             {
                // throw new Exception(ex.Message, ex);
             }
         }
+
+        LogDialog LogDialog = null;
         /// <summary>Show log with "LogDialog".</summary>
         public void ShowLog()
         {
-            LogDialog input = null;
-            try
-            {
-            retry:
-                if (input != null)
-                {
-                    input.Dispose();
-                    input = null;
-                }
-                input = new LogDialog(PS3MAPI_Client_Core.Log);
-                System.Windows.Forms.DialogResult dialog_result = input.ShowDialog();
-                if (dialog_result == System.Windows.Forms.DialogResult.Retry)
-                {
-                    goto retry;
-                }
-                if (input != null)
-                {
-                    input.Dispose();
-                }
-            }
-            catch (Exception ex)
-            {
-                if (input != null)
-                {
-                    input.Dispose();
-                    input = null;
-                }
-                throw new Exception(ex.Message, ex);
-            }
+            if (LogDialog == null) LogDialog = new LogDialog(this);
+            LogDialog.Show();
+        }
+        /// <summary>Show log with "LogDialog".</summary>
+        public string Log
+        {
+            get { return PS3MAPI_Client_Server.Log; }
         }
 
         public class SERVER_CMD
@@ -209,8 +192,8 @@ namespace PS3ManagerAPI
             /// </summary>
             public int Timeout
             {
-                get { return PS3MAPI_Client_Core.Timeout; }
-                set { PS3MAPI_Client_Core.Timeout = value; }
+                get { return PS3MAPI_Client_Server.Timeout; }
+                set { PS3MAPI_Client_Server.Timeout = value; }
             }
 
             /// <summary>Get PS3 Manager API Server Version.</summary>
@@ -218,7 +201,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Server_Get_Version();
+                    return PS3MAPI_Client_Server.Server_Get_Version();
                 }
                 catch (Exception ex)
                 {
@@ -228,7 +211,7 @@ namespace PS3ManagerAPI
             /// <summary>Get PS3 Manager API Server Version.</summary>
             public string GetVersion_Str()
             {
-                string ver = PS3MAPI_Client_Core.Server_Get_Version().ToString("X4");
+                string ver = PS3MAPI_Client_Server.Server_Get_Version().ToString("X4");
                 string char1 = ver.Substring(1, 1) + ".";
                 string char2 = ver.Substring(2, 1) + ".";
                 string char3 = ver.Substring(3, 1);
@@ -243,7 +226,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Core_Get_Version();
+                    return PS3MAPI_Client_Server.Core_Get_Version();
                 }
                 catch (Exception ex)
                 {
@@ -253,7 +236,7 @@ namespace PS3ManagerAPI
             /// <summary>Get PS3 Manager API Core Version.</summary>
             public string GetVersion_Str()
             {
-                string ver = PS3MAPI_Client_Core.Core_Get_Version().ToString("X4");
+                string ver = PS3MAPI_Client_Server.Core_Get_Version().ToString("X4");
                 string char1 = ver.Substring(1, 1) + ".";
                 string char2 = ver.Substring(2, 1) + ".";
                 string char3 = ver.Substring(3, 1);
@@ -268,7 +251,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.PS3_GetFwVersion();
+                    return PS3MAPI_Client_Server.PS3_GetFwVersion();
                 }
                 catch (Exception ex)
                 {
@@ -278,7 +261,7 @@ namespace PS3ManagerAPI
             /// <summary>Get PS3 Firmware Version.</summary>
             public string GetFirmwareVersion_Str()
             {
-                string ver = PS3MAPI_Client_Core.PS3_GetFwVersion().ToString("X4");
+                string ver = PS3MAPI_Client_Server.PS3_GetFwVersion().ToString("X4");
                 string char1 = ver.Substring(1, 1) + ".";
                 string char2 = ver.Substring(2, 1);
                 string char3 = ver.Substring(3, 1);
@@ -290,35 +273,30 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.PS3_GetFirmwareType();
+                    return PS3MAPI_Client_Server.PS3_GetFirmwareType();
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
             }
-
-            /// <summary>Shutdown PS3.</summary>
-            public void Shutdown()
+            public enum PowerFlags
             {
-                try
-                {
-                    PS3MAPI_Client_Core.PS3_Shutdown();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
+                ShutDown,
+                QuickReboot,
+                SoftReboot,
+                HardReboot
             }
-            /// <summary>Reboot PS3.</summary>
-            /// <param name="mode">Quick=0; Soft=1; Hard=2</param>
-            public void Reboot(int mode = 0)
+            /// <summary>Shutdown Or Reboot PS3.</summary>
+            /// <param name="flag">Shutdown, QuickReboot, SoftReboot, HardReboot</param>
+            public void Power(PowerFlags flag)
             {
                 try
                 {
-                    if (mode == 0) PS3MAPI_Client_Core.PS3_Reboot();
-                    else if (mode == 1) PS3MAPI_Client_Core.PS3_SoftReboot();
-                    else if (mode == 2) PS3MAPI_Client_Core.PS3_HardReboot();
+                    if (flag == PowerFlags.ShutDown) PS3MAPI_Client_Server.PS3_Shutdown();
+                    else if (flag == PowerFlags.QuickReboot) PS3MAPI_Client_Server.PS3_Reboot();
+                    else if (flag == PowerFlags.SoftReboot) PS3MAPI_Client_Server.PS3_SoftReboot();
+                    else if (flag == PowerFlags.HardReboot) PS3MAPI_Client_Server.PS3_HardReboot();
                 }
                 catch (Exception ex)
                 {
@@ -331,34 +309,55 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_Notify(msg);
+                    PS3MAPI_Client_Server.PS3_Notify(msg);
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
+            }
+            public enum BuzzerMode
+            {
+                Single,
+                Double,
+                Triple
             }
             /// <summary>Ring PS3 Buzzer.</summary>
-            /// <param name="mode">Simple=0; Double=1; Continuous=2</param>
-            public void RingBuzzer(int mode)
+            /// <param name="mode">Simple, Double, Continuous</param>
+            public void RingBuzzer(BuzzerMode mode)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_Buzzer(mode);
+                    if (mode == BuzzerMode.Single) PS3MAPI_Client_Server.PS3_Buzzer(1);
+                    else if (mode == BuzzerMode.Double) PS3MAPI_Client_Server.PS3_Buzzer(2);
+                    else if (mode == BuzzerMode.Triple) PS3MAPI_Client_Server.PS3_Buzzer(3);
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
             }
+            public enum LedColor
+            {
+                Red = 0,
+                Green = 1,
+                Yellow = 2
+            }
+            public enum LedMode
+            {
+                Off = 0,
+                On = 1,
+                BlinkFast = 2,
+                BlinkSlow = 3
+            }
             /// <summary>PS3 Led.</summary>
-            /// <param name="color">Red=0; Green=1; Yellow=2</param>
-            /// <param name="mode">Off=0; On=1; Blink Fast=2; Blink Slow=3</param>
-            public void Led(int color, int mode)
+            /// <param name="color">Red, Green, Yellow</param>
+            /// <param name="mode">Off, On, BlinkFast, BlinkSlow</param>
+            public void Led(LedColor color, LedMode mode)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_Led(color, mode);
+                    PS3MAPI_Client_Server.PS3_Led(Convert.ToInt32(color), Convert.ToInt32(mode));
                 }
                 catch (Exception ex)
                 {
@@ -373,7 +372,7 @@ namespace PS3ManagerAPI
                 cpu = 0; rsx = 0;
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_GetTemp(out cpu, out rsx);
+                    PS3MAPI_Client_Server.PS3_GetTemp(out cpu, out rsx);
                 }
                 catch (Exception ex)
                 {
@@ -386,20 +385,44 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_DisableSyscall(num);
+                    PS3MAPI_Client_Server.PS3_DisableSyscall(num);
                 }
                 catch (Exception ex)
                 {
                     throw new Exception(ex.Message, ex);
                 }
             }
-            /// <summary>Partial Disable PS3 Syscall 8.</summary>
-            /// <param name="mode">0= Fully Enabled; 1=Only Cobra and PS3M_API features; 2=Only PS3M_API features; 3= Fully Disabled</param>
-            public void PartialDisableSyscall8(int mode)
+            /// <summary>Return true if this syscall is enbaled</summary>
+            /// <param name="num">Syscall number</param>
+            public bool CheckSyscall(int num)
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_PartialDisableSyscall8(mode);
+                    return PS3MAPI_Client_Server.PS3_CheckSyscall(num);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+            public enum Syscall8Mode
+            {
+                Enabled = 0,
+                Only_CobraMambaAndPS3MAPI_Enabled = 1,
+                Only_PS3MAPI_Enabled = 2,
+                FakeDisabled = 3,
+                Disabled = 4
+            }
+            /// <summary>Partial Disable PS3 Syscall 8.</summary>
+            /// <param name="mode">Enabled, Only Cobra and PS3M_API features enabled, Only PS3M_API features enabled, Fake Disable</param>
+            public void PartialDisableSyscall8(Syscall8Mode mode)
+            {
+                try
+                {
+                    if (mode == Syscall8Mode.Enabled) PS3MAPI_Client_Server.PS3_PartialDisableSyscall8(0);
+                    else if (mode == Syscall8Mode.Only_CobraMambaAndPS3MAPI_Enabled) PS3MAPI_Client_Server.PS3_PartialDisableSyscall8(1);
+                    else if (mode == Syscall8Mode.Only_PS3MAPI_Enabled) PS3MAPI_Client_Server.PS3_PartialDisableSyscall8(2);
+                    else if (mode == Syscall8Mode.FakeDisabled) PS3MAPI_Client_Server.PS3_PartialDisableSyscall8(3);
                 }
                 catch (Exception ex)
                 {
@@ -407,11 +430,25 @@ namespace PS3ManagerAPI
                 }
             }
             /// <summary>Remove COBRA/MAMBA Hook.</summary>
-            public void RemoveHook()
+            public Syscall8Mode PartialCheckSyscall8()
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_RemoveHook();
+                    if (PS3MAPI_Client_Server.PS3_PartialCheckSyscall8() == 0) return Syscall8Mode.Enabled;
+                    else if (PS3MAPI_Client_Server.PS3_PartialCheckSyscall8() == 1) return Syscall8Mode.Only_CobraMambaAndPS3MAPI_Enabled;
+                    else if (PS3MAPI_Client_Server.PS3_PartialCheckSyscall8() == 2) return Syscall8Mode.Only_PS3MAPI_Enabled;
+                    else return Syscall8Mode.FakeDisabled;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message, ex);
+                }
+            }
+        public void RemoveHook()
+            {
+                try
+                {
+                    PS3MAPI_Client_Server.PS3_RemoveHook();
                 }
                 catch (Exception ex)
                 {
@@ -424,20 +461,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.PS3_ClearHistory(include_directory);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
-            }
-            /// <summary>Return true if cfw syscall was enabled.</summary>
-            /// <param name="num">Syscall number</param>
-            public bool CheckSyscall(int num)
-            {
-                try
-                {
-                    return PS3MAPI_Client_Core.PS3_CheckSyscall(num);
+                    PS3MAPI_Client_Server.PS3_ClearHistory(include_directory);
                 }
                 catch (Exception ex)
                 {
@@ -445,18 +469,7 @@ namespace PS3ManagerAPI
                 }
             }
             /// <summary>Check Partial Syscall8 disable</summary>
-            public int PartialCheckSyscall8()
-            {
-                try
-                {
-                    return PS3MAPI_Client_Core.PS3_PartialCheckSyscall8();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message, ex);
-                }
             }
-        }
 
         public class PROCESS_CMD
         {
@@ -475,7 +488,7 @@ namespace PS3ManagerAPI
             /// </summary>
             public uint[] Processes_Pid
             {
-                get { return PS3MAPI_Client_Core.Processes_Pid; }
+                get { return PS3MAPI_Client_Server.Processes_Pid; }
             }
 
             /// <summary>
@@ -483,8 +496,8 @@ namespace PS3ManagerAPI
             /// </summary>)
             public uint Process_Pid
             {
-                get { return PS3MAPI_Client_Core.Process_Pid; }
-                set { PS3MAPI_Client_Core.Process_Pid = value; }
+                get { return PS3MAPI_Client_Server.Process_Pid; }
+                set { PS3MAPI_Client_Server.Process_Pid = value; }
             }
 
            /// <summary>Get a pid list of all runing processes.</summary>
@@ -492,7 +505,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Process_GetPidList();
+                    return PS3MAPI_Client_Server.Process_GetPidList();
                 }
                 catch (Exception ex)
                 {
@@ -506,7 +519,7 @@ namespace PS3ManagerAPI
                 {
                     try
                     {
-                        return PS3MAPI_Client_Core.Process_GetName(pid);
+                        return PS3MAPI_Client_Server.Process_GetName(pid);
                     }
                     catch (Exception ex)
                     {
@@ -524,7 +537,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Memory_Set(Pid, Address, Bytes);
+                    PS3MAPI_Client_Server.Memory_Set(Pid, Address, Bytes);
                 }
                 catch (Exception ex)
                 {
@@ -539,7 +552,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Memory_Get(Pid, Address, Bytes);
+                    PS3MAPI_Client_Server.Memory_Get(Pid, Address, Bytes);
                 }
                 catch (Exception ex)
                 {
@@ -555,7 +568,7 @@ namespace PS3ManagerAPI
                 try
                 {
                     byte[] buffer = new byte[Length];
-                    PS3MAPI_Client_Core.Memory_Get(Pid, Address, buffer);
+                    PS3MAPI_Client_Server.Memory_Get(Pid, Address, buffer);
                     return buffer;
                 }
                 catch (Exception ex)
@@ -572,7 +585,7 @@ namespace PS3ManagerAPI
                 /// </summary>
             public int[] Modules_Prx_Id
              {
-                    get { return PS3MAPI_Client_Core.Modules_Prx_Id; }
+                    get { return PS3MAPI_Client_Server.Modules_Prx_Id; }
              }
 
 
@@ -582,7 +595,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Module_GetPrxIdList(pid);
+                    return PS3MAPI_Client_Server.Module_GetPrxIdList(pid);
                 }
                 catch (Exception ex)
                 {
@@ -596,7 +609,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Module_GetName(pid, prxid);
+                    return PS3MAPI_Client_Server.Module_GetName(pid, prxid);
                 }
                 catch (Exception ex)
                 {
@@ -610,7 +623,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    return PS3MAPI_Client_Core.Module_GetFilename(pid, prxid);
+                    return PS3MAPI_Client_Server.Module_GetFilename(pid, prxid);
                 }
                 catch (Exception ex)
                 {
@@ -624,7 +637,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Module_Load(pid, path);
+                    PS3MAPI_Client_Server.Module_Load(pid, path);
                 }
                 catch (Exception ex)
                 {
@@ -638,7 +651,7 @@ namespace PS3ManagerAPI
             {
                 try
                 {
-                    PS3MAPI_Client_Core.Module_Unload(pid, prxid);
+                    PS3MAPI_Client_Server.Module_Unload(pid, prxid);
                 }
                 catch (Exception ex)
                 {
@@ -651,9 +664,15 @@ namespace PS3ManagerAPI
 
          #endregion PS3MAPI_CLient
 
-        #region PS3MAPI_Client_Core
+        #region PS3MAPI_Client_Web
+        internal class PS3MAPI_Client_Web
+        {
+            //Not Yet
+        }
+        #endregion PS3MAPI_Client_Web
 
-        internal class PS3MAPI_Client_Core
+        #region PS3MAPI_Client_Server
+        internal class PS3MAPI_Client_Server
         {
             #region Private Members
 
@@ -1058,7 +1077,7 @@ namespace PS3ManagerAPI
             {
                 if (IsConnected)
                 {
-                    SendCommand("PS3 BUZZER" + (mode + 1).ToString());
+                    SendCommand("PS3 BUZZER" + mode .ToString());
                     switch (eResponseCode)
                     {
                         case PS3MAPI_ResponseCode.RequestSuccessful:
@@ -1695,10 +1714,8 @@ namespace PS3ManagerAPI
 
                 return sBuffer;
             }
-
         }
-
-        #endregion PS3MAPI_Client_Core
+        #endregion PS3MAPI_Client_Server
 
     }
 }

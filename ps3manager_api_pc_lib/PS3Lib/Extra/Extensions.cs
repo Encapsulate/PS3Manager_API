@@ -1,10 +1,22 @@
 ﻿// ************************************************* //
+//              PS3Lib v4.5 Updated By NzV           //
+//          Based on PS3Lib v4.4 By FM|T iMCSx       //
+//                                                   //
+// Features v4.5 :                                   //
+// - Add Support for PS3 Manager API                 //
+// - Based on PS3Lib v4.4 By FM|T iMCSx              //
+//                                                   //
+// Credits : NzV                                     //
+// ************************************************* //
+
+// ************************************************* //
 //    --- Copyright (c) 2014 iMCS Productions ---    //
 // ************************************************* //
 //              PS3Lib v4 By FM|T iMCSx              //
 //                                                   //
-// Features v4.3 :                                   //
-// - Support CCAPI v2.5 C# by iMCSx                  //
+// Features v4.4 :                                   //
+// - Support CCAPI v2.6 C# by iMCSx                  //
+// - Set Boot Console ID                             //
 // - Popup better form with icon                     //
 // - CCAPI Consoles List Popup French/English        //
 // - CCAPI Get Console Info                          //
@@ -37,11 +49,20 @@ namespace PS3Lib
         {
             CurrentAPI = API;
             if (API == SelectAPI.TargetManager)
+            {
                 if (Common.TmApi == null)
                     Common.TmApi = new TMAPI();
-            if (API == SelectAPI.ControlConsole)
+            }
+            else if (API == SelectAPI.ControlConsole)
+            {
                 if (Common.CcApi == null)
                     Common.CcApi = new CCAPI();
+            }
+            else if (API == SelectAPI.PS3Manager)
+            {
+                if (Common.Ps3mApi == null)
+                    Common.Ps3mApi = new PS3MAPI();
+            }
         }
 
         /// <summary>Read a signed byte.</summary>
@@ -259,6 +280,8 @@ namespace PS3Lib
                 Common.CcApi.SetMemory(Address, buffer);
             else if (API == SelectAPI.TargetManager)
                 Common.TmApi.SetMemory(Address, buffer);
+            else if (API == SelectAPI.PS3Manager)
+                Common.Ps3mApi.SetMemory(Address, buffer);
         }
 
         private void GetMem(uint offset, byte[] buffer, SelectAPI API)
@@ -267,6 +290,8 @@ namespace PS3Lib
                 Common.CcApi.GetMemory(offset, buffer);
             else if (API == SelectAPI.TargetManager)
                 Common.TmApi.GetMemory(offset, buffer);
+            else if (API == SelectAPI.PS3Manager)
+                Common.Ps3mApi.GetMemory(offset, buffer);
         }
 
         private byte[] GetBytes(uint offset, uint length, SelectAPI API)
@@ -276,6 +301,8 @@ namespace PS3Lib
                 buffer = Common.CcApi.GetBytes(offset, length);
             else if (API == SelectAPI.TargetManager)
                 buffer = Common.TmApi.GetBytes(offset, length);
+            else if (API == SelectAPI.PS3Manager)
+                buffer = Common.Ps3mApi.GetBytes(offset, length);
             return buffer;
         }
 
@@ -283,6 +310,7 @@ namespace PS3Lib
         {
             public static CCAPI CcApi;
             public static TMAPI TmApi;
+            public static PS3MAPI Ps3mApi;
         }
 
     }
