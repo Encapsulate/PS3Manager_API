@@ -115,41 +115,7 @@ int main()
 			CopyFile("/dev_hdd0/game/PS3MAPI00/USRDIR/stage2.bin", "/dev_blind/sys/stage2.bin");					
 		}
 		else  { {lv2syscall3(392, 0x1004, 0xa, 0x1b6); } goto exit_error;}
-		//Update boot_plugins.txt
-		char ligne[255];
-		FILE* f=NULL;
-		if(sysLv2FsStat("/dev_hdd0/boot_plugins.txt", &stat) == SUCCESS)
-		{
-			f=fopen("/dev_hdd0/boot_plugins.txt", "r");
-			while(fgets(ligne, 255, f) != NULL)
-			{
-				if(strstr(ligne,"webftp_server") != NULL)
-				{
-					fclose(f);
-					strtok(ligne, "\r\n");
-					if((sysLv2FsStat(ligne, &stat) == SUCCESS))
-					{
-						sysLv2FsChmod(ligne, 0777);
-						sysLv2FsUnlink(ligne);
-					}
-					CopyFile("/dev_hdd0/game/PS3MAPI00/USRDIR/webftp_server_ps3mapi.sprx",ligne);
-					fclose(f);
-					goto exit_success;
-				}
-			}
-			fclose(f);
-		}
-		f=fopen("/dev_hdd0/boot_plugins.txt", "a");
-		fputs("\r\n/dev_hdd0/webftp_server_ps3mapi.sprx", f);
-		fclose(f);
-		if((sysLv2FsStat(ligne, &stat) == SUCCESS))
-		{
-			sysLv2FsChmod("/dev_hdd0/webftp_server_ps3mapi.sprx", 0777);
-			sysLv2FsUnlink("/dev_hdd0/webftp_server_ps3mapi.sprx");
-		}
-		CopyFile("/dev_hdd0/game/PS3MAPI00/USRDIR/webftp_server_ps3mapi.sprx","/dev_hdd0/webftp_server_ps3mapi.sprx");
 		//Exit with succes
-	exit_success:
 		{lv2syscall3(392, 0x1004, 0x4, 0x6); }
 		// reboot
 		sysLv2FsUnlink("/dev_hdd0/tmp/turnoff");
