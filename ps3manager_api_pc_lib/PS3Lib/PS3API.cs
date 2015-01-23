@@ -381,7 +381,7 @@ namespace PS3Lib
             else if (SetAPI.API == SelectAPI.ControlConsole) 
                 output = Enum.GetName(typeof(SelectAPI), SelectAPI.ControlConsole).Replace("Console", " Console");
             else if (SetAPI.API == SelectAPI.PS3Manager)
-                output = Enum.GetName(typeof(SelectAPI), SelectAPI.ControlConsole).Replace("Manager", " Manager");
+                output = Enum.GetName(typeof(SelectAPI), SelectAPI.PS3Manager).Replace("Manager", " Manager");
             return output;
         }
 
