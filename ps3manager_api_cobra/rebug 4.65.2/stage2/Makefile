@@ -1,0 +1,11 @@
+
+clean:
+	rm -f *.o *.elf *.bin *.cex *.dex *.map *.lzma ../lv2/src/*.o ../lv1/src/*.o ../debug/src/*.o
+
+all:
+	rm -f *.o *.elf *.bin *.cex *.dex *.map *.lzma ../lv2/src/*.o ../lv1/src/*.o ../debug/src/*.o
+	make -f Makefile_465C --no-print-directory
+	
+	rm -f *.o *.elf *.bin *.map *.lzma ../lv2/src/*.o ../lv1/src/*.o ../debug/src/*.o
+	make -f Makefile_465D --no-print-directory
+
