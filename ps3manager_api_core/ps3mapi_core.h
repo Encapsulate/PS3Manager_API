@@ -228,6 +228,15 @@
 		#define PS3MAPI_FW_VERSION			 		0x0466
 		#define PS3MAPI_FW_TYPE			 			"DEX COBRA"
 	#endif
+#elif defined(FIRMWARE_4_70)
+	#ifdef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		0x0470
+		#define PS3MAPI_FW_TYPE			 			"CEX MAMBA"
+	#endif
+	#ifndef IS_MAMBA
+		#define PS3MAPI_FW_VERSION			 		0x0470
+		#define PS3MAPI_FW_TYPE			 			"CEX COBRA"
+	#endif
 #endif
 
 #define PS3MAPI_OPCODE_GET_CORE_VERSION			0x0011

@@ -104,6 +104,8 @@
 #define FIRMWARE_VERSION	0x0466
 #elif defined(FIRMWARE_4_66DEX)
 #define FIRMWARE_VERSION	0x0466
+#elif defined(FIRMWARE_4_70)
+#define FIRMWARE_VERSION	0x0470
 #endif
 
 #define IS_CFW			1

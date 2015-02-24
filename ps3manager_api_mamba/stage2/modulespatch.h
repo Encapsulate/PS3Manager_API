@@ -708,6 +708,14 @@
 #define revision_offset2		0x0 /* In data section */
 #define spoof_version_patch		0x0
 
+#elif defined(FIRMWARE_4_70)
+
+#define vmode_patch_offset		0x0 // undefined
+#define vsh_text_size			0x0 // undefined
+#define revision_offset			0x0
+#define revision_offset2		0x0 /* In data section */
+#define spoof_version_patch		0x0
+
 #endif /* FIRMWARE */
 
 /* 3.72 */

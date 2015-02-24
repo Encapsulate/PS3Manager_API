@@ -41,6 +41,7 @@ if exist mamba_4_65.lz.bin     move  mamba_4_65.lz.bin     mamba\mamba_465C.lz.b
 if exist mamba_4_65DEX.lz.bin  move  mamba_4_65DEX.lz.bin  mamba\mamba_465D.lz.bin>nul
 if exist mamba_4_66.lz.bin     move  mamba_4_66.lz.bin     mamba\mamba_466C.lz.bin>nul
 if exist mamba_4_66DEX.lz.bin  move  mamba_4_66DEX.lz.bin  mamba\mamba_466D.lz.bin>nul
+if exist mamba_4_70.lz.bin     move  mamba_4_70.lz.bin     mamba\mamba_470C.lz.bin>nul
 
 del *.bin>nul
 
