@@ -1,4 +1,4 @@
-#include <lv2/lv2.h>
+a#include <lv2/lv2.h>
 #include <lv2/libc.h>
 #include <lv2/memory.h>
 #include <lv2/storage.h>
@@ -148,6 +148,10 @@ static uint64_t encrypted_image_nonce;
 unsigned int real_disctype; /* Real disc in the drive */
 unsigned int effective_disctype; /* The type of disc we want it to be, and the one faked in storage event. */
 unsigned int fake_disctype; /* If no zero, get device type command will fake disc type to this. */
+
+// -- AV: cd sector size
+static uint32_t cd_sector_size = 2352;
+//
 
 LV2_EXPORT int storage_internal_get_device_object(void *object, device_handle_t handle, void **dev_object);
 
@@ -362,7 +366,7 @@ static INLINE int process_read_cd_iso2048_cmd(ReadIsoCmd *cmd)
 	}
 
 	bufsize = (remaining > READ_BUF_SIZE_SECTORS_PSX) ? READ_BUF_SIZE_SECTORS_PSX : remaining;
-	ret = page_allocate_auto(NULL, bufsize*2352, 0x2F, (void **)&readbuf);
+	ret = page_allocate_auto(NULL, bufsize * cd_sector_size, 0x2F, (void **)&readbuf);
 	if (ret != 0)
 		return ret;
 
@@ -383,7 +387,7 @@ static INLINE int process_read_cd_iso2048_cmd(ReadIsoCmd *cmd)
 		{
 			if (doseek)
 			{
-				ret = cellFsLseek(discfd, sector*2352, SEEK_SET, &v);
+				ret = cellFsLseek(discfd, sector * cd_sector_size, SEEK_SET, &v);
 				if (ret != 0)
 					break;
 
@@ -393,23 +397,23 @@ static INLINE int process_read_cd_iso2048_cmd(ReadIsoCmd *cmd)
 
 		if (read)
 		{
-			ret = cellFsRead(discfd, readbuf, readsize*2352, &v);
+			ret = cellFsRead(discfd, readbuf, readsize * cd_sector_size, &v);
 			if (ret != 0)
 				break;
 
-			if (v < (readsize*2352))
+			if (v < (readsize * cd_sector_size))
 			{
-				memset(readbuf+v, 0, (readsize*2352)-v);
+				memset(readbuf+v, 0, (readsize * cd_sector_size)-v);
 			}
 		}
 		else
 		{
-			memset(readbuf, 0, readsize*2352);
+			memset(readbuf, 0, readsize * cd_sector_size);
 		}
 
 		for (int i = 0; i < readsize; i++)
 		{
-			uint8_t *s = readbuf+(i*2352)+24;
+			uint8_t *s = readbuf+(i * cd_sector_size)+24;
 
 			if (iskernel)
 			{
@@ -475,7 +479,7 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 			else
 			{
 
-				copy_ptr = discfile_cd->cache+((-dif)*2352);
+				copy_ptr = discfile_cd->cache+((-dif) * cd_sector_size);
 				copy_size = MIN(remaining, CD_CACHE_SIZE+dif);
 			}
 
@@ -483,11 +487,11 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 			{
 				if (iskernel)
 				{
-					memcpy(buf+(copy_offset*2352), copy_ptr, copy_size*2352);
+					memcpy(buf+(copy_offset * cd_sector_size), copy_ptr, copy_size * cd_sector_size);
 				}
 				else
 				{
-					copy_to_process(cmd->process, copy_ptr, buf+(copy_offset*2352), copy_size*2352);
+					copy_to_process(cmd->process, copy_ptr, buf+(copy_offset * cd_sector_size), copy_size * cd_sector_size);
 				}
 
 				if (remaining == copy_size)
@@ -500,7 +504,7 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 				if (dif <= 0)
 				{
 					uint32_t newsector = discfile_cd->cached_sector + CD_CACHE_SIZE;
-					buf += ((newsector-sector)*2352);
+					buf += ((newsector-sector) * cd_sector_size);
 					sector = newsector;
 				}
 			}
@@ -523,7 +527,7 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 		else
 		{
 			bufsize = (remaining > READ_BUF_SIZE_SECTORS_PSX) ? READ_BUF_SIZE_SECTORS_PSX : remaining;
-			ret = page_allocate_auto(NULL, bufsize*2352, 0x2F, (void **)&readbuf);
+			ret = page_allocate_auto(NULL, bufsize * cd_sector_size, 0x2F, (void **)&readbuf);
 			if (ret != 0)
 				return ret;
 		}
@@ -555,7 +559,7 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 		{
 			if (doseek)
 			{
-				ret = cellFsLseek(discfd, sector*2352, SEEK_SET, &v);
+				ret = cellFsLseek(discfd, sector * cd_sector_size, SEEK_SET, &v);
 				if (ret != 0)
 					break;
 
@@ -565,39 +569,39 @@ static INLINE int process_read_cd_iso2352_cmd(ReadCdIso2352Cmd *cmd)
 
 		if (read)
 		{
-			ret = cellFsRead(discfd, readbuf, readsize*2352, &v);
+			ret = cellFsRead(discfd, readbuf, readsize * cd_sector_size, &v);
 			if (ret != 0)
 				break;
 
-			if (v < (readsize*2352))
+			if (v < (readsize * cd_sector_size))
 			{
-				memset(readbuf+v, 0, (readsize*2352)-v);
+				memset(readbuf+v, 0, (readsize * cd_sector_size)-v);
 			}
 		}
 		else
 		{
-			memset(readbuf, 0, readsize*2352);
+			memset(readbuf, 0, readsize * cd_sector_size);
 		}
 
 		if (!cache)
 		{
 			if (iskernel)
 			{
-				ptr += readsize*2352;
+				ptr += readsize * cd_sector_size;
 				readbuf = ptr;
 			}
 			else
 			{
-				copy_to_process(cmd->process, readbuf, ptr, readsize*2352);
-				ptr += readsize*2352;
+				copy_to_process(cmd->process, readbuf, ptr, readsize * cd_sector_size);
+				ptr += readsize * cd_sector_size;
 			}
 		}
 		else
 		{
 			if (iskernel)
-				memcpy(ptr, readbuf, remaining*2352);
+				memcpy(ptr, readbuf, remaining * cd_sector_size);
 			else
-				copy_to_process(cmd->process, readbuf, ptr, remaining*2352);
+				copy_to_process(cmd->process, readbuf, ptr, remaining * cd_sector_size);
 
 			discfile_cd->cached_sector = sector;
 			return 0;
@@ -807,7 +811,7 @@ static INLINE int process_read_iso_cmd_proxy(ReadIsoCmd *cmd)
 
 static INLINE int process_read_cd_iso2352_cmd_proxy(ReadCdIso2352Cmd *cmd)
 {
-	return process_proxy_cmd(CMD_READ_CD_ISO_2352, cmd->process, cmd->buf, cmd->start_sector*2352, cmd->sector_count*2352);
+	return process_proxy_cmd(CMD_READ_CD_ISO_2352, cmd->process, cmd->buf, cmd->start_sector * cd_sector_size, cmd->sector_count * cd_sector_size);
 }
 
 #ifdef ENCRYPT_FUNCTIONS
@@ -882,7 +886,7 @@ int read_psx_sector(void *dma, void *buf, uint64_t sector)
 	{
 		uint64_t x;
 
-		cellFsLseek(discfd, (sector*2352)+0x18, SEEK_SET, &x);
+		cellFsLseek(discfd, (sector * cd_sector_size)+0x18, SEEK_SET, &x);
 		return cellFsRead(discfd, buf, 2048, &x);
 	}
 	else if (discfile_proxy)
@@ -1375,7 +1379,7 @@ LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_2(int, post_storage_get_device_info, (uint64
 			}
 			else if (discfile_proxy)
 			{
-				device_info->sector_count = (discfile_proxy->tracks) ? discfile_proxy->size/2352 : discfile_proxy->size/2048;
+				device_info->sector_count = (discfile_proxy->tracks) ? discfile_proxy->size/cd_sector_size : discfile_proxy->size/2048;
 			}
 			else
 			{
@@ -1575,7 +1579,7 @@ static INLINE ScsiTrackDescriptor *find_track_by_lba(uint32_t lba)
 	if (discfile_proxy)
 	{
 		tracks = discfile_proxy->tracks;
-		num_sectors = discfile_proxy->size/2352;
+		num_sectors = discfile_proxy->size/cd_sector_size;
 		n = discfile_proxy->numtracks;
 	}
 	else
@@ -1777,7 +1781,7 @@ int process_cd_iso_scsi_cmd(uint8_t *indata, uint64_t inlen, uint8_t *outdata, u
 				}
 				else
 				{
-					leadout->track_start_addr = (discfile_proxy) ? discfile_proxy->size/2352 : discfile_cd->num_sectors;
+					leadout->track_start_addr = (discfile_proxy) ? discfile_proxy->size/cd_sector_size : discfile_cd->num_sectors;
 				}
 			}
 
@@ -1822,7 +1826,7 @@ int process_cd_iso_scsi_cmd(uint8_t *indata, uint64_t inlen, uint8_t *outdata, u
 				track = &discfile_proxy->tracks[cmd->lba_tsn-1];
 				if (cmd->lba_tsn == numtracks)
 				{
-					track_size = discfile_proxy->size/2352 - track->track_start_addr;
+					track_size = discfile_proxy->size/cd_sector_size - track->track_start_addr;
 				}
 				else
 				{
@@ -1944,7 +1948,7 @@ int process_cd_iso_scsi_cmd(uint8_t *indata, uint64_t inlen, uint8_t *outdata, u
 
 			if (user_data)
 			{
-				outsize = length*2352;
+				outsize = length * cd_sector_size;
 			}
 			else
 			{
@@ -2008,7 +2012,7 @@ int process_cd_iso_scsi_cmd(uint8_t *indata, uint64_t inlen, uint8_t *outdata, u
 						if (ret != 0)
 							return -1;
 
-						p += 2352;
+						p += cd_sector_size;
 					}
 
 					SubChannelQ *subq = (SubChannelQ *)p;
@@ -2135,7 +2139,7 @@ int process_cmd(unsigned int command, void *indata, uint64_t inlen, void *outdat
 				}
 				else if (discfile_proxy)
 				{
-					ret = (discfile_proxy->tracks) ? discfile_proxy->size/2352 : discfile_proxy->size/2048;
+					ret = (discfile_proxy->tracks) ? discfile_proxy->size/cd_sector_size : discfile_proxy->size/2048;
 				}
 				else
 				{
@@ -2396,7 +2400,6 @@ LV2_HOOKED_FUNCTION_PRECALL_SUCCESS_8(int, post_cellFsUtilMount, (const char *bl
 		hdd0_mounted = 1;
 		read_cobra_config();
 		do_spoof_patches();
-
 		//load_boot_plugins();
 
 		mutex_lock(mutex, 0);
@@ -2840,6 +2843,13 @@ int mount_ps_cd(char *file, unsigned int trackscount, ScsiTrackDescriptor *track
 
 	len = strlen(file);
 
+
+	// -- AV: cd sector size
+	cd_sector_size = (trackscount & 0xffff00)>>4; //  <- Use: trackscount = num_of_tracks | (cd_sector_size<<4);
+	if(cd_sector_size != 2352 && cd_sector_size != 2048 && cd_sector_size != 2336 && cd_sector_size != 2448) cd_sector_size = 2352;
+	trackscount &= 0xff;
+	// --
+
 	if (len >= MAX_PATH || trackscount >= 100)
 	{
 		ret = EINVAL;
@@ -2851,10 +2861,29 @@ int mount_ps_cd(char *file, unsigned int trackscount, ScsiTrackDescriptor *track
 		ret = cellFsStat(file, &stat);
 		if (ret == 0)
 		{
-			discfile_cd = alloc(sizeof(DiscFileCD) + (len+1) + (trackscount * sizeof(ScsiTrackDescriptor)) , 0x27);
-			page_allocate_auto(NULL, CD_CACHE_SIZE*2352, 0x2F, (void **)&discfile_cd->cache);
+			// -- AV: cd sector size
+			if(cd_sector_size == 2352)
+			{
+				// detect sector size
+				ret = cellFsOpen(file, CELL_FS_O_RDONLY, &discfd, 0, NULL, 0);
+				if(ret == 0)
+				{
+					char buffer[0x10]; buffer[0xD] = 0; uint64_t v;
+					cellFsLseek(discfd, 0x9320, SEEK_SET, &v); cellFsRead(discfd, buffer, 0xC, &v); if(memcmp(buffer, "PLAYSTATION ", 0xC)==0) cd_sector_size = 2352; else {
+					cellFsLseek(discfd, 0x8020, SEEK_SET, &v); cellFsRead(discfd, buffer, 0xC, &v); if(memcmp(buffer, "PLAYSTATION ", 0xC)==0) cd_sector_size = 2048; else {
+					cellFsLseek(discfd, 0x9920, SEEK_SET, &v); cellFsRead(discfd, buffer, 0xC, &v); if(memcmp(buffer, "PLAYSTATION ", 0xC)==0) cd_sector_size = 2448; else {
+					cellFsLseek(discfd, 0x9220, SEEK_SET, &v); cellFsRead(discfd, buffer, 0xC, &v); if(memcmp(buffer, "PLAYSTATION ", 0xC)==0) cd_sector_size = 2336; }}}
 
-			discfile_cd->num_sectors = stat.st_size / 2352;
+			        cellFsClose(discfd);
+				}
+				discfd = -1;
+			}
+			// --
+
+			discfile_cd = alloc(sizeof(DiscFileCD) + (len+1) + (trackscount * sizeof(ScsiTrackDescriptor)) , 0x27);
+			page_allocate_auto(NULL, CD_CACHE_SIZE * cd_sector_size, 0x2F, (void **)&discfile_cd->cache);
+
+			discfile_cd->num_sectors = stat.st_size / cd_sector_size;
 			discfile_cd->numtracks = trackscount;
 			discfile_cd->cached_sector = 0x80000000;
 			discfile_cd->tracks = (ScsiTrackDescriptor *)(discfile_cd+1);
@@ -2900,7 +2929,7 @@ int mount_ps2_discfile(unsigned int filescount, char *files[], unsigned int trac
 
 	if (trackscount > 1)
 	{
-		// We assume cd 2352 here
+		// We assume cd 2352 (cd_sector_size) here
 		is_cd = 1;
 		is_2352 = 1;
 	}
@@ -2937,7 +2966,7 @@ int mount_ps2_discfile(unsigned int filescount, char *files[], unsigned int trac
 		}
 		else
 		{
-			// We assume it is a 2352 iso, and thus, a cd
+			// We assume it is a cd 2352 (cd_sector_size) iso, and thus, a cd
 			is_cd = 1;
 			is_2352 = 1;
 		}
@@ -3158,6 +3187,8 @@ int sys_storage_ext_mount_ps3_discfile(unsigned int filescount, char *files[])
 	if (!array)
 		return EINVAL;
 
+	umount_discfile();
+
 	int ret = mount_ps3_discfile(filescount, array);
 	dealloc(array, 0x27);
 	return ret;
@@ -3168,6 +3199,8 @@ int sys_storage_ext_mount_dvd_discfile(unsigned int filescount, char *files[])
 	char **array = copy_user_pointer_array(files, filescount);
 	if (!array)
 		return EINVAL;
+
+	umount_discfile();
 
 	int ret = mount_dvd_discfile(filescount, array);
 	dealloc(array, 0x27);
@@ -3181,6 +3214,8 @@ int sys_storage_ext_mount_bd_discfile(unsigned int filescount, char *files[])
 	if (!array)
 		return EINVAL;
 
+	umount_discfile();
+
 	int ret = mount_bd_discfile(filescount, array);
 	dealloc(array, 0x27);
 	return ret;
@@ -3193,6 +3228,8 @@ int sys_storage_ext_mount_psx_discfile(char *file, unsigned int trackscount, Scs
 
 	if (!file || !tracks)
 		return EINVAL;
+
+	umount_discfile();
 
 	return mount_psx_discfile(file, trackscount, tracks);
 }
@@ -3209,6 +3246,8 @@ int sys_storage_ext_mount_ps2_discfile(unsigned int filescount, char *files[], u
 		dealloc(array, 0x27);
 		return EINVAL;
 	}
+
+	umount_discfile();
 
 	int ret = mount_ps2_discfile(filescount, array, trackscount, tracks);
 	dealloc(array, 0x27);
@@ -3237,6 +3276,12 @@ int sys_storage_ext_mount_discfile_proxy(sys_event_port_t result_port, sys_event
 
 	if (emu_type <= EMU_OFF || emu_type >= EMU_MAX || emu_type == EMU_PS2_CD || emu_type == EMU_PS2_DVD)
 		return EINVAL;
+
+	// -- AV: cd sector size
+	cd_sector_size = (trackscount & 0xffff00)>>4; //  <- Use: trackscount = num_of_tracks | (cd_sector_size<<4);
+	if(cd_sector_size != 2352 && cd_sector_size != 2048 && cd_sector_size != 2336 && cd_sector_size != 2448) cd_sector_size = 2352;
+	trackscount &= 0xff;
+	// --
 
 	if (emu_type == EMU_PSX)
 	{
@@ -3474,7 +3519,7 @@ void unhook_all_storage_ext(void)
 	unhook_function_on_precall_success(storage_get_device_info_symbol, post_storage_get_device_info, 2);
 	unhook_function_with_cond_postcall(read_bdvd0_symbol, emu_read_bdvd0, 8);
 	unhook_function_with_cond_postcall(read_bdvd1_symbol, emu_read_bdvd1, 4);
-	unhook_function_with_cond_postcall(read_bdvd2_symbol, emu_read_bdvd2, 3);	
+	unhook_function_with_cond_postcall(read_bdvd2_symbol, emu_read_bdvd2, 3);
 	unhook_function_with_cond_postcall(storage_read_symbol, emu_storage_read, 7);
 	unhook_function_with_cond_postcall(get_syscall_address(SYS_STORAGE_ASYNC_READ), emu_sys_storage_async_read, 7);
 	unhook_function_with_cond_postcall(storage_send_device_command_symbol, emu_storage_send_device_command, 7);
